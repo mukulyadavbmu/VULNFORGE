@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Scan {
+  id          String   @id @default(uuid())
+  targetUrl   String
+  status      String   @default("pending") // pending, running, completed, failed, stopped
+  config      String   @default("{}") // JSON string of scan config
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  endpoints   Endpoint[]
+  findings    Finding[]
+  aiLogs      AILog[]
+  authContexts AuthContext[]
+}
+
+model Endpoint {
+  id          String   @id @default(uuid())
+  scanId      String
+  url         String
+  method      String   @default("GET")
+  params      String   @default("[]") // JSON array of param names
+  headers     String   @default("{}") // JSON object of headers
+  type        String   @default("page") // page, api
+  firstSeen   DateTime @default(now())
+  
+  scan        Scan     @relation(fields: [scanId], references: [id])
+  findings    Finding[]
+  
+  @@index([scanId, url])
+}
+
+model Finding {
+  id          String   @id @default(uuid())
+  scanId      String
+  endpointId  String?
+  url         String   // The specific URL triggering the finding
+  type        String   // sqli, xss, etc.
+  severity    String   // low, medium, high, critical
+  evidence    String   // Payload or exact HTTP request triggering it
+  description String   @default("")
+  reproduction String  @default("{}") // JSON Steps to reproduce
+  aiExplanation String?
+  createdAt   DateTime @default(now())
+  
+  scan        Scan     @relation(fields: [scanId], references: [id])
+  endpoint    Endpoint? @relation(fields: [endpointId], references: [id])
+}
+
+model AILog {
+  id          String   @id @default(uuid())
+  scanId      String
+  step        String   // planning, analysis, execution, execution_result
+  prompt      String   // Token-counted prompt
+  response    String   // Raw model response
+  decision    String   @default("{}") // JSON Parsed decision
+  reasoning   String?  // CoT reasoning extracted
+  model       String   // e.g. "gemini-pro"
+  tokensUsed  Int      @default(0)
+  createdAt   DateTime @default(now())
+  
+  scan        Scan     @relation(fields: [scanId], references: [id])
+}
+
+model AuthContext {
+  id          String   @id @default(uuid())
+  scanId      String
+  role        String   // guest, userA, userB
+  cookies     String   @default("{}") // JSON Encrypted session cookies
+  headers     String   @default("{}") // JSON object
+  
+  scan        Scan     @relation(fields: [scanId], references: [id])
+}
+
+model TargetProfile {
+  id        String   @id @default(uuid())
+  domain    String   @unique
+  techStack String?  // JSON list of detected techs (e.g. ["Laravel", "Nginx"])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  successes PayloadSuccess[]
+}
+
+model PayloadSuccess {
+  id              String        @id @default(uuid())
+  targetProfileId String
+  targetProfile   TargetProfile @relation(fields: [targetProfileId], references: [id])
+  vulnType        String        // e.g. "sqli", "xss"
+  payload         String
+  context         String        // e.g. "query_param", "header"
+  createdAt       DateTime      @default(now())
+
+  @@index([vulnType])
+}

@@ -1,0 +1,56 @@
+{
+  "name": "vulnforge",
+  "version": "1.0.0",
+  "description": "AI-guided web attack surface explorer & access control tester",
+  "author": "Mukul Yadav",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/vulnforge.git"
+  },
+  "keywords": [
+    "security",
+    "vulnerability-scanner",
+    "web-security",
+    "penetration-testing",
+    "ai-security",
+    "gemini",
+    "playwright",
+    "cybersecurity",
+    "owasp"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@playwright/test": "^1.48.2",
+    "@prisma/client": "^6.19.2",
+    "@supabase/supabase-js": "^2.48.0",
+    "@types/uuid": "^10.0.0",
+    "axios": "^1.7.7",
+    "bottleneck": "^2.19.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "openai": "^4.73.0",
+    "p-queue": "^6.6.2",
+    "prisma": "^6.19.2",
+    "uuid": "^13.0.0",
+    "winston": "^3.19.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2"
+  }
+}
