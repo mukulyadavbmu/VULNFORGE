@@ -12,10 +12,19 @@ export class BusinessImpactAnalyzer {
             case 'bac': impactScore += 8; break;
             case 'idor': impactScore += 8; break;
             case 'file_upload': impactScore += 8; break;
+            case 'proto_pollution': impactScore += 7; break;
+            case 'lfi': impactScore += 7; break;
+            case 'ssti': impactScore += 7; break;
             case 'xss': impactScore += 6; break;
+            case 'race_condition': impactScore += 6; break;
+            case 'cache_deception': impactScore += 6; break;
+            case 'cors': impactScore += 5; break;
             case 'csrf': impactScore += 5; break;
-            case 'sensitive_data': impactScore += 5; break;
+            case 'config': impactScore += 5; break;
+            case 'websocket': impactScore += 5; break;
+            case 'graphql_deep': impactScore += 4; break;
             case 'clickjacking': impactScore += 3; break;
+            case 'anomaly': impactScore += 3; break;
             default: impactScore += 4;
         }
 

@@ -462,5 +462,111 @@ export const handlers = {
                 aiExplanation: action.explanation,
             });
         }
+    },
+
+    race_condition_probe: async (session: ScanSession, action: AIAttackAction, url: string) => {
+        const requests = [];
+        for (let i = 0; i < 5; i++) {
+            requests.push(httpRequest(session, url, 'userA'));
+        }
+
+        const results = await Promise.all(requests);
+
+        const successCount = results.filter(r => r.status >= 200 && r.status < 300).length;
+        if (successCount === 5) {
+            const firstBody = results[0].length;
+            const variance = results.some(r => Math.abs(r.length - firstBody) > 10);
+
+            if (!variance) {
+                await maybeAddFinding(session, {
+                    type: 'race_condition',
+                    url,
+                    severity: 'medium',
+                    evidence: 'Endpoint processed 5 concurrent requests with identical success responses. Potential race condition.',
+                    aiExplanation: action.explanation,
+                });
+            }
+        }
+    },
+
+    cache_deception_probe: async (session: ScanSession, action: AIAttackAction, url: string) => {
+        const targetUrl = url.includes('?') ? url + '&nonexistent.css' : url + '/nonexistent.css';
+        const res = await httpRequest(session, targetUrl, 'userA');
+
+        const headers = res.headers || {};
+        const cacheControl = headers['cache-control'] || headers['Cache-Control'] || '';
+        const xCache = headers['x-cache'] || headers['X-Cache'] || '';
+
+        const isCached = (typeof cacheControl === 'string' && cacheControl.includes('public')) ||
+            (typeof xCache === 'string' && xCache.includes('HIT'));
+
+        const sensitive = detectors.configLeak(res.bodySnippet) ||
+            res.bodySnippet.includes('csrf') ||
+            res.bodySnippet.includes('token');
+
+        if (isCached && sensitive) {
+            await maybeAddFinding(session, {
+                type: 'cache_deception',
+                url: targetUrl,
+                severity: 'high',
+                evidence: 'Sensitive page content returned with public caching headers when accessed with static extension.',
+                aiExplanation: action.explanation,
+            });
+        }
+    },
+
+    proto_pollution_probe: async (session: ScanSession, action: AIAttackAction, url: string) => {
+        const payload = '{"__proto__":{"polluted":true},"constructor":{"prototype":{"polluted":true}}}';
+        const res = await httpRequest(session, url, 'userA', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: payload
+        });
+
+        if (res.status === 500 || res.bodySnippet.includes('polluted')) {
+            await maybeAddFinding(session, {
+                type: 'proto_pollution',
+                url,
+                severity: 'high',
+                evidence: 'Application error or reflection detected after Prototype Pollution injection.',
+                aiExplanation: action.explanation,
+            });
+        }
+    },
+
+    graphql_deep_probe: async (session: ScanSession, action: AIAttackAction, url: string) => {
+        const batchPayload = 'query{a:__typename b:__typename c:__typename d:__typename e:__typename}';
+        const batchUrl = url.includes('?')
+            ? `${url}&query=${encodeURIComponent(batchPayload)}`
+            : `${url}?query=${encodeURIComponent(batchPayload)}`;
+
+        const batchRes = await httpRequest(session, batchUrl, 'userA');
+
+        if (batchRes.status === 200 && batchRes.bodySnippet.includes('"a":') && batchRes.bodySnippet.includes('"e":')) {
+            await maybeAddFinding(session, {
+                type: 'graphql_deep',
+                url: batchUrl,
+                severity: 'medium',
+                evidence: 'GraphQL endpoint accepts query batching (alias overloading), can bypass rate limits.',
+                aiExplanation: action.explanation,
+            });
+        }
+
+        const deepPayload = '{__schema{types{fields{type{fields{type{name}}}}}}}';
+        const deepUrl = url.includes('?')
+            ? `${url}&query=${encodeURIComponent(deepPayload)}`
+            : `${url}?query=${encodeURIComponent(deepPayload)}`;
+
+        const deepRes = await httpRequest(session, deepUrl, 'userA');
+
+        if (deepRes.status === 200 && deepRes.bodySnippet.includes('"fields":') && deepRes.length > 2000) {
+            await maybeAddFinding(session, {
+                type: 'graphql_deep',
+                url: deepUrl,
+                severity: 'low',
+                evidence: 'GraphQL endpoint allows deep nested queries. Ensure complexity limits are enforced.',
+                aiExplanation: action.explanation,
+            });
+        }
     }
 };

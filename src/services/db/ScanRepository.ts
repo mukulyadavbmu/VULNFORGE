@@ -96,6 +96,7 @@ export class ScanRepository {
         await prisma.finding.create({
             data: {
                 scanId,
+                url: finding.url,
                 type: finding.type,
                 severity: finding.severity,
                 evidence: finding.evidence,

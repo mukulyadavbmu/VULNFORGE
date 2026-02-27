@@ -8,6 +8,10 @@ export class GeminiProvider implements AIProvider {
   private model: any;
 
   constructor() {
+    // TEMPORARY DEBUG
+    console.log('🔑 Gemini Key Exists:', !!process.env.GEMINI_API_KEY);
+    console.log('🔑 Gemini Key from config:', !!config.GEMINI_API_KEY);
+    
     const apiKey = config.GEMINI_API_KEY || config.OPENAI_API_KEY || '';
     if (!apiKey) {
       logger.error('No API key found for Gemini Provider');
@@ -65,46 +69,58 @@ Target Knowledge Base:
     }));
 
     const prompt = `
-You are an offensive security expert focusing on OWASP Top 10 style risks with emphasis on access control, injection, and chaining vulnerabilities.
-
-You are given a partial attack surface graph and a list of CONFIRMED VULNERABILITIES.
+You are an offensive security expert. You are given an attack surface graph, CONFIRMED VULNERABILITIES, and SYSTEMIC INTELLIGENCE.
 
 Your job:
 - Choose up to ${maxActions} high-value exploration or ESCALATION actions.
 - Prioritise:
-  - ESCALATION: If a vulnerability is found (e.g., file upload), chain a new attack (e.g., rce_probe or xss_probe on the uploaded file).
+  - ESCALATION: If a vulnerability is found (e.g., file upload), chain a new attack (e.g., rce_probe).
   - ACCESS: If IDOR/BAC found, try to access more sensitive data.
-  - NEW PROBES:
-    - file_upload_probe (on forms/APIs accepting files)
-    - websocket_probe (on ws/wss endpoints)
-    - csrf_probe / clickjacking_probe (on sensitive state-changing forms)
-    - graphql_probe (on /graphql endpoints)
-    - nosqli_probe (on JSON APIs)
+  - DEEP EXPLOIT: race_condition_probe, cache_deception_probe, proto_pollution_probe, graphql_deep_probe
 
-- Focus on actions:
-  - cross_role_access, id_tamper, repeat_as_guest (Access Control)
-  - xss_probe, sqli_probe, nosqli_probe (Injection)
-  - ssti_probe, csti_probe, rce_probe, path_traversal_probe (RCE/LFI)
-  - file_upload_probe, websocket_probe (Advanced)
-  - csrf_probe, clickjacking_probe (Client-side)
-  - oast_probe, ssrf_probe (Out-of-band)
-  - config_probe, anomaly_probe
+- Available actions:
+  cross_role_access, id_tamper, repeat_as_guest,
+  xss_probe, sqli_probe, nosqli_probe, ssti_probe, csti_probe,
+  rce_probe, path_traversal_probe, file_upload_probe, websocket_probe,
+  csrf_probe, clickjacking_probe, oast_probe, ssrf_probe, cors_probe,
+  graphql_probe, config_probe, anomaly_probe,
+  race_condition_probe, cache_deception_probe, proto_pollution_probe, graphql_deep_probe
 
-Return STRICT JSON with this shape:
+Return STRICT JSON:
 {
   "actions": [
     {
       "id": "string",
       "targetNodeId": "string",
-      "actionType": "cross_role_access" | "id_tamper" | "repeat_as_guest" | "xss_probe" | "sqli_probe" | "ssti_probe" | "csti_probe" | "rce_probe" | "oast_probe" | "config_probe" | "anomaly_probe" | "ssrf_probe" | "path_traversal_probe" | "cors_probe" | "graphql_probe" | "nosqli_probe" | "file_upload_probe" | "websocket_probe" | "csrf_probe" | "clickjacking_probe",
+      "actionType": "<one of the above actions>",
       "riskScore": 1-5,
-      "explanation": "rationale mentioning chaining if applicable (e.g., 'Escalating file upload finding to test RCE')",
+      "explanation": "rationale mentioning chaining if applicable",
       "expectedSignal": "what response difference would indicate success"
     }
   ]
 }
 
 Do not include any extra keys or commentary.`;
+
+    // Phase 6: Intelligence Layer
+    let intelligenceContext = '';
+    try {
+      const { PatternLearner } = require('../intelligence/PatternLearner');
+      const { SystemicWeaknessDetector } = require('../intelligence/SystemicWeaknessDetector');
+
+      const patterns = PatternLearner.analyzePatterns(session.findings);
+      const systemicIssues = SystemicWeaknessDetector.detect(session.findings, nodes);
+
+      if (patterns.length > 0 || systemicIssues.length > 0) {
+        intelligenceContext = `
+Systemic Intelligence:
+${patterns.map((p: string) => `- [PATTERN] ${p}`).join('\n')}
+${systemicIssues.map((i: string) => `- [SYSTEMIC] ${i}`).join('\n')}
+`;
+      }
+    } catch (e) {
+      logger.warn('Failed to load intelligence context', { error: e });
+    }
 
     // Filter recent actions with results
     const recentActions = session.actions
@@ -136,6 +152,8 @@ Recent Attack Feedback (Use this to refine your strategy):
 ${JSON.stringify(recentActions, null, 2)}
 
 ${knowledgeContext}
+
+${intelligenceContext}
 
 ${prompt}
 

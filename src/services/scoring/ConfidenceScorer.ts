@@ -25,11 +25,14 @@ export class ConfidenceScorer {
 
         // 2. Type Baseline
         switch (finding.type) {
-            case 'rce': score += 10; break; // Usually distinct errors
-            case 'clickjacking': score = 90; // Header check is deterministic
-            case 'cors': score = 90; // Header check is deterministic
-            case 'csrf': score = 80; // Cookie check is reliable
-            case 'anomaly': score = 30; // Very vague
+            case 'rce': score += 10; break;
+            case 'clickjacking': score = 90; break;
+            case 'cors': score = 90; break;
+            case 'csrf': score = 80; break;
+            case 'cache_deception': score = 75; break;
+            case 'race_condition': score = 60; break;
+            case 'proto_pollution': score = 70; break;
+            case 'anomaly': score = 30; break;
         }
 
         return Math.min(Math.max(score, 0), 100);

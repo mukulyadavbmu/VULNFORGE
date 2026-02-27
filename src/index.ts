@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import {
@@ -12,6 +15,7 @@ import { executeAction } from './detectionEngine';
 import { config } from './config';
 import { logger } from './utils/logger';
 import { isValidTarget } from './utils/security';
+import { OASTService } from './services/oast/OASTService';
 
 const app = express();
 app.use(express.json());
@@ -28,7 +32,20 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Auth middleware
+// OAST Callback Routes (must be before auth middleware - no auth required)
+app.post('/callback/:token', (req, res) => {
+  const { token } = req.params;
+  OASTService.recordInteraction(token, req.ip || 'unknown', req.body);
+  res.status(200).send('OK');
+});
+
+app.get('/callback/:token', (req, res) => {
+  const { token } = req.params;
+  OASTService.recordInteraction(token, req.ip || 'unknown', req.query);
+  res.status(200).send('OK');
+});
+
+// Auth middleware (applied to all routes below)
 app.use((req: Request, res: Response, next: NextFunction) => {
   const provided = req.header('x-vulnforge-api-key');
   if (provided !== config.VULNFORGE_API_KEY) {
@@ -156,22 +173,6 @@ app.post('/scan/:id/execute', async (req, res) => {
     logger.error('Execution failed', { error: err, scanId: req.params.id });
     res.status(500).json({ error: 'Execution failed' });
   }
-});
-
-// OAST Callback Routes
-app.post('/callback/:token', (req, res) => {
-  const { token } = req.params;
-  // Use require to avoid top-level import issues if OASTService not fully ready
-  const { OASTService } = require('./services/oast/OASTService');
-  OASTService.recordInteraction(token, req.ip, req.body);
-  res.status(200).send('OK');
-});
-
-app.get('/callback/:token', (req, res) => {
-  const { token } = req.params;
-  const { OASTService } = require('./services/oast/OASTService');
-  OASTService.recordInteraction(token, req.ip, req.query);
-  res.status(200).send('OK');
 });
 
 app.listen(config.PORT, () => {

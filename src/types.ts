@@ -56,6 +56,9 @@ export interface ScanFinding {
     diffScore?: number;
     timeDelta?: number;
     errorSignature?: string;
+    confidence?: number;
+    impact?: string;
+    riskScore?: number;
   };
 }
 
