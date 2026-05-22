@@ -54,6 +54,24 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+// ── Health Endpoints (Production Monitoring) ──
+app.get('/health', async (_req, res) => {
+  try {
+    // Attempt to verify DB connectivity
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    await prisma.$queryRaw`SELECT 1`;
+    await prisma.$disconnect();
+    
+    res.status(200).json({ status: 'ok', database: 'connected', version: '1.0.0' });
+  } catch (err: any) {
+    logger.error('Health check failed', { error: err.message });
+    res.status(503).json({ status: 'error', database: 'disconnected', error: err.message });
+  }
+});
+
+app.get('/healthz', (_req, res) => res.status(200).send('OK'));
+
 // OAST Callback Routes (must be before auth middleware - no auth required)
 app.post('/callback/:token', (req, res) => {
   const { token } = req.params;

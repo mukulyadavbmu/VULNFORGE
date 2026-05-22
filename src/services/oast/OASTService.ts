@@ -7,7 +7,8 @@ const interactions = new Map<string, { timestamp: number, sourceIp: string, data
 
 export class OASTService {
     static getCallbackUrl(token: string): string {
-        return `http://localhost:${config.PORT}/callback/${token}`;
+        const baseUrl = config.BACKEND_URL || `http://localhost:${config.PORT}`;
+        return `${baseUrl}/callback/${token}`;
     }
 
     static generateToken(): string {

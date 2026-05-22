@@ -13,6 +13,7 @@ const ConfigSchema = z.object({
   // Security
   VULNFORGE_API_KEY: z.string().min(1, 'API Key is required'),
   FRONTEND_ORIGIN: z.string().default('http://localhost:5173'),
+  BACKEND_URL: z.string().optional(),
 
   // AI Configuration
   GEMINI_API_KEY: z.string().optional(),

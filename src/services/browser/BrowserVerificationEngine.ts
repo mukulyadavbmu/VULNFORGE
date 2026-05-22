@@ -69,7 +69,7 @@ class BrowserPool {
     if (!this.browser) {
       this.browser = await chromium.launch({
         headless: true,
-        args: ['--disable-blink-features=AutomationControlled'],
+        args: ['--disable-blink-features=AutomationControlled', '--no-sandbox', '--disable-setuid-sandbox'],
       });
       log.info('Browser initialized (headless mode)');
     }

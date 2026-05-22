@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+.env
+.env.*
+.git
+.gitignore
+*.db
+*.db-journal
+playwright-report/
+test-results/
+frontend/

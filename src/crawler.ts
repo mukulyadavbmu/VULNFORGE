@@ -219,7 +219,9 @@ export async function crawlTarget(
     let browser: Browser | null = null;
     try {
       logger.info(`Starting crawl for ${session.targetUrl} as ${authContext}`, { scanId: session.id });
-      browser = await chromium.launch();
+      browser = await chromium.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
       const authHeaders = session.authHeaders[authContext] || {};
       const extraHTTPHeaders: Record<string, string> = {};
       const cookiesToSet: Array<{ name: string; value: string; domain: string; path: string }> = [];
