@@ -4,11 +4,16 @@ FROM mcr.microsoft.com/playwright:v1.40.0-jammy
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage Docker cache
-COPY package.json package-lock.json ./
+# Copy package.json and optionally any lockfiles first to leverage Docker cache
+COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies based on what lockfile exists
+RUN \
+  if [ -f package-lock.json ]; then npm ci; \
+  elif [ -f yarn.lock ]; then npm install -g yarn && yarn install --frozen-lockfile; \
+  elif [ -f pnpm-lock.yaml ]; then npm install -g pnpm && pnpm install --frozen-lockfile; \
+  else npm install; \
+  fi
 
 # Copy the rest of the application code
 COPY . .
