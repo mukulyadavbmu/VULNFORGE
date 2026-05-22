@@ -39,6 +39,13 @@ export interface ScoringWeights {
     authWeight: number;
     historicalSuccess: number;
     techMatchScore: number;
+    // NEW: Enhanced scoring signals
+    hypothesisConfidence?: number; // AI hypothesis confidence (0-1)
+    parameterRichness?: number; // Number of parameters / complexity (0-1)
+    authContext?: number; // Availability of authenticated access (0-1)
+    endpointSensitivityRefined?: number; // Admin/sensitive endpoint detection (0-1)
+    historicalExploitSuccess?: number; // Success rate on similar endpoints (0-1)
+    randomness?: number; // Randomization to avoid patterns (0-0.1)
 }
 
 export interface EndpointScore {
@@ -159,6 +166,15 @@ export interface ScheduledScan {
     lastRunAt?: number;
     nextRunAt: number;
     enabled: boolean;
+}
+
+export type ScheduledScanStatus = 'queued' | 'running' | 'paused' | 'completed' | 'failed' | 'timed_out';
+
+export interface EnhancedScheduledScan extends ScheduledScan {
+    priority: number;
+    status: ScheduledScanStatus;
+    startedAt?: number;
+    maxDurationMs?: number;
 }
 
 // ─── Phase 8: Attacker Behavior Realism ────────────────────────────────────

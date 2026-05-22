@@ -193,6 +193,64 @@ const PATH_RULES: PathRule[] = [
             return ['Attacker Origin', corsUrl, 'Cross-Origin Request', 'Authenticated Action'];
         },
     },
+    // ── New chain detection rules ────────────────────────────────────────
+    {
+        name: 'SQLi → Database Dump',
+        requiredTypes: new Set(['sqli']),
+        minFindings: 1,
+        baseConfidence: 65,
+        privilegeTransition: 'User → Database Admin (SQLi → Data Dump)',
+        buildPath: (findings) => {
+            const sqliFindings = findings.filter(f => f.type === 'sqli');
+            const urls = [...new Set(sqliFindings.map(f => f.url))];
+            return ['User Input', ...urls.slice(0, 3), 'SQL Injection', 'Database Dump', 'Credential Extraction'];
+        },
+    },
+    {
+        name: 'IDOR → Admin Privilege',
+        requiredTypes: new Set(['idor']),
+        minFindings: 1,
+        baseConfidence: 60,
+        privilegeTransition: 'Regular User → Admin (IDOR Escalation)',
+        buildPath: (findings) => {
+            const idorFindings = findings.filter(f => f.type === 'idor');
+            const urls = [...new Set(idorFindings.map(f => f.url))];
+            return ['Authenticated User', ...urls.slice(0, 3), 'Object Reference Tamper', 'Admin Data Access', 'Privilege Escalation'];
+        },
+    },
+    {
+        name: 'JWT Weakness → Auth Bypass',
+        requiredTypes: new Set(['jwt_weakness']),
+        minFindings: 1,
+        baseConfidence: 75,
+        privilegeTransition: 'Unauthenticated → Authenticated (JWT Forgery)',
+        buildPath: (findings) => {
+            const jwtUrl = findings.find(f => f.type === 'jwt_weakness')?.url ?? 'Auth Endpoint';
+            return ['Unauthenticated', jwtUrl, 'JWT Token Forged', 'Auth Bypass', 'Full Account Access'];
+        },
+    },
+    {
+        name: 'File Upload → Remote Code Execution',
+        requiredTypes: new Set(['file_upload']),
+        minFindings: 1,
+        baseConfidence: 55,
+        privilegeTransition: 'User → System Shell (Upload → RCE)',
+        buildPath: (findings) => {
+            const uploadUrl = findings.find(f => f.type === 'file_upload')?.url ?? 'Upload Endpoint';
+            return ['Authenticated User', uploadUrl, 'Malicious File Upload', 'Web Shell Deployed', 'Remote Code Execution'];
+        },
+    },
+    {
+        name: 'CORS Misconfiguration → Token Theft',
+        requiredTypes: new Set(['cors']),
+        minFindings: 1,
+        baseConfidence: 50,
+        privilegeTransition: 'External Origin → Victim Session (CORS Token Theft)',
+        buildPath: (findings) => {
+            const corsUrl = findings.find(f => f.type === 'cors')?.url ?? 'CORS Endpoint';
+            return ['Attacker Site', corsUrl, 'Cross-Origin Request Allowed', 'Auth Token Stolen', 'Session Hijack'];
+        },
+    },
 ];
 
 // ─── Engine ─────────────────────────────────────────────────────────────────
@@ -495,5 +553,50 @@ Return JSON only: {"confidence":number,"impactLevel":"low"|"medium"|"high"|"crit
         const ts = Date.now().toString(36);
         const cnt = this.idCounter.toString(36).padStart(4, '0');
         return `ap-${ts}-${cnt}`;
+    }
+
+    /**
+     * Save all in-memory attack paths for a scan to the database.
+     */
+    async saveAllPaths(scanId: string): Promise<number> {
+        const paths = this.getPaths(scanId);
+        if (paths.length === 0) return 0;
+
+        let saved = 0;
+        try {
+            const { PrismaClient } = require('@prisma/client');
+            const prisma = new PrismaClient();
+
+            for (const path of paths) {
+                try {
+                    await prisma.attackChain.create({
+                        data: {
+                            scanId: path.scanId,
+                            name: path.privilegeTransitions[0] ?? 'Unknown chain',
+                            nodes: JSON.stringify(path.nodes),
+                            vulnerabilities: JSON.stringify(path.vulnerabilities),
+                            privilegeTransitions: JSON.stringify(path.privilegeTransitions),
+                            confidence: path.confidence,
+                        },
+                    });
+                    saved++;
+                } catch (error) {
+                    log.warn('Failed to save attack chain', {
+                        pathId: path.id,
+                        error: error instanceof Error ? error.message : 'Unknown',
+                    });
+                }
+            }
+
+            await prisma.$disconnect();
+        } catch (error) {
+            log.warn('Attack chain persistence failed', {
+                scanId,
+                error: error instanceof Error ? error.message : 'Unknown',
+            });
+        }
+
+        log.info('Attack chains saved', { scanId, total: paths.length, saved });
+        return saved;
     }
 }

@@ -102,3 +102,96 @@ export class CorrelationEngine {
         };
     }
 }
+
+export interface CorrelatedRoute {
+  routePath: string;
+  triggeredApis: any[]; // InterceptedAPI
+  instantiatedWebSockets: any[]; // WebSocketSummary
+}
+
+export class FrontendCorrelationEngine {
+  /**
+   * Generates a correlation graph linking SPA routes to the backend APIs and
+   * WebSockets they communicate with.
+   * 
+   * @param scanId The scan ID to process artifacts for
+   * @returns Array of correlated routes
+   */
+  public static async correlate(scanId: string): Promise<CorrelatedRoute[]> {
+    try {
+      const { PrismaClient } = await import('@prisma/client');
+      const prisma = new PrismaClient();
+      const artifacts = await prisma.browserArtifact.findMany({
+        where: { scanId },
+        orderBy: { createdAt: 'asc' }
+      });
+      await prisma.$disconnect();
+
+      const routes = this.parseArtifacts<any[]>(artifacts, 'routes');
+      const apis = this.parseArtifacts<any[]>(artifacts, 'apis');
+      const websockets = this.parseArtifacts<any[]>(artifacts, 'websockets');
+      
+      const routeMap = new Map<string, CorrelatedRoute>();
+      
+      const uniquePaths = new Set(routes.map(r => r.toPath));
+      uniquePaths.add('/'); // default
+
+      for (const path of uniquePaths) {
+        routeMap.set(path, {
+          routePath: path,
+          triggeredApis: [],
+          instantiatedWebSockets: []
+        });
+      }
+
+      const rootRoute = routeMap.get('/')!;
+      
+      for (const api of apis) {
+        rootRoute.triggeredApis.push(api);
+      }
+      
+      for (const ws of websockets) {
+        rootRoute.instantiatedWebSockets.push(ws);
+      }
+
+      return Array.from(routeMap.values());
+    } catch (err) {
+      log.error('Frontend Correlation Engine failed', { scanId, error: err });
+      return [];
+    }
+  }
+
+  private static parseArtifacts<T>(artifacts: any[], type: string): T {
+    const matching = artifacts.filter(a => a.artifactType === type);
+    if (matching.length === 0) return [] as unknown as T;
+    
+    let combined: any[] = [];
+    for (const a of matching) {
+      try {
+        const parsed = JSON.parse(a.payload);
+        if (Array.isArray(parsed)) {
+          combined = combined.concat(parsed);
+        }
+      } catch {
+        // ignore invalid JSON
+      }
+    }
+    
+    return this.deduplicate(combined, type) as unknown as T;
+  }
+
+  private static deduplicate(items: any[], type: string): any[] {
+    const seen = new Set();
+    return items.filter(item => {
+      let key = '';
+      if (type === 'routes') key = `${item.fromPath}->${item.toPath}`;
+      else if (type === 'apis') key = `${item.method} ${item.url}`;
+      else if (type === 'websockets') key = item.url;
+      else return true;
+
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+}

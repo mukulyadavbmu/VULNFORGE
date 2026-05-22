@@ -17,11 +17,18 @@ model Scan {
   config      String   @default("{}") // JSON string of scan config
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  orgId       String?
+  userId      String?
+
+  organization Organization? @relation(fields: [orgId], references: [id])
+  user         User?         @relation(fields: [userId], references: [id])
   
   endpoints   Endpoint[]
   findings    Finding[]
   aiLogs      AILog[]
   authContexts AuthContext[]
+  hypotheses  Hypothesis[]
+  attackChains AttackChain[]
 }
 
 model Endpoint {
@@ -88,6 +95,9 @@ model TargetProfile {
   techStack String?  // JSON list of detected techs (e.g. ["Laravel", "Nginx"])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  orgId     String?
+  
+  organization Organization? @relation(fields: [orgId], references: [id])
   successes PayloadSuccess[]
 }
 
@@ -101,4 +111,138 @@ model PayloadSuccess {
   createdAt       DateTime      @default(now())
 
   @@index([vulnType])
+}
+
+model Hypothesis {
+  id          String    @id @default(cuid())
+  scanId      String
+  type        String    // IDOR, Injection, Auth, SSRF, SensitiveAPI
+  description String
+  confidence  Float
+  status      String    @default("active") // active, confirmed, dismissed, tested
+  lastTested  DateTime?
+  createdAt   DateTime  @default(now())
+
+  scan        Scan      @relation(fields: [scanId], references: [id])
+
+  @@index([scanId])
+  @@index([scanId, status])
+}
+
+model AttackChain {
+  id                   String   @id @default(cuid())
+  scanId               String
+  name                 String   // Chain display name (e.g. privilege transition)
+  nodes                String   @default("[]") // JSON array of path steps
+  vulnerabilities      String   @default("[]") // JSON array of vuln references
+  privilegeTransitions String   @default("[]") // JSON array of transitions
+  confidence           Float    @default(0)
+  createdAt            DateTime @default(now())
+
+  scan                 Scan     @relation(fields: [scanId], references: [id])
+
+  @@index([scanId])
+}
+
+model ScanCheckpoint {
+  id              String   @id @default(cuid())
+  scanId          String
+  phase           String
+  phaseIndex      Int      @default(0)
+  completedNodes  String   @default("[]")
+  coverageSnapshot String  @default("{}")
+  createdAt       DateTime @default(now())
+  
+  @@index([scanId])
+}
+
+model BrowserArtifact {
+  id            String   @id @default(uuid())
+  scanId        String
+  artifactType  String   // routes, apis, websockets, storage, dom_sinks, correlation
+  payload       String   // JSON string
+  createdAt     DateTime @default(now())
+
+  @@index([scanId, artifactType])
+}
+
+model IntelligenceArtifact {
+  id            String   @id @default(uuid())
+  scanId        String
+  category      String   // deduplication, confidence, attack_path, prioritization, explanation
+  referenceId   String?  // The ID of the finding or node this reasoning refers to
+  reasoning     String   // The text explanation or summary
+  metadata      String   @default("{}") // JSON containing artifact references, token counts, etc
+  createdAt     DateTime @default(now())
+
+  @@index([scanId, category])
+}
+
+// ── Phase 6A: SaaS & Multi-Tenant Models ──
+
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members     OrgMembership[]
+  scans       Scan[]
+  profiles    TargetProfile[]
+  quotas      Quota?
+  auditLogs   AuditLog[]
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  name          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  memberships   OrgMembership[]
+  scans         Scan[]
+  auditLogs     AuditLog[]
+}
+
+model OrgMembership {
+  id        String   @id @default(uuid())
+  userId    String
+  orgId     String
+  role      String   @default("viewer") // owner, admin, analyst, viewer
+  createdAt DateTime @default(now())
+
+  user      User         @relation(fields: [userId], references: [id])
+  org       Organization @relation(fields: [orgId], references: [id])
+
+  @@unique([userId, orgId])
+  @@index([orgId])
+}
+
+model Quota {
+  id                 String   @id @default(uuid())
+  orgId              String   @unique
+  maxConcurrentScans Int      @default(1)
+  maxMonthlyScans    Int      @default(100)
+  scansUsed          Int      @default(0)
+  maxAiTokens        Int      @default(1000000)
+  aiTokensUsed       Int      @default(0)
+  updatedAt          DateTime @updatedAt
+
+  org                Organization @relation(fields: [orgId], references: [id])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  orgId       String
+  userId      String?
+  action      String   // scan_started, login, org_created, artifact_exported
+  details     String   @default("{}") // JSON details
+  createdAt   DateTime @default(now())
+
+  org         Organization @relation(fields: [orgId], references: [id])
+  user        User?        @relation(fields: [userId], references: [id])
+  
+  @@index([orgId])
 }

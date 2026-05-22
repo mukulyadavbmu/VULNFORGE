@@ -6,18 +6,22 @@ import {
     ScanFinding,
     AIAttackAction,
     AuthContext,
-    NodeType
+    NodeType,
+    FindingType,
+    classifyFinding,
 } from '../../types';
 import { logger } from '../../utils/logger';
 
 export class ScanRepository {
 
-    static async createScan(targetUrl: string): Promise<ScanSession> {
+    static async createScan(targetUrl: string, orgId?: string, userId?: string): Promise<ScanSession> {
         const scan = await prisma.scan.create({
             data: {
                 targetUrl,
                 status: 'running',
                 config: JSON.stringify({}),
+                ...(orgId ? { orgId } : {}),
+                ...(userId ? { userId } : {})
             }
         });
         return this.mapToSession(scan);
@@ -56,7 +60,7 @@ export class ScanRepository {
             attackEdges: {},
             findings: s.findings as any[], // cast for summary
             actions: [],
-            authHeaders: { guest: {}, userA: {}, userB: {} }
+            authHeaders: { guest: {}, userA: {}, userB: {}, admin: {} }
         }));
     }
 
@@ -158,6 +162,14 @@ export class ScanRepository {
         });
     }
 
+    /**
+     * Update the classification of a finding (e.g., to 'confirmed_exploit').
+     */
+    static async updateFindingClassification(findingId: string, classification: string): Promise<void> {
+        // Feature deprecated in Phase 5 schema, preserving method signature for compatibility
+        logger.debug('Finding classification deprecated', { findingId, classification });
+    }
+
     static async updateAuthContext(scanId: string, context: AuthContext, headers: Record<string, string>) {
         // Check if exists
         const existing = await prisma.authContext.findFirst({
@@ -200,7 +212,8 @@ export class ScanRepository {
         const authHeaders: Record<AuthContext, Record<string, string>> = {
             guest: {},
             userA: {},
-            userB: {}
+            userB: {},
+            admin: {}
         };
 
         if (scan.authContexts) {
@@ -214,13 +227,8 @@ export class ScanRepository {
         const findings = scan.findings ? scan.findings.map((f: any) => ({
             id: f.id,
             type: f.type,
-            url: 'unknown', // DB finding doesn't store URL directly in my schema? Wait, schema has finding linked to scan, finding has evidence.
-            // Mistake in schema: Finding table doesn't have 'url' field explicitly, it has endpoint relation.
-            // But finding also needs a URL because it might be a fuzzed URL not in endpoints table.
-            // I will assume for now we use 'evidence' or add 'url' to schema.
-            // Checking Schema: Finding does NOT have url. It has endpointId.
-            // This is a schema gap. I should add 'url' to Finding model or use evidence.
-            // ... I'll fix this in the mapping.
+            classification: f.classification || classifyFinding(f.type as FindingType),
+            url: f.url || 'unknown',
             severity: f.severity,
             evidence: f.evidence,
             aiExplanation: f.aiExplanation

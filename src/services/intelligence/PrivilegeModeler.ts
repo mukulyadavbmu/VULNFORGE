@@ -15,6 +15,7 @@ const PRIVILEGE_LEVELS: Record<AuthContext, number> = {
     guest: 0,
     userA: 1,
     userB: 2,
+    admin: 3,
 };
 
 /** Types that indicate access control issues */

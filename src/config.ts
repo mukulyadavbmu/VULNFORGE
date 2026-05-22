@@ -22,6 +22,10 @@ const ConfigSchema = z.object({
   // Database
   DATABASE_URL: z.string().default('file:./dev.db'),
 
+  // Queue / Distributed
+  REDIS_URL: z.string().optional(),
+  USE_DISTRIBUTED_QUEUE: z.coerce.boolean().default(true),
+
   // Scanning Resources
   MAX_CONCURRENT_SCANS: z.coerce.number().default(2),
   MAX_PAGES_PER_SCAN: z.coerce.number().default(15),

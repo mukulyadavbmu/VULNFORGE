@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { AuthContext, ScanSession, ScanFinding } from '../types';
+import { AuthContext, ScanSession, ScanFinding, classifyFinding, FindingType, initialReliabilityTier } from '../types';
 import { addFinding } from '../scanOrchestrator'; // This might cycle? scanOrchestrator -> detectionEngine -> ... 
 // scanOrchestrator imports detectionEngine only for executeAction (runner).
 // scanUtils imports addFinding from scanOrchestrator. This is fine.
@@ -21,8 +21,8 @@ export async function httpRequest(
     config: AxiosRequestConfig = {},
 ): Promise<HttpResult> {
     const headers = {
-        ...(config.headers ?? {}),
         ...(session.authHeaders[ctx] ?? {}),
+        ...(config.headers ?? {}),
     };
     const start = Date.now();
     try {
@@ -72,7 +72,7 @@ export function calculateDiff(base: string, current: string): number {
 
 export async function maybeAddFinding(
     session: ScanSession,
-    finding: Omit<ScanFinding, 'id'>,
+    finding: Omit<ScanFinding, 'id' | 'classification'>,
 ) {
     const { ConfidenceScorer } = require('../services/scoring/ConfidenceScorer');
     const { BusinessImpactAnalyzer } = require('../services/scoring/BusinessImpactAnalyzer');
@@ -86,9 +86,18 @@ export async function maybeAddFinding(
     const confidence = ConfidenceScorer.calculateConfidence(finding);
     const impact = BusinessImpactAnalyzer.estimateImpact(finding, riskScore);
 
+    const classification = classifyFinding(finding.type as FindingType);
+
+    // Phase 2C: Set initial reliability tier based on confidence
+    const reliabilityTier = finding.reliabilityTier ?? initialReliabilityTier(confidence);
+
     const enrichedFinding: ScanFinding = {
         ...finding,
         id: `${finding.type}:${finding.url}:${Date.now()}`,
+        classification,
+        reliabilityTier,
+        replayStatus: finding.replayStatus ?? 'pending',
+        verificationHistory: finding.verificationHistory ?? [],
         // Storing these new metrics in the existing 'metrics' object or creating new fields implies schema change.
         // For "Additive" no-migration constraint, we put them in 'metrics' as loose JSON.
         metrics: {
@@ -99,7 +108,7 @@ export async function maybeAddFinding(
         }
     };
 
-    logger.info(`Detected ${finding.type} on ${finding.url} [Confidence: ${confidence}%, Impact: ${impact}]`, { scanId: session.id });
+    logger.info(`Detected ${finding.type} on ${finding.url} [Confidence: ${confidence}%, Impact: ${impact}, Reliability: ${reliabilityTier}]`, { scanId: session.id });
     await addFinding(session, enrichedFinding);
 }
 
@@ -116,4 +125,71 @@ export const detectors = {
     rceError: (snippet: string) => /(command not found|No such file or directory|Traceback \(most recent call last\)|System\.out\.println|ProcessBuilder)/i.test(snippet),
 
     configLeak: (snippet: string) => /(DEBUG = True|phpinfo\(|PRIVATE KEY|BEGIN RSA PRIVATE KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|DATABASE_URL)/i.test(snippet),
+    
+    // ENHANCED: Multi-signal SQLi detection
+    sqliMultiSignal: (
+        baseSnippet: string,
+        injectedSnippet: string,
+        timeDelta: number,
+    ): { signals: string[]; confidence: number } => {
+        const signals: string[] = [];
+        
+        // Signal 1: Error signature
+        if (/SQL|syntax error|ORA-|mysql/i.test(injectedSnippet)) {
+            signals.push('error_signature');
+        }
+        
+        // Signal 2: Boolean difference (response structure change)
+        const diff = calculateDiff(baseSnippet, injectedSnippet);
+        if (diff > 0.3) {
+            signals.push('boolean_difference');
+        }
+        
+        // Signal 3: Timing difference (>2.5s indicates sleep()/delay)
+        if (timeDelta > 2500) {
+            signals.push('timing_difference');
+        }
+        
+        // Signal 4: Response structure change (length + status code)
+        if (injectedSnippet.length !== baseSnippet.length && diff > 0.2) {
+            signals.push('response_structure_change');
+        }
+        
+        const confidence = Math.min((signals.length / 4) * 100, 100);
+        return { signals, confidence };
+    },
+
+    // ENHANCED: Multi-signal XSS detection
+    xssMultiSignal: (
+        baseSnippet: string,
+        injectedSnippet: string,
+        payload: string,
+        marker: string,
+    ): { signals: string[]; confidence: number } => {
+        const signals: string[] = [];
+        
+        // Signal 1: Payload reflection (unencoded)
+        if (injectedSnippet.includes(marker) && !injectedSnippet.includes('&lt;')) {
+            signals.push('payload_reflection');
+        }
+        
+        // Signal 2: DOM sink detected
+        if (/<[^>]*script|onerror=|onclick=|innerHTML|eval|document\.write/i.test(injectedSnippet)) {
+            signals.push('dom_sink');
+        }
+        
+        // Signal 3: Encoding context (payload in JS string, attribute, etc)
+        const inScriptContext = /([<]script[^>]*>[^<]*|['\"])[^'\"]*/.test(injectedSnippet);
+        if (inScriptContext) {
+            signals.push('encoding_context');
+        }
+        
+        // Signal 4: Browser execution (alert/console patterns)
+        if (/alert\(|console\.|window\.|document\.|eval\(/i.test(injectedSnippet)) {
+            signals.push('browser_execution');
+        }
+        
+        const confidence = Math.min((signals.length / 4) * 100, 100);
+        return { signals, confidence };
+    },
 };

@@ -26,6 +26,7 @@ const MERGE_SIMILARITY_THRESHOLD = 0.6;
 
 const HypothesisTypeSchema = z.enum([
     'IDOR', 'Injection', 'Auth', 'SSRF', 'SensitiveAPI',
+    'FileUpload', 'JWTWeakness', 'CORSAbuse',
 ]);
 
 const HypothesisSchema = z.object({
@@ -79,9 +80,30 @@ const NUMERIC_PARAM_NAMES = new Set([
     'offset', 'limit', 'num', 'number', 'idx',
 ]);
 
+const IDOR_PATH_KEYWORDS = [
+    '/user/', '/users/', '/account/', '/accounts/', '/profile/',
+    '/profiles/', '/member/', '/customer/', '/order/', '/orders/',
+    '/invoice/', '/document/', '/file/', '/record/',
+];
+
 const ADMIN_KEYWORDS = [
     'admin', 'dashboard', 'manage', 'control', 'panel', 'internal',
     'backoffice', 'staff', 'moderate', 'superuser', 'root',
+];
+
+const SEARCH_PARAM_NAMES = new Set([
+    'search', 'query', 'q', 's', 'keyword', 'filter', 'term',
+    'find', 'lookup', 'text', 'input',
+]);
+
+const UPLOAD_KEYWORDS = [
+    'upload', 'import', 'attach', 'file', 'media', 'avatar', 'image',
+    'photo', 'document', 'csv',
+];
+
+const JWT_PATTERNS = [
+    'jwt', 'jsonwebtoken', 'bearer', 'authorization',
+    'access_token', 'refresh_token', 'id_token',
 ];
 
 const INJECTION_FINDING_TYPES = new Set([
@@ -255,9 +277,17 @@ export class HypothesisEngine {
         // ── IDOR Detection ──────────────────────────────────────────────────────
         const idorEndpoints: string[] = [];
         for (const ep of endpoints) {
-            if (!ep.params) continue;
-            const numericParams = ep.params.filter(p => NUMERIC_PARAM_NAMES.has(p.toLowerCase()));
-            if (numericParams.length > 0) {
+            // Check declared params
+            if (ep.params) {
+                const numericParams = ep.params.filter(p => NUMERIC_PARAM_NAMES.has(p.toLowerCase()));
+                if (numericParams.length > 0) {
+                    idorEndpoints.push(ep.url);
+                    continue;
+                }
+            }
+            // Check URL path patterns (e.g., /user/123, /account/*)
+            const lower = ep.url.toLowerCase();
+            if (IDOR_PATH_KEYWORDS.some(kw => lower.includes(kw))) {
                 idorEndpoints.push(ep.url);
             }
         }
@@ -304,6 +334,27 @@ export class HypothesisEngine {
                     ...anomalyFindings.slice(0, 5).map(f => `Error on ${f.url}`),
                 ],
                 relatedEndpoints: anomalyEndpoints.slice(0, MAX_ENDPOINTS_PER_HYPOTHESIS),
+            }));
+        }
+
+        // Detect from search/query parameter patterns
+        const searchEndpoints: string[] = [];
+        for (const ep of endpoints) {
+            if (!ep.params) continue;
+            const searchParams = ep.params.filter(p => SEARCH_PARAM_NAMES.has(p.toLowerCase()));
+            if (searchParams.length > 0) searchEndpoints.push(ep.url);
+        }
+        if (searchEndpoints.length >= 1) {
+            detected.push(this.createHypothesis({
+                scanId,
+                type: 'Injection',
+                confidence: Math.min(25 + searchEndpoints.length * 12, 75),
+                evidence: [
+                    `${searchEndpoints.length} endpoints with search/query parameters`,
+                    'Search parameters are frequent injection vectors',
+                    ...searchEndpoints.slice(0, 3).map(url => `Search param: ${url}`),
+                ],
+                relatedEndpoints: searchEndpoints.slice(0, MAX_ENDPOINTS_PER_HYPOTHESIS),
             }));
         }
 
@@ -381,6 +432,72 @@ export class HypothesisEngine {
                     ...sensitiveEndpoints.slice(0, 5).map(url => `Sensitive: ${url}`),
                 ],
                 relatedEndpoints: sensitiveEndpoints.slice(0, MAX_ENDPOINTS_PER_HYPOTHESIS),
+            }));
+        }
+
+        // ── File Upload Detection ───────────────────────────────────────────────
+        const uploadEndpoints: string[] = [];
+        for (const ep of endpoints) {
+            const lower = ep.url.toLowerCase();
+            if (UPLOAD_KEYWORDS.some(kw => lower.includes(kw))) {
+                uploadEndpoints.push(ep.url);
+            }
+        }
+        const uploadFindings = findings.filter(f => f.type === 'file_upload');
+        const allUploadEndpoints = [...new Set([...uploadEndpoints, ...uploadFindings.map(f => f.url)])];
+
+        if (allUploadEndpoints.length >= 1) {
+            detected.push(this.createHypothesis({
+                scanId,
+                type: 'FileUpload',
+                confidence: Math.min(35 + allUploadEndpoints.length * 15 + uploadFindings.length * 20, 90),
+                evidence: [
+                    `${allUploadEndpoints.length} file upload endpoints detected`,
+                    ...uploadFindings.slice(0, 5).map(f => `Upload finding: ${f.url}`),
+                    ...uploadEndpoints.slice(0, 3).map(url => `Upload path: ${url}`),
+                ],
+                relatedEndpoints: allUploadEndpoints.slice(0, MAX_ENDPOINTS_PER_HYPOTHESIS),
+            }));
+        }
+
+        // ── JWT Weakness Detection ──────────────────────────────────────────────
+        const jwtEndpoints: string[] = [];
+        for (const ep of endpoints) {
+            const lower = ep.url.toLowerCase();
+            const paramStr = (ep.params ?? []).join(' ').toLowerCase();
+            if (JWT_PATTERNS.some(kw => lower.includes(kw) || paramStr.includes(kw))) {
+                jwtEndpoints.push(ep.url);
+            }
+        }
+        const jwtFindings = findings.filter(f => f.type === 'jwt_weakness' || f.type === 'token_replay');
+        const allJwtEndpoints = [...new Set([...jwtEndpoints, ...jwtFindings.map(f => f.url)])];
+
+        if (allJwtEndpoints.length >= 1) {
+            detected.push(this.createHypothesis({
+                scanId,
+                type: 'JWTWeakness',
+                confidence: Math.min(30 + allJwtEndpoints.length * 10 + jwtFindings.length * 25, 90),
+                evidence: [
+                    `${allJwtEndpoints.length} JWT-related endpoints detected`,
+                    ...jwtFindings.slice(0, 5).map(f => `JWT finding: ${f.evidence.slice(0, 100)}`),
+                    ...jwtEndpoints.slice(0, 3).map(url => `JWT endpoint: ${url}`),
+                ],
+                relatedEndpoints: allJwtEndpoints.slice(0, MAX_ENDPOINTS_PER_HYPOTHESIS),
+            }));
+        }
+
+        // ── CORS Abuse Detection ────────────────────────────────────────────────
+        const corsFindings = findings.filter(f => f.type === 'cors');
+        if (corsFindings.length >= 1) {
+            const corsEndpoints = [...new Set(corsFindings.map(f => f.url))];
+            detected.push(this.createHypothesis({
+                scanId,
+                type: 'CORSAbuse',
+                confidence: Math.min(50 + corsFindings.length * 20, 95),
+                evidence: corsFindings.slice(0, 10).map(
+                    f => `CORS misconfiguration on ${f.url}: ${f.evidence.slice(0, 100)}`,
+                ),
+                relatedEndpoints: corsEndpoints.slice(0, MAX_ENDPOINTS_PER_HYPOTHESIS),
             }));
         }
 
@@ -573,4 +690,82 @@ Return JSON only, no markdown.`;
             raw.slice(18, 30),
         ].join('-');
     }
+
+    /**
+     * Save an in-memory hypothesis to the database via HypothesisRepository.
+     * Creates a persistent record that survives restarts.
+     * Does NOT remove the in-memory copy — both coexist.
+     */
+    async saveHypothesis(hypothesisId: string): Promise<void> {
+        const hypothesis = this.store.get(hypothesisId);
+        if (!hypothesis) {
+            throw new Error(`Hypothesis not found: ${hypothesisId}`);
+        }
+
+        const { HypothesisRepository } = await import('./HypothesisRepository');
+        const repo = new HypothesisRepository();
+
+        const description = this.buildDescription(hypothesis);
+
+        await repo.createHypothesis({
+            scanId: hypothesis.scanId,
+            type: hypothesis.type,
+            description,
+            confidence: hypothesis.confidence,
+        });
+
+        log.info('Hypothesis saved to database', {
+            hypothesisId,
+            scanId: hypothesis.scanId,
+            type: hypothesis.type,
+            confidence: hypothesis.confidence,
+        });
+    }
+
+    /**
+     * Save all in-memory hypotheses for a scan to the database.
+     */
+    async saveAllHypotheses(scanId: string): Promise<number> {
+        const hypotheses = this.getHypothesesForScan(scanId);
+        let saved = 0;
+
+        const { HypothesisRepository } = await import('./HypothesisRepository');
+        const repo = new HypothesisRepository();
+
+        for (const h of hypotheses) {
+            try {
+                await repo.createHypothesis({
+                    scanId: h.scanId,
+                    type: h.type,
+                    description: this.buildDescription(h),
+                    confidence: h.confidence,
+                });
+                saved++;
+            } catch (error) {
+                log.warn('Failed to save hypothesis', {
+                    hypothesisId: h.id,
+                    error: error instanceof Error ? error.message : 'Unknown',
+                });
+            }
+        }
+
+        log.info('Batch hypothesis save complete', { scanId, total: hypotheses.length, saved });
+        return saved;
+    }
+
+    private buildDescription(hypothesis: Hypothesis): string {
+        const parts: string[] = [`Possible ${hypothesis.type} cluster`];
+
+        if (hypothesis.relatedEndpoints.length > 0) {
+            parts.push(`across ${hypothesis.relatedEndpoints.length} endpoint(s)`);
+            parts.push(`[${hypothesis.relatedEndpoints.slice(0, 3).join(', ')}${hypothesis.relatedEndpoints.length > 3 ? '...' : ''}]`);
+        }
+
+        if (hypothesis.evidence.length > 0) {
+            parts.push(`— ${hypothesis.evidence[0].slice(0, 100)}`);
+        }
+
+        return parts.join(' ');
+    }
 }
+

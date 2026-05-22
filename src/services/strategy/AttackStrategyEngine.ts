@@ -35,9 +35,9 @@ const TECH_ATTACK_MAP: Record<string, string[]> = {
 // Escalation level determines probe depth
 const ESCALATION_ATTACK_TYPES: Record<number, string[]> = {
     1: ['repeat_as_guest', 'cross_role_access', 'config_probe', 'clickjacking_probe', 'cors_probe'],
-    2: ['sqli_probe', 'xss_probe', 'nosqli_probe', 'csrf_probe', 'id_tamper', 'graphql_probe'],
-    3: ['ssrf_probe', 'ssti_probe', 'path_traversal_probe', 'file_upload_probe', 'rce_probe', 'websocket_probe'],
-    4: ['race_condition_probe', 'cache_deception_probe', 'proto_pollution_probe', 'graphql_deep_probe'],
+    2: ['sqli_probe', 'xss_probe', 'nosqli_probe', 'csrf_probe', 'id_tamper', 'graphql_probe', 'auth_bypass_probe', 'hidden_admin_probe'],
+    3: ['ssrf_probe', 'ssti_probe', 'path_traversal_probe', 'file_upload_probe', 'rce_probe', 'websocket_probe', 'jwt_analysis_probe', 'token_replay_probe'],
+    4: ['race_condition_probe', 'cache_deception_probe', 'proto_pollution_probe', 'graphql_deep_probe', 'param_pollution_probe', 'api_abuse_probe'],
 };
 
 // Sensitive URL keywords for endpointSensitivity
@@ -48,6 +48,16 @@ const SENSITIVITY_KEYWORDS = [
 
 export class AttackStrategyEngine {
     private executedSet: Set<string> = new Set();
+    /** Hypothesis confidence scores by endpoint ID, injected from pipeline */
+    private hypothesisScores: Map<string, number> = new Map();
+
+    /**
+     * Set hypothesis confidence scores for endpoints.
+     * Called by the pipeline after hypothesis generation.
+     */
+    setHypothesisScores(scores: Map<string, number>): void {
+        this.hypothesisScores = scores;
+    }
 
     /**
      * Select next optimal attack. O(n) over endpoints.
@@ -116,14 +126,16 @@ export class AttackStrategyEngine {
         const authWeight = this.calculateAuthWeight(node);
         const historicalSuccess = this.calculateHistoricalSuccess(node, knowledge);
         const techMatchScore = this.calculateTechMatchScore(node, knowledge);
+        const hypothesisBoost = this.calculateHypothesisBoost(node);
 
         const finalScore =
-            baseRisk * 0.3 +
-            endpointSensitivity * 0.2 +
+            baseRisk * 0.25 +
+            endpointSensitivity * 0.15 +
             parameterScore * 0.1 +
             authWeight * 0.1 +
-            historicalSuccess * 0.2 +
-            techMatchScore * 0.1;
+            historicalSuccess * 0.15 +
+            techMatchScore * 0.1 +
+            hypothesisBoost * 0.15;
 
         // Determine best attack type and escalation level
         const attackSelection = this.selectAttackType(node, findings, knowledge);
@@ -224,5 +236,16 @@ export class AttackStrategyEngine {
         if (w.historicalSuccess > 0) parts.push('historical success on similar endpoints');
         if (w.techMatchScore > 0.5) parts.push('tech stack matches attack surface');
         return parts.join('; ') || 'standard probe selection';
+    }
+
+    /**
+     * Calculate hypothesis confidence boost for an endpoint.
+     * Endpoints with high-confidence hypotheses get prioritized.
+     */
+    private calculateHypothesisBoost(node: AttackNode): number {
+        const confidence = this.hypothesisScores.get(node.id);
+        if (!confidence) return 0;
+        // Normalize confidence (0-100) to 0-1 range
+        return Math.min(confidence / 100, 1);
     }
 }

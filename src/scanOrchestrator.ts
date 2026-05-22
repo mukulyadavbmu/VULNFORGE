@@ -8,9 +8,38 @@ import {
 import { logger } from './utils/logger';
 import { ScanRepository } from './services/db/ScanRepository';
 
-export async function createScanSessionAsync(targetUrl: string): Promise<ScanSession> {
-  logger.info(`Creating scan session for ${targetUrl}`);
-  return await ScanRepository.createScan(targetUrl);
+/** Validate an endpoint URL for legitimate attack surface */
+function isValidEndpointUrl(url: string): boolean {
+  try {
+    const urlObj = new URL(url);
+    const path = urlObj.pathname;
+
+    // Reject malformed / minified patterns
+    const malformedPatterns = [
+      /:[a-zA-Z_]\w*[:\/]/, // :variable:remaining or :variable/path (suggests parameter)
+      /\([^)]*\)/, // Parentheses - function calls in minified code
+      /!0|!1/, // Minified boolean literals
+      /\b[a-z]{1,2}\([^)]*\)=>/g, // Minified arrow functions
+      /={2,}/,  // Encoded equals signs
+    ];
+
+    if (malformedPatterns.some(p => p.test(path))) {
+      return false;
+    }
+
+    // Reject if suspiciously short path (likely minified bundle reference)
+    if (path.length < 2) return false;
+
+    // Accept valid URL
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function createScanSessionAsync(targetUrl: string, orgId?: string, userId?: string): Promise<ScanSession> {
+  logger.info(`Creating scan session for ${targetUrl} (Org: ${orgId || 'None'})`);
+  return await ScanRepository.createScan(targetUrl, orgId, userId);
 }
 
 // Deprecated synchronous version - kept to avoid breaking imports but will throw
@@ -27,6 +56,12 @@ export async function listScanSessions(): Promise<ScanSession[]> {
 }
 
 export async function addAttackNode(session: ScanSession, node: AttackNode): Promise<void> {
+  // Validate endpoint URL before adding
+  if (!isValidEndpointUrl(node.url)) {
+    logger.debug(`Skipping mal formed endpoint: ${node.url}`, { scanId: session.id });
+    return;
+  }
+
   // Optimistically update in-memory object for speed
   if (!session.attackNodes[node.id]) {
     // Calculate Risk Score
