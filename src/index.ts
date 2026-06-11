@@ -143,7 +143,10 @@ app.post('/scan', async (req: Request, res: Response) => {
 
     res.status(201).json({ scanId: session.id });
   } catch (err) {
-    logger.error('Failed to create scan', { error: err });
+    logger.error('Failed to create scan', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined
+    });
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
