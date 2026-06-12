@@ -657,10 +657,15 @@ export async function startPipeline(scanId: string): Promise<void> {
 
     } catch (error) {
         const msg = error instanceof Error ? error.message : 'Unknown error';
-        log.error('Pipeline fatal error', { scanId, error: msg });
+        log.error('Pipeline fatal error', {
+            scanId,
+            error: msg,
+            stack: error instanceof Error ? error.stack : undefined,
+            code: (error as any)?.code,
+        });
 
         ScanProgressService.addEvent(scanId, `Pipeline error: ${msg.slice(0, 100)}`, 'warning');
-        ScanProgressService.setPhase(scanId, 'Completed');
+        ScanProgressService.setPhase(scanId, 'Failed'); // HIGH-4: was incorrectly 'Completed'
 
         try {
             await ScanRepository.updateStatus(scanId, 'failed');

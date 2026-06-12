@@ -24,7 +24,7 @@ import { getExploitableIssues } from './services/scan/ExploitableIssuesService';
 import { statefulEngine } from './services/workflow/StatefulAttackEngine';
 import { WorkerRegistry } from './workers/WorkerRegistry';
 import { ScanLifecycleService } from './services/scan/ScanLifecycleService';
-import { getQueueHealth, isDistributedMode } from './services/queue/QueueManager';
+import { getQueueHealth, isDistributedMode, setOnRedisReady } from './services/queue/QueueManager';
 import { CheckpointService } from './services/scan/CheckpointService';
 import { AuthService } from './services/saas/AuthService';
 import { OrgService } from './services/saas/OrgService';
@@ -163,7 +163,11 @@ app.get('/scan', async (_req, res) => {
     }));
     res.json(summary);
   } catch (err) {
-    logger.error('Failed to list scans', { error: err });
+    logger.error('Failed to list scans', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+    });
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -176,7 +180,12 @@ app.get('/scan/:id', async (req, res) => {
     }
     res.json(session);
   } catch (err) {
-    logger.error('Failed to get scan', { error: err, scanId: req.params.id });
+    logger.error('Failed to get scan', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+      scanId: req.params.id,
+    });
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -191,7 +200,12 @@ app.post('/scan/:id/plan', async (req, res) => {
     const actions = await runPlanningStep(session);
     res.json({ actions });
   } catch (err) {
-    logger.error('AI planning failed', { error: err, scanId: req.params.id });
+    logger.error('AI planning failed', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+      scanId: req.params.id,
+    });
     res.status(500).json({ error: 'AI planning failed' });
   }
 });
@@ -260,7 +274,12 @@ app.post('/scan/:id/auth', async (req, res) => {
 
     return res.json({ ok: true });
   } catch (err) {
-    logger.error('Auth update failed', { error: err, scanId: req.params.id });
+    logger.error('Auth update failed', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+      scanId: req.params.id,
+    });
     res.status(500).json({ error: 'Auth update failed' });
   }
 });
@@ -284,7 +303,12 @@ app.post('/scan/:id/execute', async (req, res) => {
     await executeAction(session, action);
     res.json({ ok: true });
   } catch (err) {
-    logger.error('Execution failed', { error: err, scanId: req.params.id });
+    logger.error('Execution failed', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+      scanId: req.params.id,
+    });
     res.status(500).json({ error: 'Execution failed' });
   }
 });
@@ -390,7 +414,11 @@ app.get('/scan/:id/state', async (req, res) => {
       recentDiagnostics,
     });
   } catch (err) {
-    logger.error('Failed to get scan state', { error: err });
+    logger.error('Failed to get scan state', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+    });
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -606,7 +634,12 @@ app.post('/scan/:id/execute', async (req, res) => {
     await executeAction(session, action);
     res.json({ ok: true });
   } catch (err) {
-    logger.error('Execution failed', { error: err, scanId: req.params.id });
+    logger.error('Execution failed', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+      scanId: req.params.id,
+    });
     res.status(500).json({ error: 'Execution failed' });
   }
 });
@@ -712,7 +745,11 @@ app.get('/scan/:id/state', async (req, res) => {
       recentDiagnostics,
     });
   } catch (err) {
-    logger.error('Failed to get scan state', { error: err });
+    logger.error('Failed to get scan state', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      code: (err as any)?.code,
+    });
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -842,5 +879,29 @@ process.on('SIGTERM', async () => {
   });
 });
 
-// Start workers
-WorkerRegistry.start();
+// ── CRIT-4: Startup validation — warn if BACKEND_URL is missing ─────────────
+// OAST/SSRF callbacks will be injected into target requests. If BACKEND_URL is
+// not set, those callbacks default to localhost and will never reach the server.
+if (config.USE_DISTRIBUTED_QUEUE && !config.BACKEND_URL) {
+  logger.warn(
+    'BACKEND_URL is not configured. ' +
+    'OAST/SSRF callback URLs will fall back to http://localhost and ' +
+    'will NOT be reachable by target systems in production. ' +
+    'Set BACKEND_URL=https://<your-render-host>.onrender.com in Render environment variables.'
+  );
+}
+
+// ── CRIT-1: Start workers ONLY after Redis 'ready' fires ────────────────────
+// WorkerRegistry.start() previously ran synchronously at module load before
+// the Redis 'ready' event, so isDistributedMode() was always false and workers
+// never started in distributed mode. The callback fires after Redis is live.
+setOnRedisReady(() => {
+  logger.info('Redis ready — starting WorkerRegistry');
+  WorkerRegistry.start();
+});
+
+// Fallback: if no REDIS_URL is set, start workers synchronously (local mode).
+// isDistributedMode() is false in this case and WorkerRegistry will log accordingly.
+if (!config.REDIS_URL) {
+  WorkerRegistry.start();
+}

@@ -15,6 +15,18 @@ let crawlJobsQueue: Queue | null = null;
 let attackJobsQueue: Queue | null = null;
 let verifyJobsQueue: Queue | null = null;
 
+// ── CRIT-1: Callback so index.ts can start workers after Redis is ready ──────
+let _onReadyCallback: (() => void) | null = null;
+
+/**
+ * Register a callback to be invoked once Redis emits 'ready'.
+ * Use this to start WorkerRegistry AFTER distributed mode is enabled.
+ * Must be called before bootstrap() fires the event (i.e. at module load).
+ */
+export function setOnRedisReady(cb: () => void): void {
+    _onReadyCallback = cb;
+}
+
 // ── Public accessors ────────────────────────────────────────────────────────
 export function isDistributedMode(): boolean {
     return isDistributedModeEnabled;
@@ -31,7 +43,31 @@ export const queues = {
     get verifyJobs(): Queue | null { return verifyJobsQueue; },
 };
 
-// ── Internal: build BullMQ Queue objects once connection is live ────────────
+// ── HIGH-2: Factory for dedicated worker connections ─────────────────────────
+/**
+ * Creates a fresh ioredis connection for BullMQ Workers.
+ * Workers must NOT share the producer (Queue) connection — BullMQ uses blocking
+ * commands (BLPOP/BRPOPLPUSH) on worker connections that interfere with the
+ * non-blocking commands the Queue producer uses.
+ */
+export function createWorkerConnection(): Redis | null {
+    const rawUrl = config.REDIS_URL;
+    if (!rawUrl) return null;
+
+    return new Redis(rawUrl, {
+        family: 4,
+        tls: {},
+        maxRetriesPerRequest: null,  // mandatory for BullMQ worker blocking commands
+        enableReadyCheck: false,
+        enableOfflineQueue: false,
+        connectTimeout: 10_000,
+        retryStrategy(times: number): number {
+            return Math.min(times * 200, 30_000);
+        },
+    });
+}
+
+// ── Internal: build BullMQ Queue objects once producer connection is live ────
 function initializeQueues(connection: Redis): void {
     const queueOpts: QueueOptions = {
         connection,
@@ -74,51 +110,23 @@ function bootstrap(): void {
     log.info(`Redis: attempting connection to ${safeHost} …`);
 
     // ──────────────────────────────────────────────────────────────────────
-    // Upstash-safe ioredis configuration
+    // Upstash-safe ioredis configuration (producer connection for Queues)
     //
-    // Key fixes vs. previous implementation:
-    //
-    // 1. family: 4  — forces IPv4. On Render (Linux/Node 18+) DNS resolves
-    //    to IPv6 (::1) first. Upstash endpoints are IPv4-only, causing
-    //    ECONNREFUSED on the IPv6 attempt before IPv4 is tried.
-    //
-    // 2. tls: {}    — required even when using a rediss:// URL. Passing the
-    //    object explicitly ensures ioredis enables TLS regardless of how the
-    //    URL was parsed. Without it, connections to port 6380 (Upstash TLS)
-    //    are silently attempted over plain TCP and immediately reset.
-    //
-    // 3. maxRetriesPerRequest: null — mandatory for BullMQ workers/queues.
-    //    BullMQ uses blocking commands (BRPOPLPUSH / BLPOP) that must never
-    //    time out at the ioredis layer.
-    //
-    // 4. retryStrategy — persistent exponential back-off (capped 30 s) so
-    //    transient network blips don't permanently disable the queue for the
-    //    process lifetime. Prior implementation stopped after 3 attempts.
-    //
-    // 5. Queues are created inside the 'ready' callback (not at module load).
-    //    Previously defaultQueueOptions was built synchronously at module
-    //    load, capturing the null connection before Redis had connected.
+    // 1. family: 4  — forces IPv4. Render/Node 18+ resolves IPv6 first;
+    //    Upstash is IPv4-only → ECONNREFUSED on IPv6.
+    // 2. tls: {}    — explicit TLS required even with rediss:// URL.
+    // 3. maxRetriesPerRequest: null — BullMQ requirement.
+    // 4. retryStrategy — persistent back-off (capped 30 s).
+    // 5. Queues initialised inside 'ready' callback — not at module load.
     // ──────────────────────────────────────────────────────────────────────
     try {
         redisConnection = new Redis(rawUrl, {
-            // Force IPv4 – Upstash does not support IPv6
             family: 4,
-
-            // Explicit TLS – required for Upstash (rediss:// port 6380)
             tls: {},
-
-            // BullMQ requirement: never abort blocking commands
             maxRetriesPerRequest: null,
-
-            // Skip the PING-based ready check; connect immediately
             enableReadyCheck: false,
-
-            // Production-safe: don't queue commands while offline
             enableOfflineQueue: false,
-
-            connectTimeout: 10_000, // 10 s to establish initial TCP+TLS
-
-            // Persistent reconnect with exponential back-off, capped at 30 s
+            connectTimeout: 10_000,
             retryStrategy(times: number): number {
                 const delay = Math.min(times * 200, 30_000);
                 log.warn(`Redis: reconnecting (attempt ${times}), next try in ${delay}ms …`);
@@ -135,6 +143,12 @@ function bootstrap(): void {
             log.info(`Redis: connection ready — enabling Distributed Queue Mode (host: ${safeHost})`);
             isDistributedModeEnabled = true;
             initializeQueues(redisConnection!);
+
+            // CRIT-1: Notify WorkerRegistry to start now that Redis is live
+            if (_onReadyCallback) {
+                log.info('Redis: invoking onReady callback (WorkerRegistry.start)');
+                _onReadyCallback();
+            }
         });
 
         redisConnection.on('error', (err: Error) => {

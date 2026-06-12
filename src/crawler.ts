@@ -220,7 +220,12 @@ export async function crawlTarget(
     try {
       logger.info(`Starting crawl for ${session.targetUrl} as ${authContext}`, { scanId: session.id });
       browser = await chromium.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage', // MED-6: prevent SIGBUS on Render's 64MB /dev/shm
+          '--disable-gpu',
+        ]
       });
       const authHeaders = session.authHeaders[authContext] || {};
       const extraHTTPHeaders: Record<string, string> = {};
