@@ -1,0 +1,39 @@
+# VulnForge End-to-End Test Environment
+# Provides a deliberately vulnerable target (OWASP Juice Shop) for production scan validation.
+#
+# Usage:
+#   docker compose up -d
+#   # Wait ~30s for Juice Shop to start
+#   curl http://localhost:3000
+#   # Then trigger a VulnForge scan against http://host.docker.internal:3000
+#   # (or http://<your-machine-ip>:3000 if scanning from Render)
+#
+# To use from Render cloud backend:
+#   Use ngrok to expose localhost:3000 publicly:
+#   ngrok http 3000
+#   Then scan the ngrok URL from VulnForge dashboard.
+
+version: "3.8"
+
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    container_name: vulnforge-test-target
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    labels:
+      - "com.vulnforge.role=test-target"
+      - "com.vulnforge.app=juice-shop"
+
+networks:
+  default:
+    name: vulnforge-test-net

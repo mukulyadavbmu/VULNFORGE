@@ -1,0 +1,17 @@
+{
+  "name": "VulnForge",
+  "short_name": "VulnForge",
+  "description": "AI-Guided Web Attack Surface Explorer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D1117",
+  "theme_color": "#D29922",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
