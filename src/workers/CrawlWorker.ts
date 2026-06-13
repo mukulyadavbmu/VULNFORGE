@@ -28,7 +28,7 @@ export function startCrawlWorker(): Worker | null {
             return { success: true, nodesFound: Object.keys(session.attackNodes).length };
         });
     }, {
-        connection: redis,
+        connection: redis as any,
         concurrency: 2,
     });
 

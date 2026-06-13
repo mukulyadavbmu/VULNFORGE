@@ -52,7 +52,7 @@ export function startVerifyWorker(): Worker | null {
             return { success: result.reproducible };
         });
     }, {
-        connection: redis,
+        connection: redis as any,
         concurrency: 2, // Verification is browser-heavy, keep concurrency low
     });
 

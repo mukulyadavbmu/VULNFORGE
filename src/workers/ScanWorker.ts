@@ -24,7 +24,7 @@ export function startScanWorker(): Worker | null {
             return { success: true };
         });
     }, {
-        connection: redis,
+        connection: redis as any,
         concurrency: 3,
     });
 
