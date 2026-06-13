@@ -57,9 +57,10 @@ export function createWorkerConnection(): Redis | null {
     return new Redis(rawUrl, {
         family: 4,
         tls: {},
+        keepAlive: 10000,
         maxRetriesPerRequest: null,  // mandatory for BullMQ worker blocking commands
         enableReadyCheck: false,
-        enableOfflineQueue: false,
+        enableOfflineQueue: true, // fix bzpopmin crash
         connectTimeout: 10_000,
         retryStrategy(times: number): number {
             return Math.min(times * 200, 30_000);
@@ -84,7 +85,7 @@ function initializeQueues(connection: Redis): void {
     attackJobsQueue        = new Queue('attack-jobs',        queueOpts);
     verifyJobsQueue        = new Queue('verify-jobs',        queueOpts);
 
-    log.info('BullMQ queues initialised: scan-orchestration, crawl-jobs, attack-jobs, verify-jobs');
+    log.info('BullMQ queues initialised and ready: scan-orchestration, crawl-jobs, attack-jobs, verify-jobs');
 }
 
 // ── Bootstrap ───────────────────────────────────────────────────────────────
@@ -123,9 +124,10 @@ function bootstrap(): void {
         redisConnection = new Redis(rawUrl, {
             family: 4,
             tls: {},
+            keepAlive: 10000,
             maxRetriesPerRequest: null,
             enableReadyCheck: false,
-            enableOfflineQueue: false,
+            enableOfflineQueue: true, // fix for worker queue crashes
             connectTimeout: 10_000,
             retryStrategy(times: number): number {
                 const delay = Math.min(times * 200, 30_000);

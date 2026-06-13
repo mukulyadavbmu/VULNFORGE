@@ -183,7 +183,11 @@ async function explorePage(
   try {
     await endpointDiscovery.discoverAll(session, page, authContext);
   } catch (error) {
-    logger.debug('Endpoint discovery round failed', { scanId: session.id, error });
+    logger.debug('Endpoint discovery round failed', { 
+      scanId: session.id, 
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    });
   }
 
   // ENHANCEMENT: Extract event listener hints (click handlers, form submits)
@@ -205,6 +209,13 @@ async function explorePage(
   if (visited.size >= (options.maxPages ?? 20)) {
     return;
   }
+
+  logger.info(`Page exploration complete`, {
+    url: currentUrl,
+    linksFound: links.length,
+    formsFound: formData.length,
+    jsRoutesFound: jsRoutes.length
+  });
 }
 
 export async function crawlTarget(
@@ -227,6 +238,7 @@ export async function crawlTarget(
           '--disable-gpu',
         ]
       });
+      logger.info(`Chromium launched successfully`);
       const authHeaders = session.authHeaders[authContext] || {};
       const extraHTTPHeaders: Record<string, string> = {};
       const cookiesToSet: Array<{ name: string; value: string; domain: string; path: string }> = [];
@@ -257,6 +269,7 @@ export async function crawlTarget(
         await context.addCookies(cookiesToSet);
       }
       const page = await context.newPage();
+      logger.info(`Browser context created successfully`);
 
       // PHASE 4: Attach Browser Instrumenter
       const instrumenter = new BrowserInstrumenter(session.id, page);
@@ -280,7 +293,11 @@ export async function crawlTarget(
         }
         await prisma.$disconnect();
       } catch (err) {
-        logger.error('Security file discovery failed', { error: err, scanId: session.id });
+        logger.error('Security file discovery failed', { 
+          error: err instanceof Error ? err.message : String(err), 
+          stack: err instanceof Error ? err.stack : undefined, 
+          scanId: session.id 
+        });
       }
 
       // Dynamic API endpoint discovery via network requests
@@ -297,7 +314,10 @@ export async function crawlTarget(
           logger.debug(`API endpoint discovered: ${url}`, { scanId: session.id });
           endpointDiscovery
             .registerNetworkEndpoint(session, authContext, urlObj.toString(), req.method())
-            .catch(e => logger.error('Failed to add network endpoint', { error: e }));
+            .catch(e => logger.error('Failed to add network endpoint', { 
+              error: e instanceof Error ? e.message : String(e), 
+              stack: e instanceof Error ? e.stack : undefined 
+            }));
         } catch {
           // ignore malformed URLs
         }
@@ -338,10 +358,26 @@ export async function crawlTarget(
 
         logger.debug(`Crawling page: ${nextUrl}`, { scanId: session.id });
         try {
-          await page.goto(nextUrl, { waitUntil: 'domcontentloaded', timeout: config.NAV_TIMEOUT_MS });
+          const startTime = Date.now();
+          const response = await page.goto(nextUrl, { waitUntil: 'domcontentloaded', timeout: config.NAV_TIMEOUT_MS });
+          const elapsed = Date.now() - startTime;
+          
+          logger.info(`page.goto complete`, {
+            url: nextUrl,
+            status: response?.status(),
+            statusText: response?.statusText(),
+            finalUrl: page.url(),
+            elapsedTimeMs: elapsed
+          });
+          
           await explorePage(session, page, authContext, visited, queue, options);
         } catch (err) {
-          logger.warn(`Failed to crawl ${nextUrl}`, { error: err, scanId: session.id });
+          logger.warn(`Failed to crawl ${nextUrl}`, { 
+            error: err instanceof Error ? err.message : String(err),
+            stack: err instanceof Error ? err.stack : undefined,
+            playwrightError: String(err),
+            scanId: session.id 
+          });
         }
       }
       
@@ -350,7 +386,11 @@ export async function crawlTarget(
         await instrumenter.harvestAndSave();
       }
     } catch (err) {
-      logger.error('Crawl fatal error', { error: err, scanId: session.id });
+      logger.error('Crawl fatal error', { 
+        error: err instanceof Error ? err.message : String(err),
+        stack: err instanceof Error ? err.stack : undefined,
+        scanId: session.id 
+      });
     } finally {
       if (browser) {
         await browser.close();

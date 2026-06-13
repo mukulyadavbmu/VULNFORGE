@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800">
+<style>* { font-family: 'Courier New', monospace; }</style>
+<!-- Background -->
+<rect width="1280" height="800" fill="#060d18"/>
+<!-- Grid lines -->
+<line x1="200" y1="100" x2="1280" y2="100" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="200" x2="1280" y2="200" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="300" x2="1280" y2="300" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="400" x2="1280" y2="400" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="500" x2="1280" y2="500" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="600" x2="1280" y2="600" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="700" x2="1280" y2="700" stroke="#0e1e30" stroke-width="1"/>
+<!-- TOPBAR -->
+<rect x="0" y="0" width="1280" height="48" fill="#080f1e"/>
+<line x1="0" y1="48" x2="1280" y2="48" stroke="#1a2e4a" stroke-width="1"/>
+<text x="220" y="30" fill="#38bdf8" font-size="16" font-weight="bold">VulnForge</text>
+<rect x="555" y="13" width="170" height="22" rx="11" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<circle cx="573" cy="24" r="4" fill="#4ade80"/>
+<text x="583" y="28" fill="#4ade80" font-size="11">SCAN ACTIVE</text>
+<circle cx="1248" cy="24" r="16" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1241" y="29" fill="#38bdf8" font-size="12">MK</text>
+<!-- SIDEBAR -->
+<rect x="0" y="48" width="200" height="752" fill="#080f1e"/>
+<line x1="200" y1="48" x2="200" y2="800" stroke="#1a2e4a" stroke-width="1"/>
+<text x="20" y="85" fill="#38bdf8" font-size="22" font-weight="bold">VF</text>
+<text x="50" y="85" fill="#e2e8f0" font-size="13" font-weight="bold">VULNFORGE</text>
+<!-- Nav: Dashboard -->
+<rect x="0" y="110" width="200" height="32" fill="transparent"/>
+<text x="24" y="131" fill="#4a6080" font-size="13">⬡ Dashboard</text>
+<!-- Nav: Findings ACTIVE -->
+<rect x="0" y="142" width="200" height="32" fill="#0d2137"/>
+<rect x="0" y="142" width="3" height="32" fill="#38bdf8"/>
+<text x="24" y="163" fill="#38bdf8" font-size="13">◈ Findings</text>
+<!-- Nav: Replay -->
+<rect x="0" y="174" width="200" height="32" fill="transparent"/>
+<text x="24" y="195" fill="#4a6080" font-size="13">▶ Replay</text>
+<!-- Nav: Attack Graph -->
+<rect x="0" y="206" width="200" height="32" fill="transparent"/>
+<text x="24" y="227" fill="#4a6080" font-size="13">⬡ Attack Graph</text>
+<!-- Nav: Benchmarks -->
+<rect x="0" y="238" width="200" height="32" fill="transparent"/>
+<text x="24" y="259" fill="#4a6080" font-size="13">◎ Benchmarks</text>
+<!-- Nav: Runtime -->
+<rect x="0" y="270" width="200" height="32" fill="transparent"/>
+<text x="24" y="291" fill="#4a6080" font-size="13">◉ Runtime</text>
+<!-- ===================== STAT CARDS ROW ===================== -->
+<!-- Card 1: CRITICAL -->
+<rect x="216" y="64" width="240" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="216" y="64" width="4" height="80" rx="2" fill="#f87171"/>
+<text x="232" y="86" fill="#4a6080" font-size="11" font-weight="bold">CRITICAL</text>
+<text x="232" y="118" fill="#f87171" font-size="32" font-weight="bold">24</text>
+<text x="290" y="118" fill="#f87171" font-size="13">+3 today</text>
+<!-- Card 2: HIGH -->
+<rect x="472" y="64" width="240" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="472" y="64" width="4" height="80" rx="2" fill="#fb923c"/>
+<text x="488" y="86" fill="#4a6080" font-size="11" font-weight="bold">HIGH</text>
+<text x="488" y="118" fill="#fb923c" font-size="32" font-weight="bold">67</text>
+<text x="546" y="118" fill="#fb923c" font-size="13">+12 today</text>
+<!-- Card 3: MEDIUM -->
+<rect x="728" y="64" width="240" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="728" y="64" width="4" height="80" rx="2" fill="#facc15"/>
+<text x="744" y="86" fill="#4a6080" font-size="11" font-weight="bold">MEDIUM</text>
+<text x="744" y="118" fill="#facc15" font-size="32" font-weight="bold">143</text>
+<text x="810" y="118" fill="#facc15" font-size="13">+8 today</text>
+<!-- Card 4: RESOLVED -->
+<rect x="984" y="64" width="280" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="984" y="64" width="4" height="80" rx="2" fill="#4ade80"/>
+<text x="1000" y="86" fill="#4a6080" font-size="11" font-weight="bold">RESOLVED</text>
+<text x="1000" y="118" fill="#4ade80" font-size="32" font-weight="bold">312</text>
+<text x="1066" y="118" fill="#4ade80" font-size="13">this week</text>
+<!-- ===================== FINDINGS TABLE ===================== -->
+<rect x="216" y="160" width="1048" height="420" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Table header -->
+<rect x="216" y="160" width="1048" height="36" rx="0" fill="#0d1e35"/>
+<rect x="216" y="160" width="1048" height="4" rx="2" fill="#38bdf8"/>
+<text x="226" y="183" fill="#4a6080" font-size="11" font-weight="bold">SEVERITY</text>
+<text x="300" y="183" fill="#4a6080" font-size="11" font-weight="bold">TITLE</text>
+<text x="560" y="183" fill="#4a6080" font-size="11" font-weight="bold">TARGET</text>
+<text x="740" y="183" fill="#4a6080" font-size="11" font-weight="bold">CVSS</text>
+<text x="800" y="183" fill="#4a6080" font-size="11" font-weight="bold">STATUS</text>
+<text x="890" y="183" fill="#4a6080" font-size="11" font-weight="bold">DISCOVERED</text>
+<text x="990" y="183" fill="#4a6080" font-size="11" font-weight="bold">ACTIONS</text>
+<!-- Row 1: CRITICAL - Reflected XSS -->
+<rect x="216" y="196" width="1048" height="36" fill="#0a1628"/>
+<rect x="226" y="204" width="62" height="18" rx="3" fill="#f8717133"/>
+<text x="230" y="217" fill="#f87171" font-size="10" font-weight="bold">CRITICAL</text>
+<text x="300" y="219" fill="#e2e8f0" font-size="12">Reflected XSS in search param</text>
+<text x="560" y="219" fill="#4a6080" font-size="11">api.vulnforge.app/search</text>
+<text x="740" y="219" fill="#f87171" font-size="12" font-weight="bold">9.3</text>
+<rect x="800" y="205" width="46" height="18" rx="3" fill="#f8717133"/>
+<text x="806" y="218" fill="#f87171" font-size="10" font-weight="bold">OPEN</text>
+<text x="890" y="219" fill="#4a6080" font-size="11">2h ago</text>
+<rect x="990" y="205" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="218" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="205" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="218" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 2: HIGH - SQL Injection -->
+<rect x="216" y="232" width="1048" height="36" fill="#0b1a30"/>
+<rect x="226" y="240" width="44" height="18" rx="3" fill="#fb923c33"/>
+<text x="230" y="253" fill="#fb923c" font-size="10" font-weight="bold">HIGH</text>
+<text x="300" y="255" fill="#e2e8f0" font-size="12">SQL Injection via user_id</text>
+<text x="560" y="255" fill="#4a6080" font-size="11">app.target.com/api/users</text>
+<text x="740" y="255" fill="#fb923c" font-size="12" font-weight="bold">8.1</text>
+<rect x="800" y="241" width="46" height="18" rx="3" fill="#f8717133"/>
+<text x="806" y="254" fill="#f87171" font-size="10" font-weight="bold">OPEN</text>
+<text x="890" y="255" fill="#4a6080" font-size="11">4h ago</text>
+<rect x="990" y="241" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="254" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="241" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="254" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 3: HIGH - CSRF -->
+<rect x="216" y="268" width="1048" height="36" fill="#0a1628"/>
+<rect x="226" y="276" width="44" height="18" rx="3" fill="#fb923c33"/>
+<text x="230" y="289" fill="#fb923c" font-size="10" font-weight="bold">HIGH</text>
+<text x="300" y="291" fill="#e2e8f0" font-size="12">CSRF token bypass on /transfer</text>
+<text x="560" y="291" fill="#4a6080" font-size="11">payments.target.com</text>
+<text x="740" y="291" fill="#fb923c" font-size="12" font-weight="bold">7.8</text>
+<rect x="800" y="277" width="76" height="18" rx="3" fill="#facc1533"/>
+<text x="806" y="290" fill="#facc15" font-size="10" font-weight="bold">REVIEWING</text>
+<text x="890" y="291" fill="#4a6080" font-size="11">6h ago</text>
+<rect x="990" y="277" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="290" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="277" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="290" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 4: HIGH - SSRF -->
+<rect x="216" y="304" width="1048" height="36" fill="#0b1a30"/>
+<rect x="226" y="312" width="44" height="18" rx="3" fill="#fb923c33"/>
+<text x="230" y="325" fill="#fb923c" font-size="10" font-weight="bold">HIGH</text>
+<text x="300" y="327" fill="#e2e8f0" font-size="12">SSRF via webhook URL param</text>
+<text x="560" y="327" fill="#4a6080" font-size="11">hooks.target.com/callback</text>
+<text x="740" y="327" fill="#fb923c" font-size="12" font-weight="bold">7.5</text>
+<rect x="800" y="313" width="46" height="18" rx="3" fill="#f8717133"/>
+<text x="806" y="326" fill="#f87171" font-size="10" font-weight="bold">OPEN</text>
+<text x="890" y="327" fill="#4a6080" font-size="11">8h ago</text>
+<rect x="990" y="313" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="326" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="313" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="326" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 5: MEDIUM - Open Redirect -->
+<rect x="216" y="340" width="1048" height="36" fill="#0a1628"/>
+<rect x="226" y="348" width="58" height="18" rx="3" fill="#facc1533"/>
+<text x="230" y="361" fill="#facc15" font-size="10" font-weight="bold">MEDIUM</text>
+<text x="300" y="363" fill="#e2e8f0" font-size="12">Open redirect /login?next=</text>
+<text x="560" y="363" fill="#4a6080" font-size="11">auth.target.com/login</text>
+<text x="740" y="363" fill="#facc15" font-size="12" font-weight="bold">5.4</text>
+<rect x="800" y="349" width="46" height="18" rx="3" fill="#f8717133"/>
+<text x="806" y="362" fill="#f87171" font-size="10" font-weight="bold">OPEN</text>
+<text x="890" y="363" fill="#4a6080" font-size="11">12h ago</text>
+<rect x="990" y="349" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="362" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="349" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="362" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 6: MEDIUM - IDOR -->
+<rect x="216" y="376" width="1048" height="36" fill="#0b1a30"/>
+<rect x="226" y="384" width="58" height="18" rx="3" fill="#facc1533"/>
+<text x="230" y="397" fill="#facc15" font-size="10" font-weight="bold">MEDIUM</text>
+<text x="300" y="399" fill="#e2e8f0" font-size="12">Insecure Direct Object Ref</text>
+<text x="560" y="399" fill="#4a6080" font-size="11">api.target.com/docs/{id}</text>
+<text x="740" y="399" fill="#facc15" font-size="12" font-weight="bold">5.1</text>
+<rect x="800" y="385" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="806" y="398" fill="#4ade80" font-size="10" font-weight="bold">FIXED</text>
+<text x="890" y="399" fill="#4a6080" font-size="11">1d ago</text>
+<rect x="990" y="385" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="398" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="385" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="398" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 7: LOW - Missing headers -->
+<rect x="216" y="412" width="1048" height="36" fill="#0a1628"/>
+<rect x="226" y="420" width="36" height="18" rx="3" fill="#4ade8033"/>
+<text x="230" y="433" fill="#4ade80" font-size="10" font-weight="bold">LOW</text>
+<text x="300" y="435" fill="#e2e8f0" font-size="12">Missing security headers</text>
+<text x="560" y="435" fill="#4a6080" font-size="11">www.target.com</text>
+<text x="740" y="435" fill="#4ade80" font-size="12" font-weight="bold">3.2</text>
+<rect x="800" y="421" width="46" height="18" rx="3" fill="#f8717133"/>
+<text x="806" y="434" fill="#f87171" font-size="10" font-weight="bold">OPEN</text>
+<text x="890" y="435" fill="#4a6080" font-size="11">2d ago</text>
+<rect x="990" y="421" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="434" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="421" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="434" fill="#4a6080" font-size="10">Details</text>
+<!-- Row 8: INFO - Directory listing -->
+<rect x="216" y="448" width="1048" height="36" fill="#0b1a30"/>
+<rect x="226" y="456" width="36" height="18" rx="3" fill="#38bdf833"/>
+<text x="230" y="469" fill="#38bdf8" font-size="10" font-weight="bold">INFO</text>
+<text x="300" y="471" fill="#e2e8f0" font-size="12">Directory listing enabled</text>
+<text x="560" y="471" fill="#4a6080" font-size="11">cdn.target.com/assets/</text>
+<text x="740" y="471" fill="#38bdf8" font-size="12" font-weight="bold">1.5</text>
+<rect x="800" y="457" width="46" height="18" rx="3" fill="#f8717133"/>
+<text x="806" y="470" fill="#f87171" font-size="10" font-weight="bold">OPEN</text>
+<text x="890" y="471" fill="#4a6080" font-size="11">3d ago</text>
+<rect x="990" y="457" width="50" height="18" rx="3" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="998" y="470" fill="#38bdf8" font-size="10">Replay</text>
+<rect x="1048" y="457" width="50" height="18" rx="3" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1054" y="470" fill="#4a6080" font-size="10">Details</text>
+<!-- Table bottom border -->
+<line x1="216" y1="484" x2="1264" y2="484" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Pagination -->
+<text x="900" y="570" fill="#4a6080" font-size="12">Showing 1-8 of 234 findings</text>
+<rect x="1100" y="555" width="60" height="24" rx="4" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1116" y="572" fill="#38bdf8" font-size="12">Next →</text>
+<!-- ===================== BOTTOM ROW ===================== -->
+<!-- Left panel: SEVERITY DISTRIBUTION -->
+<rect x="216" y="596" width="500" height="188" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="618" fill="#e2e8f0" font-size="13" font-weight="bold">SEVERITY DISTRIBUTION</text>
+<!-- CRITICAL bar -->
+<text x="232" y="644" fill="#f87171" font-size="11">CRITICAL</text>
+<rect x="310" y="632" width="200" height="14" rx="3" fill="#1a2e4a"/>
+<rect x="310" y="632" width="48" height="14" rx="3" fill="#f87171"/>
+<text x="518" y="644" fill="#f87171" font-size="11">24</text>
+<!-- HIGH bar -->
+<text x="232" y="668" fill="#fb923c" font-size="11">HIGH</text>
+<rect x="310" y="656" width="200" height="14" rx="3" fill="#1a2e4a"/>
+<rect x="310" y="656" width="134" height="14" rx="3" fill="#fb923c"/>
+<text x="518" y="668" fill="#fb923c" font-size="11">67</text>
+<!-- MEDIUM bar -->
+<text x="232" y="692" fill="#facc15" font-size="11">MEDIUM</text>
+<rect x="310" y="680" width="200" height="14" rx="3" fill="#1a2e4a"/>
+<rect x="310" y="680" width="180" height="14" rx="3" fill="#facc15"/>
+<text x="518" y="692" fill="#facc15" font-size="11">143</text>
+<!-- LOW bar -->
+<text x="232" y="716" fill="#4ade80" font-size="11">LOW</text>
+<rect x="310" y="704" width="200" height="14" rx="3" fill="#1a2e4a"/>
+<rect x="310" y="704" width="80" height="14" rx="3" fill="#4ade80"/>
+<text x="518" y="716" fill="#4ade80" font-size="11">40</text>
+<!-- INFO bar -->
+<text x="232" y="740" fill="#38bdf8" font-size="11">INFO</text>
+<rect x="310" y="728" width="200" height="14" rx="3" fill="#1a2e4a"/>
+<rect x="310" y="728" width="30" height="14" rx="3" fill="#38bdf8"/>
+<text x="518" y="740" fill="#38bdf8" font-size="11">15</text>
+<!-- Right panel: RECENT ACTIVITY FEED -->
+<rect x="732" y="596" width="532" height="188" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="748" y="618" fill="#e2e8f0" font-size="13" font-weight="bold">RECENT ACTIVITY FEED</text>
+<!-- Activity log lines -->
+<circle cx="756" cy="636" r="4" fill="#f87171"/>
+<text x="768" y="640" fill="#4a6080" font-size="10">02:14</text>
+<text x="808" y="640" fill="#e2e8f0" font-size="11">New CRITICAL: Reflected XSS detected</text>
+<circle cx="756" cy="656" r="4" fill="#fb923c"/>
+<text x="768" y="660" fill="#4a6080" font-size="10">01:58</text>
+<text x="808" y="660" fill="#e2e8f0" font-size="11">HIGH: SQL Injection confirmed on /api/users</text>
+<circle cx="756" cy="676" r="4" fill="#facc15"/>
+<text x="768" y="680" fill="#4a6080" font-size="10">01:42</text>
+<text x="808" y="680" fill="#e2e8f0" font-size="11">MEDIUM: CSRF bypass moved to REVIEWING</text>
+<circle cx="756" cy="696" r="4" fill="#4ade80"/>
+<text x="768" y="700" fill="#4a6080" font-size="10">01:30</text>
+<text x="808" y="700" fill="#e2e8f0" font-size="11">FIXED: IDOR on /docs/{id} resolved</text>
+<circle cx="756" cy="716" r="4" fill="#38bdf8"/>
+<text x="768" y="720" fill="#4a6080" font-size="10">01:15</text>
+<text x="808" y="720" fill="#e2e8f0" font-size="11">Scan completed: api.vulnforge.app</text>
+<circle cx="756" cy="736" r="4" fill="#a78bfa"/>
+<text x="768" y="740" fill="#4a6080" font-size="10">00:58</text>
+<text x="808" y="740" fill="#e2e8f0" font-size="11">Report exported: findings-2024-01-15.pdf</text>
+<!-- Page title -->
+<text x="216" y="44" fill="#4a6080" font-size="12">Security Findings</text>
+<text x="350" y="44" fill="#4a6080" font-size="12">/</text>
+<text x="362" y="44" fill="#e2e8f0" font-size="12">All Findings</text>
+</svg>

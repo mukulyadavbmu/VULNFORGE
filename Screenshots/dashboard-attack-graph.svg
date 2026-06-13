@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800">
+<style>* { font-family: 'Courier New', monospace; }</style>
+<defs>
+  <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="#f87171"/>
+  </marker>
+  <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="#fb923c"/>
+  </marker>
+  <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="#a78bfa"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="1280" height="800" fill="#060d18"/>
+<!-- Grid lines -->
+<line x1="200" y1="150" x2="1280" y2="150" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="250" x2="1280" y2="250" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="350" x2="1280" y2="350" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="450" x2="1280" y2="450" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="550" x2="1280" y2="550" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="650" x2="1280" y2="650" stroke="#0e1e30" stroke-width="1"/>
+<!-- TOPBAR -->
+<rect x="0" y="0" width="1280" height="48" fill="#080f1e"/>
+<line x1="0" y1="48" x2="1280" y2="48" stroke="#1a2e4a" stroke-width="1"/>
+<text x="220" y="30" fill="#38bdf8" font-size="16" font-weight="bold">VulnForge</text>
+<rect x="555" y="13" width="170" height="22" rx="11" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<circle cx="573" cy="24" r="4" fill="#4ade80"/>
+<text x="583" y="28" fill="#4ade80" font-size="11">SCAN ACTIVE</text>
+<circle cx="1248" cy="24" r="16" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1241" y="29" fill="#38bdf8" font-size="12">MK</text>
+<!-- SIDEBAR -->
+<rect x="0" y="48" width="200" height="752" fill="#080f1e"/>
+<line x1="200" y1="48" x2="200" y2="800" stroke="#1a2e4a" stroke-width="1"/>
+<text x="20" y="85" fill="#38bdf8" font-size="22" font-weight="bold">VF</text>
+<text x="50" y="85" fill="#e2e8f0" font-size="13" font-weight="bold">VULNFORGE</text>
+<rect x="0" y="110" width="200" height="32" fill="transparent"/>
+<text x="24" y="131" fill="#4a6080" font-size="13">⬡ Dashboard</text>
+<rect x="0" y="142" width="200" height="32" fill="transparent"/>
+<text x="24" y="163" fill="#4a6080" font-size="13">◈ Findings</text>
+<rect x="0" y="174" width="200" height="32" fill="transparent"/>
+<text x="24" y="195" fill="#4a6080" font-size="13">▶ Replay</text>
+<!-- Attack Graph ACTIVE -->
+<rect x="0" y="206" width="200" height="32" fill="#0d2137"/>
+<rect x="0" y="206" width="3" height="32" fill="#38bdf8"/>
+<text x="24" y="227" fill="#38bdf8" font-size="13">⬡ Attack Graph</text>
+<rect x="0" y="238" width="200" height="32" fill="transparent"/>
+<text x="24" y="259" fill="#4a6080" font-size="13">◎ Benchmarks</text>
+<rect x="0" y="270" width="200" height="32" fill="transparent"/>
+<text x="24" y="291" fill="#4a6080" font-size="13">◉ Runtime</text>
+<!-- TOP CONTROLS -->
+<rect x="216" y="64" width="1048" height="44" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="91" fill="#e2e8f0" font-size="15" font-weight="bold">Attack Graph</text>
+<rect x="380" y="74" width="180" height="24" rx="12" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="392" y="91" fill="#38bdf8" font-size="11">Target: app.target.com</text>
+<rect x="1060" y="74" width="28" height="24" rx="4" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1068" y="91" fill="#e2e8f0" font-size="14">+</text>
+<rect x="1094" y="74" width="28" height="24" rx="4" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1102" y="91" fill="#e2e8f0" font-size="14">-</text>
+<rect x="1128" y="74" width="28" height="24" rx="4" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1134" y="91" fill="#e2e8f0" font-size="12">⟳</text>
+<rect x="1168" y="74" width="80" height="24" rx="4" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="1184" y="91" fill="#38bdf8" font-size="12">Export</text>
+<!-- ===================== MAIN GRAPH AREA ===================== -->
+<rect x="216" y="124" width="780" height="560" rx="6" fill="#060d18" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Graph grid dots -->
+<circle cx="280" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="340" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="400" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="460" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="520" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="580" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="640" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="700" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="760" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="820" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="880" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="940" cy="180" r="1" fill="#0e1e30"/>
+<circle cx="280" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="340" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="400" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="460" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="520" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="580" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="640" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="700" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="760" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="820" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="880" cy="240" r="1" fill="#0e1e30"/>
+<circle cx="940" cy="240" r="1" fill="#0e1e30"/>
+<!-- EDGES (drawn BEFORE nodes so nodes appear on top) -->
+<!-- Entry→Auth: from bottom-center of Entry(430,170) to top-center of Auth(260,260) -->
+<line x1="430" y1="170" x2="260" y2="260" stroke="#f87171" stroke-width="2" marker-end="url(#arrowRed)"/>
+<!-- Entry→XSS: from bottom-center of Entry(430,170) to top-center of XSS(600,260) -->
+<line x1="430" y1="170" x2="600" y2="260" stroke="#f87171" stroke-width="2" marker-end="url(#arrowRed)"/>
+<!-- Auth→DataAccess: from bottom-center of Auth(260,280) to top-center of DataAccess(260,380) -->
+<line x1="260" y1="280" x2="260" y2="380" stroke="#fb923c" stroke-width="2" marker-end="url(#arrowOrange)"/>
+<!-- XSS→SessionHijack: from bottom-center of XSS(600,280) to top-center of SessionHijack(600,380) -->
+<line x1="600" y1="280" x2="600" y2="380" stroke="#fb923c" stroke-width="2" marker-end="url(#arrowOrange)"/>
+<!-- DataAccess→PrivEsc: from bottom-center of DataAccess(260,400) to top-center of PrivEsc(430,490) -->
+<line x1="260" y1="400" x2="430" y2="490" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple)"/>
+<!-- SessionHijack→PrivEsc: from bottom-center of SessionHijack(600,400) to top-center of PrivEsc(490,490) -->
+<line x1="600" y1="400" x2="490" y2="490" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple)"/>
+<!-- NODE: Entry Point (x=370,y=150) w=120 h=40 -->
+<rect x="370" y="150" width="120" height="40" rx="6" fill="#0d2137" stroke="#38bdf8" stroke-width="2"/>
+<text x="430" y="167" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">Entry Point</text>
+<text x="430" y="182" fill="#4a6080" font-size="9" text-anchor="middle">GET /search</text>
+<!-- NODE: Auth Bypass (x=200,y=260) -->
+<rect x="200" y="260" width="120" height="40" rx="6" fill="#1a0d0d" stroke="#f87171" stroke-width="2"/>
+<text x="260" y="277" fill="#f87171" font-size="11" font-weight="bold" text-anchor="middle">Auth Bypass</text>
+<text x="260" y="292" fill="#4a6080" font-size="9" text-anchor="middle">JWT weak sig</text>
+<!-- NODE: XSS Node (x=540,y=260) -->
+<rect x="540" y="260" width="120" height="40" rx="6" fill="#1a0d0d" stroke="#f87171" stroke-width="2"/>
+<text x="600" y="277" fill="#f87171" font-size="11" font-weight="bold" text-anchor="middle">Reflected XSS</text>
+<text x="600" y="292" fill="#4a6080" font-size="9" text-anchor="middle">q param</text>
+<!-- NODE: Data Access (x=200,y=380) -->
+<rect x="200" y="380" width="120" height="40" rx="6" fill="#1a180d" stroke="#fb923c" stroke-width="2"/>
+<text x="260" y="397" fill="#fb923c" font-size="11" font-weight="bold" text-anchor="middle">Data Access</text>
+<text x="260" y="412" fill="#4a6080" font-size="9" text-anchor="middle">user_id IDOR</text>
+<!-- NODE: Session Hijack (x=540,y=380) -->
+<rect x="540" y="380" width="120" height="40" rx="6" fill="#1a180d" stroke="#fb923c" stroke-width="2"/>
+<text x="600" y="397" fill="#fb923c" font-size="11" font-weight="bold" text-anchor="middle">Session Hijack</text>
+<text x="600" y="412" fill="#4a6080" font-size="9" text-anchor="middle">cookie theft</text>
+<!-- NODE: Privilege Esc (x=370,y=490) -->
+<rect x="370" y="490" width="120" height="40" rx="6" fill="#180d2e" stroke="#a78bfa" stroke-width="2"/>
+<text x="430" y="507" fill="#a78bfa" font-size="11" font-weight="bold" text-anchor="middle">Privilege Esc</text>
+<text x="430" y="522" fill="#4a6080" font-size="9" text-anchor="middle">admin panel</text>
+<!-- Legend in graph area -->
+<rect x="700" y="560" width="280" height="100" rx="4" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="714" y="578" fill="#4a6080" font-size="11" font-weight="bold">LEGEND</text>
+<rect x="714" y="586" width="12" height="12" rx="2" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="732" y="597" fill="#e2e8f0" font-size="10">Entry / Neutral Node</text>
+<rect x="714" y="604" width="12" height="12" rx="2" fill="#1a0d0d" stroke="#f87171" stroke-width="1"/>
+<text x="732" y="615" fill="#e2e8f0" font-size="10">Critical Vulnerability</text>
+<rect x="714" y="622" width="12" height="12" rx="2" fill="#1a180d" stroke="#fb923c" stroke-width="1"/>
+<text x="732" y="633" fill="#e2e8f0" font-size="10">High Severity Impact</text>
+<rect x="714" y="640" width="12" height="12" rx="2" fill="#180d2e" stroke="#a78bfa" stroke-width="1"/>
+<text x="732" y="651" fill="#e2e8f0" font-size="10">Privilege Escalation</text>
+<!-- ===================== RIGHT PANEL: ATTACK CHAIN ===================== -->
+<rect x="1012" y="124" width="252" height="560" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="1012" y="124" width="252" height="4" rx="2" fill="#f87171"/>
+<text x="1028" y="148" fill="#e2e8f0" font-size="13" font-weight="bold">ATTACK CHAIN</text>
+<!-- Step 1 -->
+<circle cx="1040" cy="176" r="10" fill="#38bdf8"/>
+<text x="1036" y="180" fill="#060d18" font-size="10" font-weight="bold">1</text>
+<text x="1058" y="172" fill="#e2e8f0" font-size="11" font-weight="bold">Initial Recon</text>
+<text x="1058" y="186" fill="#4a6080" font-size="10">Entry point discovered</text>
+<line x1="1040" y1="186" x2="1040" y2="210" stroke="#1a2e4a" stroke-width="1" stroke-dasharray="3,3"/>
+<!-- Step 2 -->
+<circle cx="1040" cy="220" r="10" fill="#f87171"/>
+<text x="1036" y="224" fill="#060d18" font-size="10" font-weight="bold">2</text>
+<text x="1058" y="216" fill="#e2e8f0" font-size="11" font-weight="bold">XSS Injection</text>
+<text x="1058" y="230" fill="#4a6080" font-size="10">Payload via q param</text>
+<line x1="1040" y1="230" x2="1040" y2="254" stroke="#1a2e4a" stroke-width="1" stroke-dasharray="3,3"/>
+<!-- Step 3 -->
+<circle cx="1040" cy="264" r="10" fill="#f87171"/>
+<text x="1036" y="268" fill="#060d18" font-size="10" font-weight="bold">3</text>
+<text x="1058" y="260" fill="#e2e8f0" font-size="11" font-weight="bold">Cookie Theft</text>
+<text x="1058" y="274" fill="#4a6080" font-size="10">Session token extracted</text>
+<line x1="1040" y1="274" x2="1040" y2="298" stroke="#1a2e4a" stroke-width="1" stroke-dasharray="3,3"/>
+<!-- Step 4 -->
+<circle cx="1040" cy="308" r="10" fill="#fb923c"/>
+<text x="1036" y="312" fill="#060d18" font-size="10" font-weight="bold">4</text>
+<text x="1058" y="304" fill="#e2e8f0" font-size="11" font-weight="bold">Auth Bypass</text>
+<text x="1058" y="318" fill="#4a6080" font-size="10">JWT signature forged</text>
+<line x1="1040" y1="318" x2="1040" y2="342" stroke="#1a2e4a" stroke-width="1" stroke-dasharray="3,3"/>
+<!-- Step 5 -->
+<circle cx="1040" cy="352" r="10" fill="#fb923c"/>
+<text x="1036" y="356" fill="#060d18" font-size="10" font-weight="bold">5</text>
+<text x="1058" y="348" fill="#e2e8f0" font-size="11" font-weight="bold">IDOR Exploit</text>
+<text x="1058" y="362" fill="#4a6080" font-size="10">User data accessed</text>
+<line x1="1040" y1="362" x2="1040" y2="386" stroke="#1a2e4a" stroke-width="1" stroke-dasharray="3,3"/>
+<!-- Step 6 -->
+<circle cx="1040" cy="396" r="10" fill="#a78bfa"/>
+<text x="1036" y="400" fill="#060d18" font-size="10" font-weight="bold">6</text>
+<text x="1058" y="392" fill="#e2e8f0" font-size="11" font-weight="bold">Privilege Esc</text>
+<text x="1058" y="406" fill="#4a6080" font-size="10">Admin access gained</text>
+<!-- Risk summary box -->
+<rect x="1028" y="430" width="220" height="80" rx="4" fill="#1a0d0d" stroke="#f87171" stroke-width="1"/>
+<text x="1040" y="450" fill="#f87171" font-size="11" font-weight="bold">RISK ASSESSMENT</text>
+<text x="1040" y="468" fill="#4a6080" font-size="10">Attack Complexity:</text>
+<text x="1160" y="468" fill="#f87171" font-size="10">LOW</text>
+<text x="1040" y="484" fill="#4a6080" font-size="10">Impact:</text>
+<text x="1160" y="484" font-size="10" fill="#f87171">CRITICAL</text>
+<text x="1040" y="500" fill="#4a6080" font-size="10">Exploitability:</text>
+<text x="1160" y="500" fill="#f87171" font-size="10">EASY</text>
+<!-- ===================== BOTTOM STATS ===================== -->
+<rect x="216" y="700" width="1048" height="44" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Stat pill 1 -->
+<rect x="232" y="712" width="140" height="22" rx="11" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="252" y="727" fill="#38bdf8" font-size="11">6 Attack Vectors</text>
+<!-- Stat pill 2 -->
+<rect x="388" y="712" width="140" height="22" rx="11" fill="#0d2137" stroke="#f87171" stroke-width="1"/>
+<text x="408" y="727" fill="#f87171" font-size="11">3 Critical Paths</text>
+<!-- Stat pill 3 -->
+<rect x="544" y="712" width="120" height="22" rx="11" fill="#0d2137" stroke="#fb923c" stroke-width="1"/>
+<text x="564" y="727" fill="#fb923c" font-size="11">Impact: HIGH</text>
+<!-- Stat pill 4 -->
+<rect x="680" y="712" width="160" height="22" rx="11" fill="#0d2137" stroke="#facc15" stroke-width="1"/>
+<text x="700" y="727" fill="#facc15" font-size="11">Exploitability: EASY</text>
+<!-- Page breadcrumb -->
+<text x="216" y="44" fill="#4a6080" font-size="12">Attack Graph</text>
+<text x="310" y="44" fill="#4a6080" font-size="12">/</text>
+<text x="322" y="44" fill="#e2e8f0" font-size="12">app.target.com</text>
+</svg>

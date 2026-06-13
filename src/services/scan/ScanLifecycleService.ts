@@ -22,7 +22,7 @@ export class ScanLifecycleService {
                     queue,
                     'orchestrate-scan',
                     { scanId },
-                    { jobId: `scan:${scanId}` },
+                    { jobId: `scan_${scanId}` },
                 );
                 log.info(`Scan ${scanId}: successfully enqueued to BullMQ (scan-orchestration)`);
             } catch (err) {
@@ -60,7 +60,7 @@ export class ScanLifecycleService {
                     queue,
                     'orchestrate-scan',
                     { scanId, resume: true },
-                    { jobId: `scan:${scanId}:resume:${Date.now()}` },
+                    { jobId: `scan_${scanId}_resume_${Date.now()}` },
                 );
                 log.info(`Scan ${scanId}: resume job enqueued to BullMQ`);
             } catch (err) {

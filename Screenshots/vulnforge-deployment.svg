@@ -1,0 +1,381 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820">
+<defs>
+  <style>text { font-family: 'Courier New', monospace; }</style>
+
+  <!-- Backgrounds -->
+  <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#030b15"/>
+    <stop offset="100%" style="stop-color:#060f1e"/>
+  </linearGradient>
+
+  <!-- Box fills -->
+  <linearGradient id="gUser" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#0d1f35"/><stop offset="100%" style="stop-color:#0a1828"/>
+  </linearGradient>
+  <linearGradient id="gVercel" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#0d2137"/><stop offset="100%" style="stop-color:#0a3060"/>
+  </linearGradient>
+  <linearGradient id="gRender" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#0d1f0d"/><stop offset="100%" style="stop-color:#163016"/>
+  </linearGradient>
+  <linearGradient id="gDocker" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#0a1a2e"/><stop offset="100%" style="stop-color:#0d2244"/>
+  </linearGradient>
+  <linearGradient id="gPlay" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a0d0d"/><stop offset="100%" style="stop-color:#2e0e0e"/>
+  </linearGradient>
+  <linearGradient id="gNeon" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#180d2e"/><stop offset="100%" style="stop-color:#240f40"/>
+  </linearGradient>
+  <linearGradient id="gRedis" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a0d0d"/><stop offset="100%" style="stop-color:#300f0f"/>
+  </linearGradient>
+  <linearGradient id="gWorker" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:#1a180d"/><stop offset="100%" style="stop-color:#2a2408"/>
+  </linearGradient>
+  <linearGradient id="gCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#060e1a"/><stop offset="100%" style="stop-color:#080f1c"/>
+  </linearGradient>
+
+  <!-- Glow filters -->
+  <filter id="fBlue" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="4" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fGreen" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="3" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fRed" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="3" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fPurple" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="3" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="fTitle">
+    <feGaussianBlur stdDeviation="5" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+
+  <!-- Arrow markers -->
+  <marker id="aBlue"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#38bdf8"/></marker>
+  <marker id="aGreen"  markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4ade80"/></marker>
+  <marker id="aPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#a78bfa"/></marker>
+  <marker id="aRed"    markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f87171"/></marker>
+  <marker id="aYellow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#facc15"/></marker>
+  <marker id="aCyan"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#22d3ee"/></marker>
+  <marker id="aOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#fb923c"/></marker>
+
+  <!-- Grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M40,0 L0,0 L0,40" fill="none" stroke="#0a1a2e" stroke-width="0.5"/>
+  </pattern>
+</defs>
+
+<!-- ═══ BACKGROUND ═══ -->
+<rect width="1200" height="820" fill="url(#bg)"/>
+<rect width="1200" height="820" fill="url(#grid)" opacity="0.5"/>
+
+<!-- corner brackets -->
+<path d="M18,18 L48,18 L48,48" fill="none" stroke="#1a3050" stroke-width="1.5"/>
+<path d="M1182,18 L1152,18 L1152,48" fill="none" stroke="#1a3050" stroke-width="1.5"/>
+<path d="M18,802 L48,802 L48,772" fill="none" stroke="#1a3050" stroke-width="1.5"/>
+<path d="M1182,802 L1152,802 L1152,772" fill="none" stroke="#1a3050" stroke-width="1.5"/>
+
+<!-- ═══ TITLE ═══ -->
+<text x="600" y="40" text-anchor="middle" font-size="20" font-weight="700"
+      fill="#38bdf8" filter="url(#fTitle)" letter-spacing="6">VULNFORGE</text>
+<text x="600" y="60" text-anchor="middle" font-size="9" fill="#3a5570" letter-spacing="4">
+  DEPLOYMENT ARCHITECTURE  ·  CLOUD INFRASTRUCTURE
+</text>
+<line x1="50" y1="70" x2="1150" y2="70" stroke="#0e2040" stroke-width="1"/>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LAYOUT — strict top-to-bottom, left-to-right flow
+     No arrow ever passes through a box.
+
+     ROW 0  y=88   User Browser
+     GAP    y=158..188  (30px)
+     ROW 1  y=188  Vercel CDN
+     GAP    y=278..318  (40px)
+     ROW 2  y=318  Render Cloud  (contains Docker sub-box)
+     GAP    y=468..508  (40px)
+     ROW 3  y=508  Data layer: Neon PG (left) + Upstash Redis (right)
+     GAP    y=618..658  (40px)
+     ROW 4  y=658  BullMQ Workers
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ─────────────────────────────────────────────
+     ROW 0  USER BROWSER   x=450 w=300 y=88 h=70
+     ───────────────────────────────────────────── -->
+<rect x="450" y="88" width="300" height="70" rx="8"
+      fill="url(#gUser)" stroke="#2a4060" stroke-width="1.5"/>
+<rect x="450" y="88" width="300" height="4" rx="3" fill="#38bdf8" opacity="0.6"/>
+
+<!-- browser chrome dots -->
+<circle cx="472" cy="108" r="4" fill="#f87171" opacity="0.7"/>
+<circle cx="488" cy="108" r="4" fill="#facc15" opacity="0.7"/>
+<circle cx="504" cy="108" r="4" fill="#4ade80" opacity="0.7"/>
+<rect x="516" y="102" width="210" height="12" rx="6" fill="#0a1828" stroke="#1a3050" stroke-width="1"/>
+<text x="621" y="112" text-anchor="middle" font-size="7" fill="#3a5570">vulnforge.app</text>
+
+<text x="600" y="134" text-anchor="middle" font-size="13" font-weight="700" fill="#e2e8f0">👤 User Browser</text>
+<text x="600" y="150" text-anchor="middle" font-size="8" fill="#38bdf8">HTTPS · WebSocket · REST API Calls</text>
+
+<!-- ─────────────────────────────────────────────
+     GAP 0→1  single arrow, x=600, y=158→188
+     ───────────────────────────────────────────── -->
+<line x1="600" y1="158" x2="600" y2="188"
+      stroke="#38bdf8" stroke-width="2" marker-end="url(#aBlue)"/>
+<text x="614" y="176" font-size="7" fill="#38bdf8">HTTPS</text>
+
+<!-- ─────────────────────────────────────────────
+     ROW 1  VERCEL CDN   x=300 w=600 y=188 h=90
+     ───────────────────────────────────────────── -->
+<rect x="300" y="188" width="600" height="90" rx="8"
+      fill="url(#gVercel)" stroke="#1d4ed8" stroke-width="1.5" filter="url(#fBlue)"/>
+<rect x="300" y="188" width="600" height="5" rx="3" fill="#38bdf8"/>
+
+<text x="600" y="210" text-anchor="middle" font-size="8" fill="#93c5fd" letter-spacing="3">FRONTEND HOSTING</text>
+<text x="600" y="230" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">▲ Vercel</text>
+<text x="600" y="248" text-anchor="middle" font-size="9" fill="#60a5fa">React 18 · Vite · TypeScript · TailwindCSS</text>
+
+<line x1="320" y1="256" x2="880" y2="256" stroke="#1e3a5f" stroke-width="0.8"/>
+
+<!-- three feature pills inside Vercel -->
+<rect x="330" y="262" width="160" height="10" rx="3" fill="#0a1e38" stroke="#1d4ed8" stroke-width="0.8"/>
+<text x="410" y="270" text-anchor="middle" font-size="7" fill="#60a5fa">Global CDN · Edge Network</text>
+
+<rect x="520" y="262" width="160" height="10" rx="3" fill="#0a1e38" stroke="#1d4ed8" stroke-width="0.8"/>
+<text x="600" y="270" text-anchor="middle" font-size="7" fill="#60a5fa">Auto Deploy · Git Integration</text>
+
+<rect x="710" y="262" width="160" height="10" rx="3" fill="#0a1e38" stroke="#1d4ed8" stroke-width="0.8"/>
+<text x="790" y="270" text-anchor="middle" font-size="7" fill="#60a5fa">SSL/TLS · DDoS Protection</text>
+
+<!-- ─────────────────────────────────────────────
+     GAP 1→2  arrow x=600, y=278→318
+     ───────────────────────────────────────────── -->
+<line x1="600" y1="278" x2="600" y2="318"
+      stroke="#4ade80" stroke-width="2" marker-end="url(#aGreen)"/>
+<text x="614" y="301" font-size="7" fill="#4ade80">API CALLS</text>
+
+<!-- ─────────────────────────────────────────────
+     ROW 2  RENDER CLOUD  x=100 w=1000 y=318 h=150
+     Contains: Backend API box + Docker sub-box + Playwright sub-box
+     ───────────────────────────────────────────── -->
+
+<!-- Render outer cloud boundary -->
+<rect x="100" y="318" width="1000" height="150" rx="10"
+      fill="url(#gCloud)" stroke="#1a3a1a" stroke-width="1.5"/>
+<rect x="100" y="318" width="1000" height="5" rx="4" fill="#4ade80" opacity="0.7"/>
+<text x="600" y="336" text-anchor="middle" font-size="8" fill="#4a6040" letter-spacing="3">RENDER CLOUD PLATFORM</text>
+
+<!-- Backend API Service  x=120 w=300 y=344 h=110 -->
+<rect x="120" y="344" width="300" height="110" rx="7"
+      fill="url(#gRender)" stroke="#15803d" stroke-width="1.5" filter="url(#fGreen)"/>
+<rect x="120" y="344" width="300" height="4" rx="3" fill="#4ade80"/>
+<text x="270" y="362" text-anchor="middle" font-size="8" fill="#86efac" letter-spacing="2">BACKEND SERVICE</text>
+<text x="270" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#e2e8f0">⬡ Backend API</text>
+<text x="270" y="396" text-anchor="middle" font-size="8" fill="#4ade80">Node.js · Express · TypeScript</text>
+<line x1="140" y1="404" x2="400" y2="404" stroke="#14532d" stroke-width="0.8"/>
+<text x="140" y="418" font-size="7" fill="#475569">◆ REST Endpoints   ◆ Auth / JWT</text>
+<text x="140" y="432" font-size="7" fill="#475569">◆ WebSocket Server ◆ Job Dispatch</text>
+<text x="140" y="446" font-size="7" fill="#475569">◆ Rate Limiting    ◆ Middleware</text>
+
+<!-- Docker Container  x=460 w=260 y=344 h=110 -->
+<rect x="460" y="344" width="260" height="110" rx="7"
+      fill="url(#gDocker)" stroke="#1e40af" stroke-width="1.5"/>
+<rect x="460" y="344" width="260" height="4" rx="3" fill="#3b82f6"/>
+<!-- docker whale icon approximation -->
+<text x="480" y="364" font-size="11" fill="#3b82f6">🐳</text>
+<text x="500" y="364" font-size="8" fill="#93c5fd" letter-spacing="2">DOCKER CONTAINER</text>
+<text x="590" y="382" text-anchor="middle" font-size="11" font-weight="700" fill="#e2e8f0">Docker Runtime</text>
+<text x="590" y="398" text-anchor="middle" font-size="8" fill="#60a5fa">Node 20 Alpine · Isolated Env</text>
+<line x1="480" y1="406" x2="700" y2="406" stroke="#1e3a5f" stroke-width="0.8"/>
+<text x="480" y="420" font-size="7" fill="#475569">◆ Process Isolation</text>
+<text x="480" y="434" font-size="7" fill="#475569">◆ Volume Mounts</text>
+<text x="480" y="448" font-size="7" fill="#475569">◆ Health Checks</text>
+
+<!-- Playwright Runtime  x=760 w=320 y=344 h=110 -->
+<rect x="760" y="344" width="320" height="110" rx="7"
+      fill="url(#gPlay)" stroke="#b91c1c" stroke-width="1.5" filter="url(#fRed)"/>
+<rect x="760" y="344" width="320" height="4" rx="3" fill="#f87171"/>
+<text x="920" y="362" text-anchor="middle" font-size="8" fill="#fca5a5" letter-spacing="2">BROWSER RUNTIME</text>
+<text x="920" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#e2e8f0">⬡ Playwright</text>
+<text x="920" y="396" text-anchor="middle" font-size="8" fill="#f87171">Headless Chromium · DOM Engine</text>
+<line x1="780" y1="404" x2="1060" y2="404" stroke="#450a0a" stroke-width="0.8"/>
+<text x="780" y="418" font-size="7" fill="#475569">◆ Page Crawling    ◆ XSS Probing</text>
+<text x="780" y="432" font-size="7" fill="#475569">◆ Form Injection   ◆ HAR Capture</text>
+<text x="780" y="446" font-size="7" fill="#475569">◆ DOM Sink Monitor ◆ Screenshots</text>
+
+<!-- Internal arrows inside Render row (horizontal, between sub-boxes) -->
+<!-- Backend → Docker -->
+<line x1="420" y1="400" x2="460" y2="400"
+      stroke="#3b82f6" stroke-width="1.5" marker-end="url(#aBlue)"/>
+<text x="440" y="394" text-anchor="middle" font-size="6" fill="#3b82f6">SPAWN</text>
+
+<!-- Docker → Playwright -->
+<line x1="720" y1="400" x2="760" y2="400"
+      stroke="#f87171" stroke-width="1.5" marker-end="url(#aRed)"/>
+<text x="740" y="394" text-anchor="middle" font-size="6" fill="#f87171">RUN</text>
+
+<!-- ─────────────────────────────────────────────
+     GAP 2→3  (y=468..508)  40px
+     Two arrows side by side — Backend→Neon and Backend→Redis
+     Backend center x=270, Neon center x=300, Redis center x=870
+     We exit from bottom of Render row at two x positions,
+     route them to their respective boxes below.
+     Left arrow  (→ Neon PG):   x=350, straight down
+     Right arrow (→ Upstash):   x=850, straight down
+     ───────────────────────────────────────────── -->
+<line x1="350" y1="468" x2="350" y2="508"
+      stroke="#a78bfa" stroke-width="2" marker-end="url(#aPurple)"/>
+<text x="290" y="491" font-size="7" fill="#a78bfa">READ/WRITE</text>
+
+<line x1="850" y1="468" x2="850" y2="508"
+      stroke="#f87171" stroke-width="2" marker-end="url(#aRed)"/>
+<text x="862" y="491" font-size="7" fill="#f87171">CACHE/QUEUE</text>
+
+<!-- ─────────────────────────────────────────────
+     ROW 3  DATA LAYER  y=508 h=110
+     Neon PG: x=100 w=480   Upstash Redis: x=620 w=480
+     ───────────────────────────────────────────── -->
+
+<!-- Neon PostgreSQL -->
+<rect x="100" y="508" width="480" height="110" rx="8"
+      fill="url(#gNeon)" stroke="#7c3aed" stroke-width="1.5" filter="url(#fPurple)"/>
+<rect x="100" y="508" width="480" height="5" rx="3" fill="#a78bfa"/>
+<text x="340" y="528" text-anchor="middle" font-size="8" fill="#c4b5fd" letter-spacing="3">MANAGED DATABASE</text>
+<text x="340" y="548" text-anchor="middle" font-size="14" font-weight="700" fill="#e2e8f0">◈ Neon PostgreSQL</text>
+<text x="340" y="566" text-anchor="middle" font-size="9" fill="#a78bfa">Serverless Postgres · Prisma ORM · Branching</text>
+<line x1="120" y1="574" x2="560" y2="574" stroke="#3b0764" stroke-width="0.8"/>
+
+<!-- Neon feature pills -->
+<rect x="120" y="580" width="100" height="14" rx="3" fill="#1a0d2e" stroke="#6d28d9" stroke-width="0.8"/>
+<text x="170" y="590" text-anchor="middle" font-size="7" fill="#c4b5fd">Users / Orgs</text>
+
+<rect x="232" y="580" width="100" height="14" rx="3" fill="#1a0d2e" stroke="#6d28d9" stroke-width="0.8"/>
+<text x="282" y="590" text-anchor="middle" font-size="7" fill="#c4b5fd">Scans / Findings</text>
+
+<rect x="344" y="580" width="100" height="14" rx="3" fill="#1a0d2e" stroke="#6d28d9" stroke-width="0.8"/>
+<text x="394" y="590" text-anchor="middle" font-size="7" fill="#c4b5fd">Audit Logs</text>
+
+<rect x="456" y="580" width="100" height="14" rx="3" fill="#1a0d2e" stroke="#6d28d9" stroke-width="0.8"/>
+<text x="506" y="590" text-anchor="middle" font-size="7" fill="#c4b5fd">Sessions / Tokens</text>
+
+<text x="120" y="610" font-size="7" fill="#374151">◆ Auto-scaling  ◆ Point-in-time Recovery  ◆ Connection Pooling  ◆ SSL Enforced</text>
+
+<!-- Upstash Redis -->
+<rect x="620" y="508" width="480" height="110" rx="8"
+      fill="url(#gRedis)" stroke="#991b1b" stroke-width="1.5" filter="url(#fRed)"/>
+<rect x="620" y="508" width="480" height="5" rx="3" fill="#f87171"/>
+<text x="860" y="528" text-anchor="middle" font-size="8" fill="#fca5a5" letter-spacing="3">MANAGED CACHE / QUEUE</text>
+<text x="860" y="548" text-anchor="middle" font-size="14" font-weight="700" fill="#e2e8f0">⚡ Upstash Redis</text>
+<text x="860" y="566" text-anchor="middle" font-size="9" fill="#f87171">Serverless Redis · BullMQ Backend · Pub/Sub</text>
+<line x1="640" y1="574" x2="1080" y2="574" stroke="#450a0a" stroke-width="0.8"/>
+
+<!-- Redis feature pills -->
+<rect x="640" y="580" width="100" height="14" rx="3" fill="#1a0d0d" stroke="#991b1b" stroke-width="0.8"/>
+<text x="690" y="590" text-anchor="middle" font-size="7" fill="#fca5a5">Job State Store</text>
+
+<rect x="752" y="580" width="100" height="14" rx="3" fill="#1a0d0d" stroke="#991b1b" stroke-width="0.8"/>
+<text x="802" y="590" text-anchor="middle" font-size="7" fill="#fca5a5">Session Cache</text>
+
+<rect x="864" y="580" width="100" height="14" rx="3" fill="#1a0d0d" stroke="#991b1b" stroke-width="0.8"/>
+<text x="914" y="590" text-anchor="middle" font-size="7" fill="#fca5a5">Rate Limiting</text>
+
+<rect x="976" y="580" width="100" height="14" rx="3" fill="#1a0d0d" stroke="#991b1b" stroke-width="0.8"/>
+<text x="1026" y="590" text-anchor="middle" font-size="7" fill="#fca5a5">Scan Progress</text>
+
+<text x="640" y="610" font-size="7" fill="#374151">◆ Serverless  ◆ Global Replication  ◆ REST API  ◆ TLS Encrypted  ◆ 99.99% SLA</text>
+
+<!-- ─────────────────────────────────────────────
+     GAP 3→4  (y=618..658)  40px
+     Redis → Workers arrow only (workers consume from Redis)
+     x=860 straight down
+     ───────────────────────────────────────────── -->
+<line x1="860" y1="618" x2="860" y2="658"
+      stroke="#facc15" stroke-width="2" marker-end="url(#aYellow)"/>
+<text x="874" y="641" font-size="7" fill="#facc15">CONSUME JOBS</text>
+
+<!-- ─────────────────────────────────────────────
+     ROW 4  BULLMQ WORKERS  x=100 w=1000 y=658 h=100
+     ───────────────────────────────────────────── -->
+<rect x="100" y="658" width="1000" height="100" rx="8"
+      fill="url(#gWorker)" stroke="#854d0e" stroke-width="1.5"/>
+<rect x="100" y="658" width="1000" height="5" rx="3" fill="#facc15"/>
+<text x="600" y="678" text-anchor="middle" font-size="8" fill="#fde68a" letter-spacing="3">JOB PROCESSING LAYER</text>
+<text x="600" y="698" text-anchor="middle" font-size="14" font-weight="700" fill="#e2e8f0">⬡ BullMQ Workers</text>
+<line x1="120" y1="706" x2="1080" y2="706" stroke="#422006" stroke-width="0.8"/>
+
+<!-- 5 worker pills -->
+<rect x="120" y="714" width="160" height="32" rx="5" fill="#1a180d" stroke="#854d0e" stroke-width="1"/>
+<text x="200" y="728" text-anchor="middle" font-size="8" font-weight="700" fill="#facc15">Scan Worker</text>
+<text x="200" y="741" text-anchor="middle" font-size="7" fill="#475569">Crawl · Probe · Detect</text>
+
+<rect x="300" y="714" width="160" height="32" rx="5" fill="#1a180d" stroke="#854d0e" stroke-width="1"/>
+<text x="380" y="728" text-anchor="middle" font-size="8" font-weight="700" fill="#facc15">Detection Worker</text>
+<text x="380" y="741" text-anchor="middle" font-size="7" fill="#475569">XSS · SQLi · CSRF</text>
+
+<rect x="480" y="714" width="160" height="32" rx="5" fill="#1a180d" stroke="#854d0e" stroke-width="1"/>
+<text x="560" y="728" text-anchor="middle" font-size="8" font-weight="700" fill="#facc15">Replay Worker</text>
+<text x="560" y="741" text-anchor="middle" font-size="7" fill="#475569">Verify · Confirm · PoC</text>
+
+<rect x="660" y="714" width="160" height="32" rx="5" fill="#1a180d" stroke="#854d0e" stroke-width="1"/>
+<text x="740" y="728" text-anchor="middle" font-size="8" font-weight="700" fill="#facc15">Intel Worker</text>
+<text x="740" y="741" text-anchor="middle" font-size="7" fill="#475569">Dedup · Score · Explain</text>
+
+<rect x="840" y="714" width="160" height="32" rx="5" fill="#1a180d" stroke="#854d0e" stroke-width="1"/>
+<text x="920" y="728" text-anchor="middle" font-size="8" font-weight="700" fill="#facc15">Report Worker</text>
+<text x="920" y="741" text-anchor="middle" font-size="7" fill="#475569">Generate · Store · Notify</text>
+
+<rect x="1020" y="714" width="60" height="32" rx="5" fill="#1a180d" stroke="#422006" stroke-width="1" stroke-dasharray="3,2"/>
+<text x="1050" y="728" text-anchor="middle" font-size="7" fill="#374151">+more</text>
+<text x="1050" y="741" text-anchor="middle" font-size="6" fill="#374151">scalable</text>
+
+<!-- Workers write results back to Neon — left margin feedback arrow -->
+<!-- Exit Workers left (100,708) → left margin x=82 → up to Neon level y=563 → right into Neon (100,563) -->
+<polyline points="100,708 82,708 82,563 100,563"
+      fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,2"
+      marker-end="url(#aPurple)"/>
+<text x="86" y="640" font-size="7" fill="#a78bfa" transform="rotate(90,86,640)">WRITE RESULTS</text>
+
+<!-- ─────────────────────────────────────────────
+     LEGEND  y=774
+     ───────────────────────────────────────────── -->
+<line x1="50" y1="770" x2="1150" y2="770" stroke="#0e2040" stroke-width="1"/>
+
+<text x="600" y="788" text-anchor="middle" font-size="7" fill="#1e3a5f" letter-spacing="2">
+  DATA FLOW LEGEND
+</text>
+
+<line x1="100" y1="800" x2="130" y2="800" stroke="#38bdf8" stroke-width="2" marker-end="url(#aBlue)"/>
+<text x="138" y="804" font-size="7" fill="#4a6080">HTTPS Request</text>
+
+<line x1="240" y1="800" x2="270" y2="800" stroke="#4ade80" stroke-width="2" marker-end="url(#aGreen)"/>
+<text x="278" y="804" font-size="7" fill="#4a6080">API Call</text>
+
+<line x1="360" y1="800" x2="390" y2="800" stroke="#a78bfa" stroke-width="2" marker-end="url(#aPurple)"/>
+<text x="398" y="804" font-size="7" fill="#4a6080">DB Read/Write</text>
+
+<line x1="500" y1="800" x2="530" y2="800" stroke="#f87171" stroke-width="2" marker-end="url(#aRed)"/>
+<text x="538" y="804" font-size="7" fill="#4a6080">Cache / Queue</text>
+
+<line x1="640" y1="800" x2="670" y2="800" stroke="#facc15" stroke-width="2" marker-end="url(#aYellow)"/>
+<text x="678" y="804" font-size="7" fill="#4a6080">Job Consume</text>
+
+<line x1="780" y1="800" x2="810" y2="800" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#aPurple)"/>
+<text x="818" y="804" font-size="7" fill="#4a6080">Results Feedback</text>
+
+<line x1="960" y1="800" x2="990" y2="800" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#aBlue)"/>
+<text x="998" y="804" font-size="7" fill="#4a6080">Container Spawn</text>
+
+<!-- Animated scanline -->
+<rect x="0" y="0" width="1200" height="2" fill="#38bdf8" opacity="0.10">
+  <animateTransform attributeName="transform" type="translate"
+    from="0,0" to="0,820" dur="6s" repeatCount="indefinite"/>
+</rect>
+
+</svg>

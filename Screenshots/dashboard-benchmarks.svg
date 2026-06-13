@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800">
+<style>* { font-family: 'Courier New', monospace; }</style>
+<!-- Background -->
+<rect width="1280" height="800" fill="#060d18"/>
+<!-- Grid lines -->
+<line x1="200" y1="150" x2="1280" y2="150" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="250" x2="1280" y2="250" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="350" x2="1280" y2="350" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="450" x2="1280" y2="450" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="550" x2="1280" y2="550" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="650" x2="1280" y2="650" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="750" x2="1280" y2="750" stroke="#0e1e30" stroke-width="1"/>
+<!-- TOPBAR -->
+<rect x="0" y="0" width="1280" height="48" fill="#080f1e"/>
+<line x1="0" y1="48" x2="1280" y2="48" stroke="#1a2e4a" stroke-width="1"/>
+<text x="220" y="30" fill="#38bdf8" font-size="16" font-weight="bold">VulnForge</text>
+<rect x="555" y="13" width="170" height="22" rx="11" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<circle cx="573" cy="24" r="4" fill="#4ade80"/>
+<text x="583" y="28" fill="#4ade80" font-size="11">SCAN ACTIVE</text>
+<circle cx="1248" cy="24" r="16" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1241" y="29" fill="#38bdf8" font-size="12">MK</text>
+<!-- SIDEBAR -->
+<rect x="0" y="48" width="200" height="752" fill="#080f1e"/>
+<line x1="200" y1="48" x2="200" y2="800" stroke="#1a2e4a" stroke-width="1"/>
+<text x="20" y="85" fill="#38bdf8" font-size="22" font-weight="bold">VF</text>
+<text x="50" y="85" fill="#e2e8f0" font-size="13" font-weight="bold">VULNFORGE</text>
+<rect x="0" y="110" width="200" height="32" fill="transparent"/>
+<text x="24" y="131" fill="#4a6080" font-size="13">⬡ Dashboard</text>
+<rect x="0" y="142" width="200" height="32" fill="transparent"/>
+<text x="24" y="163" fill="#4a6080" font-size="13">◈ Findings</text>
+<rect x="0" y="174" width="200" height="32" fill="transparent"/>
+<text x="24" y="195" fill="#4a6080" font-size="13">▶ Replay</text>
+<rect x="0" y="206" width="200" height="32" fill="transparent"/>
+<text x="24" y="227" fill="#4a6080" font-size="13">⬡ Attack Graph</text>
+<!-- Benchmarks ACTIVE -->
+<rect x="0" y="238" width="200" height="32" fill="#0d2137"/>
+<rect x="0" y="238" width="3" height="32" fill="#38bdf8"/>
+<text x="24" y="259" fill="#38bdf8" font-size="13">◎ Benchmarks</text>
+<rect x="0" y="270" width="200" height="32" fill="transparent"/>
+<text x="24" y="291" fill="#4a6080" font-size="13">◉ Runtime</text>
+<!-- TITLE ROW -->
+<rect x="216" y="64" width="1048" height="44" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="91" fill="#e2e8f0" font-size="15" font-weight="bold">Benchmark Dashboard</text>
+<rect x="560" y="74" width="180" height="24" rx="4" fill="#060d18" stroke="#1a2e4a" stroke-width="1"/>
+<text x="572" y="91" fill="#4a6080" font-size="11">Jan 1 – Jan 15, 2024 ▾</text>
+<rect x="1160" y="72" width="92" height="28" rx="4" fill="#38bdf8"/>
+<text x="1166" y="91" fill="#060d18" font-size="12" font-weight="bold">Run Benchmark</text>
+<!-- ===================== TOP METRICS CARDS ===================== -->
+<!-- Card 1: DETECTION RATE -->
+<rect x="216" y="124" width="330" height="90" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="216" y="124" width="330" height="4" rx="2" fill="#4ade80"/>
+<text x="232" y="146" fill="#4a6080" font-size="11" font-weight="bold">DETECTION RATE</text>
+<text x="232" y="180" fill="#4ade80" font-size="34" font-weight="bold">94.2%</text>
+<rect x="232" y="188" width="200" height="8" rx="4" fill="#1a2e4a"/>
+<rect x="232" y="188" width="188" height="8" rx="4" fill="#4ade80"/>
+<text x="440" y="196" fill="#4ade80" font-size="10">+2.1% vs last run</text>
+<!-- Card 2: FALSE POSITIVE RATE -->
+<rect x="562" y="124" width="330" height="90" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="562" y="124" width="330" height="4" rx="2" fill="#facc15"/>
+<text x="578" y="146" fill="#4a6080" font-size="11" font-weight="bold">FALSE POSITIVE RATE</text>
+<text x="578" y="180" fill="#facc15" font-size="34" font-weight="bold">3.8%</text>
+<rect x="578" y="188" width="200" height="8" rx="4" fill="#1a2e4a"/>
+<rect x="578" y="188" width="8" height="8" rx="4" fill="#facc15"/>
+<text x="786" y="196" fill="#4ade80" font-size="10">-0.4% improvement</text>
+<!-- Card 3: SCAN COVERAGE -->
+<rect x="908" y="124" width="356" height="90" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="908" y="124" width="356" height="4" rx="2" fill="#38bdf8"/>
+<text x="924" y="146" fill="#4a6080" font-size="11" font-weight="bold">SCAN COVERAGE</text>
+<text x="924" y="180" fill="#38bdf8" font-size="34" font-weight="bold">87.6%</text>
+<rect x="924" y="188" width="200" height="8" rx="4" fill="#1a2e4a"/>
+<rect x="924" y="188" width="175" height="8" rx="4" fill="#38bdf8"/>
+<text x="1132" y="196" fill="#38bdf8" font-size="10">1,247 endpoints</text>
+<!-- ===================== BENCHMARK TABLE ===================== -->
+<rect x="216" y="230" width="1048" height="300" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Table header -->
+<rect x="216" y="230" width="1048" height="36" rx="0" fill="#0d1e35"/>
+<rect x="216" y="230" width="1048" height="4" rx="2" fill="#38bdf8"/>
+<text x="226" y="253" fill="#4a6080" font-size="11" font-weight="bold">BENCHMARK</text>
+<text x="440" y="253" fill="#4a6080" font-size="11" font-weight="bold">CATEGORY</text>
+<text x="580" y="253" fill="#4a6080" font-size="11" font-weight="bold">SCORE</text>
+<text x="660" y="253" fill="#4a6080" font-size="11" font-weight="bold">PREV</text>
+<text x="740" y="253" fill="#4a6080" font-size="11" font-weight="bold">DELTA</text>
+<text x="840" y="253" fill="#4a6080" font-size="11" font-weight="bold">STATUS</text>
+<!-- Row 1: OWASP Top 10 -->
+<rect x="216" y="266" width="1048" height="32" fill="#0a1628"/>
+<text x="226" y="287" fill="#e2e8f0" font-size="12">OWASP Top 10 2021</text>
+<text x="440" y="287" fill="#4a6080" font-size="11">Web App</text>
+<text x="580" y="287" fill="#4ade80" font-size="12" font-weight="bold">91%</text>
+<text x="660" y="287" fill="#4a6080" font-size="11">88%</text>
+<text x="740" y="287" fill="#4ade80" font-size="11">+3%</text>
+<rect x="840" y="274" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="848" y="287" fill="#4ade80" font-size="10" font-weight="bold">PASS</text>
+<!-- Row 2: CWE Top 25 -->
+<rect x="216" y="298" width="1048" height="32" fill="#0b1a30"/>
+<text x="226" y="319" fill="#e2e8f0" font-size="12">CWE Top 25</text>
+<text x="440" y="319" fill="#4a6080" font-size="11">Code</text>
+<text x="580" y="319" fill="#4ade80" font-size="12" font-weight="bold">87%</text>
+<text x="660" y="319" fill="#4a6080" font-size="11">85%</text>
+<text x="740" y="319" fill="#4ade80" font-size="11">+2%</text>
+<rect x="840" y="306" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="848" y="319" fill="#4ade80" font-size="10" font-weight="bold">PASS</text>
+<!-- Row 3: XSS Detection -->
+<rect x="216" y="330" width="1048" height="32" fill="#0a1628"/>
+<text x="226" y="351" fill="#e2e8f0" font-size="12">XSS Detection Suite</text>
+<text x="440" y="351" fill="#4a6080" font-size="11">Injection</text>
+<text x="580" y="351" fill="#4ade80" font-size="12" font-weight="bold">96%</text>
+<text x="660" y="351" fill="#4a6080" font-size="11">94%</text>
+<text x="740" y="351" fill="#4ade80" font-size="11">+2%</text>
+<rect x="840" y="338" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="848" y="351" fill="#4ade80" font-size="10" font-weight="bold">PASS</text>
+<!-- Row 4: SQLi Detection -->
+<rect x="216" y="362" width="1048" height="32" fill="#0b1a30"/>
+<text x="226" y="383" fill="#e2e8f0" font-size="12">SQLi Detection</text>
+<text x="440" y="383" fill="#4a6080" font-size="11">Injection</text>
+<text x="580" y="383" fill="#4ade80" font-size="12" font-weight="bold">93%</text>
+<text x="660" y="383" fill="#4a6080" font-size="11">91%</text>
+<text x="740" y="383" fill="#4ade80" font-size="11">+2%</text>
+<rect x="840" y="370" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="848" y="383" fill="#4ade80" font-size="10" font-weight="bold">PASS</text>
+<!-- Row 5: SSRF Detection -->
+<rect x="216" y="394" width="1048" height="32" fill="#0a1628"/>
+<text x="226" y="415" fill="#e2e8f0" font-size="12">SSRF Detection</text>
+<text x="440" y="415" fill="#4a6080" font-size="11">Network</text>
+<text x="580" y="415" fill="#facc15" font-size="12" font-weight="bold">88%</text>
+<text x="660" y="415" fill="#4a6080" font-size="11">90%</text>
+<text x="740" y="415" fill="#f87171" font-size="11">-2%</text>
+<rect x="840" y="402" width="46" height="18" rx="3" fill="#facc1533"/>
+<text x="848" y="415" fill="#facc15" font-size="10" font-weight="bold">WARN</text>
+<!-- Row 6: Auth Bypass -->
+<rect x="216" y="426" width="1048" height="32" fill="#0b1a30"/>
+<text x="226" y="447" fill="#e2e8f0" font-size="12">Auth Bypass Tests</text>
+<text x="440" y="447" fill="#4a6080" font-size="11">Auth</text>
+<text x="580" y="447" fill="#4ade80" font-size="12" font-weight="bold">79%</text>
+<text x="660" y="447" fill="#4a6080" font-size="11">75%</text>
+<text x="740" y="447" fill="#4ade80" font-size="11">+4%</text>
+<rect x="840" y="434" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="848" y="447" fill="#4ade80" font-size="10" font-weight="bold">PASS</text>
+<!-- Row 7: CSRF Detection -->
+<rect x="216" y="458" width="1048" height="32" fill="#0a1628"/>
+<text x="226" y="479" fill="#e2e8f0" font-size="12">CSRF Detection</text>
+<text x="440" y="479" fill="#4a6080" font-size="11">Session</text>
+<text x="580" y="479" fill="#4ade80" font-size="12" font-weight="bold">85%</text>
+<text x="660" y="479" fill="#4a6080" font-size="11">83%</text>
+<text x="740" y="479" fill="#4ade80" font-size="11">+2%</text>
+<rect x="840" y="466" width="42" height="18" rx="3" fill="#4ade8033"/>
+<text x="848" y="479" fill="#4ade80" font-size="10" font-weight="bold">PASS</text>
+<!-- Row 8: Business Logic -->
+<rect x="216" y="490" width="1048" height="32" fill="#0b1a30"/>
+<text x="226" y="511" fill="#e2e8f0" font-size="12">Business Logic</text>
+<text x="440" y="511" fill="#4a6080" font-size="11">Logic</text>
+<text x="580" y="511" fill="#facc15" font-size="12" font-weight="bold">72%</text>
+<text x="660" y="511" fill="#4a6080" font-size="11">70%</text>
+<text x="740" y="511" fill="#4ade80" font-size="11">+2%</text>
+<rect x="840" y="498" width="46" height="18" rx="3" fill="#facc1533"/>
+<text x="848" y="511" fill="#facc15" font-size="10" font-weight="bold">WARN</text>
+<!-- ===================== BOTTOM ROW ===================== -->
+<!-- Left: SCORE TREND line chart -->
+<rect x="216" y="546" width="500" height="198" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="568" fill="#e2e8f0" font-size="13" font-weight="bold">SCORE TREND</text>
+<!-- Chart area -->
+<rect x="232" y="576" width="468" height="148" rx="4" fill="#060d18" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Y-axis labels -->
+<text x="236" y="592" fill="#4a6080" font-size="9">100%</text>
+<text x="236" y="620" fill="#4a6080" font-size="9">80%</text>
+<text x="236" y="648" fill="#4a6080" font-size="9">60%</text>
+<text x="236" y="676" fill="#4a6080" font-size="9">40%</text>
+<text x="236" y="704" fill="#4a6080" font-size="9">20%</text>
+<!-- Grid lines in chart -->
+<line x1="258" y1="588" x2="694" y2="588" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="616" x2="694" y2="616" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="644" x2="694" y2="644" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="672" x2="694" y2="672" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="700" x2="694" y2="700" stroke="#0e1e30" stroke-width="1"/>
+<!-- Score trend polyline (8 weeks, scores going up: 78,80,81,83,85,87,90,94) -->
+<!-- Y range: 588(100%) to 716(0%), so 128px for 100%. Each % = 1.28px -->
+<!-- 78%=588+(100-78)*1.28=588+28=616, 80=614, 81=613, 83=611, 85=609, 87=607, 90=603, 94=599 -->
+<polyline points="268,616 322,614 376,613 430,611 484,609 538,607 592,603 646,599" fill="none" stroke="#38bdf8" stroke-width="2"/>
+<!-- Data points -->
+<circle cx="268" cy="616" r="3" fill="#38bdf8"/>
+<circle cx="322" cy="614" r="3" fill="#38bdf8"/>
+<circle cx="376" cy="613" r="3" fill="#38bdf8"/>
+<circle cx="430" cy="611" r="3" fill="#38bdf8"/>
+<circle cx="484" cy="609" r="3" fill="#38bdf8"/>
+<circle cx="538" cy="607" r="3" fill="#38bdf8"/>
+<circle cx="592" cy="603" r="3" fill="#38bdf8"/>
+<circle cx="646" cy="599" r="3" fill="#4ade80"/>
+<!-- X-axis labels -->
+<text x="258" y="716" fill="#4a6080" font-size="9">W1</text>
+<text x="312" y="716" fill="#4a6080" font-size="9">W2</text>
+<text x="366" y="716" fill="#4a6080" font-size="9">W3</text>
+<text x="420" y="716" fill="#4a6080" font-size="9">W4</text>
+<text x="474" y="716" fill="#4a6080" font-size="9">W5</text>
+<text x="528" y="716" fill="#4a6080" font-size="9">W6</text>
+<text x="582" y="716" fill="#4a6080" font-size="9">W7</text>
+<text x="636" y="716" fill="#4a6080" font-size="9">W8</text>
+<!-- Right: CATEGORY BREAKDOWN radar chart approximated as hexagon -->
+<rect x="732" y="546" width="532" height="198" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="748" y="568" fill="#e2e8f0" font-size="13" font-weight="bold">CATEGORY BREAKDOWN</text>
+<!-- Hexagon radar chart centered at (998, 660) radius ~80 -->
+<!-- Outer hex (100%) -->
+<polygon points="998,580 1067,620 1067,700 998,740 929,700 929,620" fill="none" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Mid hex (60%) -->
+<polygon points="998,604 1043,628 1043,676 998,700 953,676 953,628" fill="none" stroke="#0e1e30" stroke-width="1"/>
+<!-- Inner hex (30%) -->
+<polygon points="998,628 1022,641 1022,667 998,680 974,667 974,641" fill="none" stroke="#0e1e30" stroke-width="1"/>
+<!-- Axis lines -->
+<line x1="998" y1="580" x2="998" y2="740" stroke="#0e1e30" stroke-width="1"/>
+<line x1="929" y1="620" x2="1067" y2="700" stroke="#0e1e30" stroke-width="1"/>
+<line x1="929" y1="700" x2="1067" y2="620" stroke="#0e1e30" stroke-width="1"/>
+<!-- Filled area (scores: WebApp=91%, Code=87%, Injection=94%, Network=88%, Auth=79%, Session=85%) -->
+<!-- Scaled: 91%=66px, 87%=63px, 94%=68px, 88%=64px, 79%=57px, 85%=62px from center(998,660) -->
+<!-- Top: 998,660-66=594; TopRight: 998+63*cos30=998+55=1053,660-63*sin30=660-32=628 -->
+<!-- BottomRight: 998+68*cos30=998+59=1057,660+68*sin30=660+34=694 -->
+<!-- Bottom: 998,660+64=724; BottomLeft: 998-57*cos30=998-49=949,660+57*sin30=660+29=689 -->
+<!-- TopLeft: 998-62*cos30=998-54=944,660-62*sin30=660-31=629 -->
+<polygon points="998,594 1053,628 1057,694 998,724 949,689 944,629" fill="#38bdf833" stroke="#38bdf8" stroke-width="2"/>
+<!-- Axis labels -->
+<text x="990" y="574" fill="#4a6080" font-size="9" text-anchor="middle">Web App</text>
+<text x="1074" y="618" fill="#4a6080" font-size="9">Code</text>
+<text x="1074" y="706" fill="#4a6080" font-size="9">Injection</text>
+<text x="990" y="752" fill="#4a6080" font-size="9" text-anchor="middle">Network</text>
+<text x="900" y="706" fill="#4a6080" font-size="9">Auth</text>
+<text x="900" y="618" fill="#4a6080" font-size="9">Session</text>
+<!-- Score labels on axes -->
+<text x="1002" y="598" fill="#4ade80" font-size="9">91%</text>
+<text x="1056" y="632" fill="#4ade80" font-size="9">87%</text>
+<text x="1056" y="698" fill="#4ade80" font-size="9">94%</text>
+<text x="1002" y="726" fill="#38bdf8" font-size="9">88%</text>
+<text x="920" y="698" fill="#facc15" font-size="9">79%</text>
+<text x="920" y="632" fill="#4ade80" font-size="9">85%</text>
+<!-- Page breadcrumb -->
+<text x="216" y="44" fill="#4a6080" font-size="12">Benchmarks</text>
+<text x="302" y="44" fill="#4a6080" font-size="12">/</text>
+<text x="314" y="44" fill="#e2e8f0" font-size="12">Dashboard</text>
+</svg>

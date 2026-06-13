@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { getSystemQueues, getSystemWorkers, listScans, getOrgAuditLogs } from '../api';
 
-// We'll use SSE for telemetry
 export const RealtimeDashboard: React.FC = () => {
   const { user } = useAuth();
   const [telemetry, setTelemetry] = useState<any>({
@@ -12,39 +12,49 @@ export const RealtimeDashboard: React.FC = () => {
   });
 
   useEffect(() => {
-    // Connect to SSE endpoint (we need to ensure this is implemented in backend)
-    const token = localStorage.getItem('vulnforge_token');
-    const base = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:4000';
-    const evtSource = new EventSource(`${base}/telemetry/stream?token=${token}`);
-
-    evtSource.onmessage = (event) => {
+    let mounted = true;
+    const loadTelemetry = async () => {
       try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'telemetry_update') {
-          setTelemetry((prev: any) => ({
-            ...prev,
-            activeScans: data.activeScans ?? prev.activeScans,
-            queuedJobs: data.queuedJobs ?? prev.queuedJobs,
-            activeWorkers: data.activeWorkers ?? prev.activeWorkers,
-          }));
-        } else if (data.type === 'system_event') {
-          setTelemetry((prev: any) => ({
-            ...prev,
-            events: [data.event, ...prev.events].slice(0, 50)
-          }));
+        const [scans, queues, workers] = await Promise.all([
+          listScans().catch(() => []),
+          getSystemQueues().catch(() => ({ totalActive: 0, totalWaiting: 0 })),
+          getSystemWorkers().catch(() => ({}))
+        ]);
+
+        let events: any[] = [];
+        const orgId = user?.memberships?.[0]?.orgId;
+        if (orgId) {
+          const auditLogs = await getOrgAuditLogs(orgId).catch(() => []);
+          events = auditLogs.map(log => ({
+            timestamp: new Date(log.createdAt).getTime(),
+            message: `[${log.action}] ${log.details}`,
+            level: 'info'
+          })).slice(0, 50);
         }
-      } catch (e) {
-        console.error('Failed to parse SSE data', e);
+
+        if (mounted) {
+          setTelemetry({
+            activeScans: scans.filter(s => ['running', 'crawling', 'attacking'].includes(s.status)).length,
+            queuedJobs: (queues.totalActive || 0) + (queues.totalWaiting || 0),
+            activeWorkers: Object.values(workers).reduce((acc: number, wList: any) => acc + (wList as any[]).length, 0),
+            events: events
+          });
+        }
+      } catch (err) {
+        console.warn('Failed to load telemetry', err);
       }
     };
 
+    loadTelemetry();
+    const interval = setInterval(loadTelemetry, 3000);
     return () => {
-      evtSource.close();
+      mounted = false;
+      clearInterval(interval);
     };
-  }, []);
+  }, [user]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 animate-fadeInUp">
       <header>
         <h1 className="text-2xl font-bold">Realtime Telemetry</h1>
         <p className="text-textMuted text-sm">System-wide performance and worker health.</p>
@@ -66,7 +76,7 @@ export const RealtimeDashboard: React.FC = () => {
       </div>
 
       <div className="panel p-0 bg-surface border border-border rounded-lg shadow-sm overflow-hidden flex flex-col h-[400px]">
-        <div className="p-4 border-b border-border bg-[#0D1117]/50 font-semibold text-sm">
+        <div className="p-4 border-b border-border bg-surface-2 font-semibold text-sm">
           System Event Log
         </div>
         <div className="flex-1 overflow-auto p-4 font-mono text-xs">

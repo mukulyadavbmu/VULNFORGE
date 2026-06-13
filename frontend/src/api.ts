@@ -2,6 +2,8 @@ const API_BASE_URL =
   (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:4000';
 const API_KEY = (import.meta as any).env.VITE_VULNFORGE_API_KEY || 'change_me_for_prod';
 
+let isRedirecting = false;
+
 async function request<T = unknown>(path: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('vulnforge_token');
   const headers: Record<string, string> = {
@@ -23,7 +25,8 @@ async function request<T = unknown>(path: string, options: RequestInit = {}): Pr
   if (res.status === 401) {
     localStorage.removeItem('vulnforge_token');
     localStorage.removeItem('vulnforge_user');
-    if (!window.location.pathname.includes('/login')) {
+    if (!isRedirecting && !window.location.pathname.includes('/login')) {
+      isRedirecting = true;
       window.location.href = '/login';
     }
     throw new Error('Session expired. Please log in again.');
@@ -285,4 +288,16 @@ export async function runBenchmark(profile: string, targetUrl: string) {
     method: 'POST',
     body: JSON.stringify({ targetUrl }),
   });
+}
+
+// ─────────────────────────────────────────
+// System & Telemetry APIs
+// ─────────────────────────────────────────
+
+export async function getSystemQueues() {
+  return request<any>('/system/queues');
+}
+
+export async function getSystemWorkers() {
+  return request<any>('/system/workers');
 }

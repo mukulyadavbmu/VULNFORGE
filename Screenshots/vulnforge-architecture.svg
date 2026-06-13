@@ -1,0 +1,484 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 960" width="1400" height="960">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;display=swap');
+      text { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+    </style>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#050d1a"/>
+      <stop offset="100%" style="stop-color:#0a1628"/>
+    </linearGradient>
+    <linearGradient id="frontendGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d2137"/>
+      <stop offset="100%" style="stop-color:#0a3d62"/>
+    </linearGradient>
+    <linearGradient id="backendGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1f0d"/>
+      <stop offset="100%" style="stop-color:#1a3a1a"/>
+    </linearGradient>
+    <linearGradient id="queueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0d2e"/>
+      <stop offset="100%" style="stop-color:#2d1b4e"/>
+    </linearGradient>
+    <linearGradient id="workerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a0d"/>
+      <stop offset="100%" style="stop-color:#2e2a0a"/>
+    </linearGradient>
+    <linearGradient id="engineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0d0d"/>
+      <stop offset="100%" style="stop-color:#3a1010"/>
+    </linearGradient>
+    <linearGradient id="intelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1a1a"/>
+      <stop offset="100%" style="stop-color:#0a2e2e"/>
+    </linearGradient>
+    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0d1a"/>
+      <stop offset="100%" style="stop-color:#2e1040"/>
+    </linearGradient>
+    <linearGradient id="deployGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1520"/>
+      <stop offset="100%" style="stop-color:#162030"/>
+    </linearGradient>
+    <!-- Glow filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="titleGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Arrow markers -->
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#4ade80"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#fb923c"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#f87171"/>
+    </marker>
+    <marker id="arrowYellow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#facc15"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="960" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern overlay -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0e2040" stroke-width="0.5"/>
+  </pattern>
+  <rect width="1400" height="960" fill="url(#grid)" opacity="0.4"/>
+
+  <!-- Scanline effect -->
+  <pattern id="scanlines" width="1" height="4" patternUnits="userSpaceOnUse">
+    <rect width="1" height="1" fill="#000" opacity="0.08"/>
+  </pattern>
+  <rect width="1400" height="960" fill="url(#scanlines)"/>
+
+  <!-- Title -->
+  <text x="700" y="44" text-anchor="middle" font-size="22" font-weight="700"
+        fill="#38bdf8" filter="url(#titleGlow)" letter-spacing="6">VULNFORGE</text>
+  <text x="700" y="66" text-anchor="middle" font-size="11" fill="#64748b" letter-spacing="4">
+    SYSTEM ARCHITECTURE · SECURITY OPERATIONS PLATFORM
+  </text>
+  <line x1="200" y1="76" x2="1200" y2="76" stroke="#1e3a5f" stroke-width="1"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 1: DEPLOYMENT LAYER (top) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Vercel Deployment -->
+  <rect x="60" y="92" width="200" height="72" rx="6" fill="url(#deployGrad)"
+        stroke="#334155" stroke-width="1.5"/>
+  <rect x="60" y="92" width="200" height="4" rx="3" fill="#38bdf8" opacity="0.7"/>
+  <text x="160" y="118" text-anchor="middle" font-size="9" fill="#64748b" letter-spacing="2">DEPLOYMENT</text>
+  <text x="160" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#e2e8f0">▲ Vercel</text>
+  <text x="160" y="153" text-anchor="middle" font-size="9" fill="#38bdf8">Frontend Hosting · CDN · Edge</text>
+
+  <!-- Render Deployment -->
+  <rect x="290" y="92" width="200" height="72" rx="6" fill="url(#deployGrad)"
+        stroke="#334155" stroke-width="1.5"/>
+  <rect x="290" y="92" width="200" height="4" rx="3" fill="#4ade80" opacity="0.7"/>
+  <text x="390" y="118" text-anchor="middle" font-size="9" fill="#64748b" letter-spacing="2">DEPLOYMENT</text>
+  <text x="390" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#e2e8f0">⬡ Render</text>
+  <text x="390" y="153" text-anchor="middle" font-size="9" fill="#4ade80">Backend · Workers · API Server</text>
+
+  <!-- Upstash Redis -->
+  <rect x="520" y="92" width="200" height="72" rx="6" fill="url(#deployGrad)"
+        stroke="#334155" stroke-width="1.5"/>
+  <rect x="520" y="92" width="200" height="4" rx="3" fill="#f87171" opacity="0.7"/>
+  <text x="620" y="118" text-anchor="middle" font-size="9" fill="#64748b" letter-spacing="2">MANAGED SERVICE</text>
+  <text x="620" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#e2e8f0">⚡ Upstash Redis</text>
+  <text x="620" y="153" text-anchor="middle" font-size="9" fill="#f87171">Serverless Redis · Queue Storage</text>
+
+  <!-- Neon PostgreSQL -->
+  <rect x="750" y="92" width="200" height="72" rx="6" fill="url(#deployGrad)"
+        stroke="#334155" stroke-width="1.5"/>
+  <rect x="750" y="92" width="200" height="4" rx="3" fill="#a78bfa" opacity="0.7"/>
+  <text x="850" y="118" text-anchor="middle" font-size="9" fill="#64748b" letter-spacing="2">MANAGED SERVICE</text>
+  <text x="850" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#e2e8f0">◈ Neon PostgreSQL</text>
+  <text x="850" y="153" text-anchor="middle" font-size="9" fill="#a78bfa">Serverless Postgres · Branching</text>
+
+  <!-- Status badge -->
+  <rect x="980" y="92" width="360" height="72" rx="6" fill="#050d1a" stroke="#1e3a5f" stroke-width="1"/>
+  <circle cx="1002" cy="128" r="5" fill="#4ade80">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="1015" y="116" font-size="9" fill="#64748b" letter-spacing="2">PLATFORM STATUS</text>
+  <text x="1015" y="132" font-size="11" fill="#4ade80" font-weight="600">● ALL SYSTEMS OPERATIONAL</text>
+  <text x="1015" y="150" font-size="9" fill="#475569">Threat Detection · Active Scanning · Live</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 2: FRONTEND + BACKEND API -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Frontend Dashboard -->
+  <rect x="60" y="200" width="340" height="140" rx="8" fill="url(#frontendGrad)"
+        stroke="#1d4ed8" stroke-width="1.5" filter="url(#glowBlue)"/>
+  <rect x="60" y="200" width="340" height="5" rx="4" fill="#38bdf8"/>
+  <text x="230" y="222" text-anchor="middle" font-size="9" fill="#93c5fd" letter-spacing="3">PRESENTATION LAYER</text>
+  <text x="230" y="242" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⬡ Frontend Dashboard</text>
+  <text x="230" y="260" text-anchor="middle" font-size="10" fill="#60a5fa">React 18 · Vite · TypeScript · TailwindCSS</text>
+  <line x1="80" y1="270" x2="380" y2="270" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="100" y="285" font-size="9" fill="#475569">◆ Scan Dashboard    ◆ Findings Table</text>
+  <text x="100" y="300" font-size="9" fill="#475569">◆ Attack Graph      ◆ Replay Viewer</text>
+  <text x="100" y="315" font-size="9" fill="#475569">◆ Intelligence UI   ◆ Auth Context</text>
+  <text x="100" y="330" font-size="9" fill="#475569">◆ Command Palette   ◆ Org Management</text>
+
+  <!-- Backend API Layer -->
+  <rect x="440" y="200" width="340" height="140" rx="8" fill="url(#backendGrad)"
+        stroke="#15803d" stroke-width="1.5" filter="url(#glowGreen)"/>
+  <rect x="440" y="200" width="340" height="5" rx="4" fill="#4ade80"/>
+  <text x="610" y="222" text-anchor="middle" font-size="9" fill="#86efac" letter-spacing="3">API LAYER</text>
+  <text x="610" y="242" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⬡ Backend API</text>
+  <text x="610" y="260" text-anchor="middle" font-size="10" fill="#4ade80">Node.js · Express · TypeScript · REST</text>
+  <line x1="460" y1="270" x2="760" y2="270" stroke="#14532d" stroke-width="1"/>
+  <text x="480" y="285" font-size="9" fill="#475569">◆ Auth / JWT         ◆ Scan Routes</text>
+  <text x="480" y="300" font-size="9" fill="#475569">◆ Findings API       ◆ Org Routes</text>
+  <text x="480" y="315" font-size="9" fill="#475569">◆ Rate Limiting      ◆ Middleware</text>
+  <text x="480" y="330" font-size="9" fill="#475569">◆ WebSocket Events   ◆ Job Dispatch</text>
+
+  <!-- Intelligence Layer (right column, row 2) -->
+  <rect x="820" y="200" width="260" height="140" rx="8" fill="url(#intelGrad)"
+        stroke="#0e7490" stroke-width="1.5" filter="url(#glowCyan)"/>
+  <rect x="820" y="200" width="260" height="5" rx="4" fill="#22d3ee"/>
+  <text x="950" y="222" text-anchor="middle" font-size="9" fill="#67e8f9" letter-spacing="3">AI / ML LAYER</text>
+  <text x="950" y="242" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">◈ Intelligence Layer</text>
+  <text x="950" y="260" text-anchor="middle" font-size="10" fill="#22d3ee">LLM · Deduplication · Explanations</text>
+  <line x1="840" y1="270" x2="1060" y2="270" stroke="#0c4a6e" stroke-width="1"/>
+  <text x="860" y="285" font-size="9" fill="#475569">◆ Vuln Deduplication</text>
+  <text x="860" y="300" font-size="9" fill="#475569">◆ AI Explanations</text>
+  <text x="860" y="315" font-size="9" fill="#475569">◆ Risk Scoring</text>
+  <text x="860" y="330" font-size="9" fill="#475569">◆ Pattern Analysis</text>
+
+  <!-- PostgreSQL Database (far right, row 2) -->
+  <rect x="1110" y="200" width="240" height="140" rx="8" fill="url(#dbGrad)"
+        stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="1110" y="200" width="240" height="5" rx="4" fill="#a78bfa"/>
+  <text x="1230" y="222" text-anchor="middle" font-size="9" fill="#c4b5fd" letter-spacing="3">DATA STORE</text>
+  <text x="1230" y="242" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">◈ PostgreSQL</text>
+  <text x="1230" y="260" text-anchor="middle" font-size="10" fill="#a78bfa">Neon Serverless · Prisma ORM</text>
+  <line x1="1130" y1="270" x2="1330" y2="270" stroke="#3b0764" stroke-width="1"/>
+  <text x="1150" y="285" font-size="9" fill="#475569">◆ Users / Orgs</text>
+  <text x="1150" y="300" font-size="9" fill="#475569">◆ Scans / Findings</text>
+  <text x="1150" y="315" font-size="9" fill="#475569">◆ Audit Logs</text>
+  <text x="1150" y="330" font-size="9" fill="#475569">◆ Sessions / Tokens</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 3: QUEUE LAYER + REDIS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- BullMQ Queue Layer -->
+  <rect x="60" y="390" width="340" height="130" rx="8" fill="url(#queueGrad)"
+        stroke="#6d28d9" stroke-width="1.5"/>
+  <rect x="60" y="390" width="340" height="5" rx="4" fill="#a78bfa"/>
+  <text x="230" y="412" text-anchor="middle" font-size="9" fill="#c4b5fd" letter-spacing="3">JOB QUEUE</text>
+  <text x="230" y="432" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⬡ BullMQ Queue Layer</text>
+  <text x="230" y="450" text-anchor="middle" font-size="10" fill="#a78bfa">Job Scheduling · Priority Queues · Retry</text>
+  <line x1="80" y1="460" x2="380" y2="460" stroke="#3b0764" stroke-width="1"/>
+  <text x="100" y="475" font-size="9" fill="#475569">◆ scan:queue        ◆ replay:queue</text>
+  <text x="100" y="490" font-size="9" fill="#475569">◆ detection:queue   ◆ intel:queue</text>
+  <text x="100" y="505" font-size="9" fill="#475569">◆ Dead Letter Queue ◆ Job Events</text>
+
+  <!-- Redis Queue Infrastructure -->
+  <rect x="440" y="390" width="340" height="130" rx="8" fill="url(#engineGrad)"
+        stroke="#991b1b" stroke-width="1.5" filter="url(#glowRed)"/>
+  <rect x="440" y="390" width="340" height="5" rx="4" fill="#f87171"/>
+  <text x="610" y="412" text-anchor="middle" font-size="9" fill="#fca5a5" letter-spacing="3">CACHE / QUEUE INFRA</text>
+  <text x="610" y="432" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⚡ Redis Infrastructure</text>
+  <text x="610" y="450" text-anchor="middle" font-size="10" fill="#f87171">Upstash Serverless · In-Memory Store</text>
+  <line x1="460" y1="460" x2="760" y2="460" stroke="#450a0a" stroke-width="1"/>
+  <text x="480" y="475" font-size="9" fill="#475569">◆ Job State Store    ◆ Session Cache</text>
+  <text x="480" y="490" font-size="9" fill="#475569">◆ Rate Limit Store   ◆ Pub/Sub Events</text>
+  <text x="480" y="505" font-size="9" fill="#475569">◆ Scan Progress      ◆ Result Cache</text>
+
+  <!-- Worker Pool -->
+  <rect x="820" y="390" width="530" height="130" rx="8" fill="url(#workerGrad)"
+        stroke="#854d0e" stroke-width="1.5"/>
+  <rect x="820" y="390" width="530" height="5" rx="4" fill="#facc15"/>
+  <text x="1085" y="412" text-anchor="middle" font-size="9" fill="#fde68a" letter-spacing="3">COMPUTE LAYER</text>
+  <text x="1085" y="432" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⬡ Worker Pool</text>
+  <text x="1085" y="450" text-anchor="middle" font-size="10" fill="#facc15">Concurrent Job Processors · Auto-scaling</text>
+  <line x1="840" y1="460" x2="1330" y2="460" stroke="#422006" stroke-width="1"/>
+  <text x="860" y="475" font-size="9" fill="#475569">◆ Scan Worker       ◆ Detection Worker    ◆ Replay Worker</text>
+  <text x="860" y="490" font-size="9" fill="#475569">◆ Intel Worker      ◆ Report Worker      ◆ Cleanup Worker</text>
+  <text x="860" y="505" font-size="9" fill="#475569">◆ Concurrency Ctrl  ◆ Health Checks      ◆ Graceful Shutdown</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ROW 4: ENGINES -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Playwright Browser Engine -->
+  <rect x="60" y="575" width="340" height="140" rx="8" fill="url(#engineGrad)"
+        stroke="#b91c1c" stroke-width="1.5" filter="url(#glowRed)"/>
+  <rect x="60" y="575" width="340" height="5" rx="4" fill="#f87171"/>
+  <text x="230" y="597" text-anchor="middle" font-size="9" fill="#fca5a5" letter-spacing="3">BROWSER ENGINE</text>
+  <text x="230" y="617" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⬡ Playwright Engine</text>
+  <text x="230" y="635" text-anchor="middle" font-size="10" fill="#f87171">Headless Chromium · DOM Interaction</text>
+  <line x1="80" y1="645" x2="380" y2="645" stroke="#450a0a" stroke-width="1"/>
+  <text x="100" y="660" font-size="9" fill="#475569">◆ Page Navigation    ◆ Form Injection</text>
+  <text x="100" y="675" font-size="9" fill="#475569">◆ DOM Sink Monitor   ◆ XSS Probing</text>
+  <text x="100" y="690" font-size="9" fill="#475569">◆ Storage Inspector  ◆ Network Intercept</text>
+  <text x="100" y="705" font-size="9" fill="#475569">◆ Screenshot Capture ◆ HAR Recording</text>
+
+  <!-- Detection Engine -->
+  <rect x="440" y="575" width="340" height="140" rx="8" fill="url(#engineGrad)"
+        stroke="#b91c1c" stroke-width="1.5" filter="url(#glowRed)"/>
+  <rect x="440" y="575" width="340" height="5" rx="4" fill="#fb923c"/>
+  <text x="610" y="597" text-anchor="middle" font-size="9" fill="#fdba74" letter-spacing="3">ANALYSIS ENGINE</text>
+  <text x="610" y="617" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">⬡ Detection Engine</text>
+  <text x="610" y="635" text-anchor="middle" font-size="10" fill="#fb923c">Vuln Detection · Payload Analysis</text>
+  <line x1="460" y1="645" x2="760" y2="645" stroke="#450a0a" stroke-width="1"/>
+  <text x="480" y="660" font-size="9" fill="#475569">◆ XSS Detection      ◆ SQLi Detection</text>
+  <text x="480" y="675" font-size="9" fill="#475569">◆ CSRF Analysis      ◆ SSRF Detection</text>
+  <text x="480" y="690" font-size="9" fill="#475569">◆ Auth Bypass        ◆ IDOR Detection</text>
+  <text x="480" y="705" font-size="9" fill="#475569">◆ Severity Scoring   ◆ CVE Mapping</text>
+
+  <!-- Replay Verification Engine -->
+  <rect x="820" y="575" width="530" height="140" rx="8" fill="url(#engineGrad)"
+        stroke="#b91c1c" stroke-width="1.5"/>
+  <rect x="820" y="575" width="530" height="5" rx="4" fill="#22d3ee"/>
+  <text x="1085" y="597" text-anchor="middle" font-size="9" fill="#67e8f9" letter-spacing="3">VERIFICATION ENGINE</text>
+  <text x="1085" y="617" text-anchor="middle" font-size="15" font-weight="700" fill="#e2e8f0">◈ Replay Verification Engine</text>
+  <text x="1085" y="635" text-anchor="middle" font-size="10" fill="#22d3ee">Exploit Replay · False Positive Reduction</text>
+  <line x1="840" y1="645" x2="1330" y2="645" stroke="#450a0a" stroke-width="1"/>
+  <text x="860" y="660" font-size="9" fill="#475569">◆ HTTP Replay        ◆ Browser Replay      ◆ Diff Analysis</text>
+  <text x="860" y="675" font-size="9" fill="#475569">◆ Response Verify    ◆ Exploit Confirm     ◆ PoC Generation</text>
+  <text x="860" y="690" font-size="9" fill="#475569">◆ Confidence Score   ◆ Evidence Capture    ◆ Report Attach</text>
+  <text x="860" y="705" font-size="9" fill="#475569">◆ Regression Tests   ◆ Fix Verification    ◆ Audit Trail</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DATA FLOW ARROWS  (clean routing — no box overlaps)   -->
+  <!--                                                        -->
+  <!-- Routing corridors used:                                -->
+  <!--   Horizontal gap row1→row2 : y=180..200  (20px)       -->
+  <!--   Horizontal gap row2→row3 : y=340..390  (50px)       -->
+  <!--   Horizontal gap row3→row4 : y=520..575  (55px)       -->
+  <!--   Left margin corridor     : x=30..60                  -->
+  <!--   Right margin corridor    : x=1355..1390              -->
+  <!--   Mid-gap corridor         : y=358 (inside row2→row3)  -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- ── DEPLOYMENT ARROWS (dashed, top section) ─────────── -->
+
+  <!-- 13. Vercel → Frontend Dashboard (straight down, left side of box) -->
+  <path d="M 160 164 L 160 200"
+        stroke="#38bdf8" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowBlue)" stroke-dasharray="4,2"/>
+
+  <!-- 14. Render → Backend API (down then right, stays in gap y=164..200) -->
+  <path d="M 390 164 L 390 182 L 610 182 L 610 200"
+        stroke="#4ade80" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowGreen)" stroke-dasharray="4,2"/>
+
+  <!-- 15. Upstash → Redis Infrastructure (straight down, left edge of Redis box) -->
+  <path d="M 620 164 L 620 182 L 470 182 L 470 390"
+        stroke="#f87171" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowRed)" stroke-dasharray="4,2"/>
+
+  <!-- 16. Neon → PostgreSQL (down into right side of Neon, straight to Postgres) -->
+  <path d="M 850 164 L 850 182 L 1230 182 L 1230 200"
+        stroke="#a78bfa" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowPurple)" stroke-dasharray="4,2"/>
+
+  <!-- ── ROW 2 HORIZONTAL ARROWS ───────────────────────────── -->
+
+  <!-- 1. Frontend → Backend API (REST, straight horizontal between boxes) -->
+  <path d="M 400 265 L 440 265"
+        stroke="#38bdf8" stroke-width="2" fill="none"
+        marker-end="url(#arrowBlue)"/>
+  <text x="420" y="259" text-anchor="middle" font-size="7" fill="#38bdf8">REST</text>
+
+  <!-- 10. Backend API → Intelligence Layer (straight horizontal) -->
+  <path d="M 780 255 L 820 255"
+        stroke="#22d3ee" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowCyan)" stroke-dasharray="4,2"/>
+  <text x="800" y="249" text-anchor="middle" font-size="7" fill="#22d3ee">FINDINGS</text>
+
+  <!-- 11. Intelligence Layer → PostgreSQL (straight horizontal) -->
+  <path d="M 1080 265 L 1110 265"
+        stroke="#a78bfa" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowPurple)" stroke-dasharray="4,2"/>
+  <text x="1095" y="259" text-anchor="middle" font-size="7" fill="#a78bfa">STORE</text>
+
+  <!-- ── ROW 2 → ROW 3 VERTICAL ARROWS (use gap y=340..390) ── -->
+
+  <!-- 2. Backend API → BullMQ  (down from bottom of Backend, offset left to x=530
+          so it doesn't overlap the Upstash dashed line at x=470) -->
+  <path d="M 530 340 L 530 358 L 230 358 L 230 390"
+        stroke="#a78bfa" stroke-width="2" fill="none"
+        marker-end="url(#arrowPurple)"/>
+  <text x="380" y="352" text-anchor="middle" font-size="7" fill="#a78bfa">DISPATCH JOBS</text>
+
+  <!-- 10b. Backend API → PostgreSQL (down-right through gap, offset to x=700
+           to avoid the BullMQ dispatch line) -->
+  <path d="M 700 340 L 700 358 L 1230 358 L 1230 200"
+        stroke="#a78bfa" stroke-width="2" fill="none"
+        marker-end="url(#arrowPurple)"/>
+  <text x="965" y="352" text-anchor="middle" font-size="7" fill="#a78bfa">READ / WRITE</text>
+
+  <!-- ── ROW 3 HORIZONTAL ARROWS ───────────────────────────── -->
+
+  <!-- 3. BullMQ → Redis (straight horizontal) -->
+  <path d="M 400 440 L 440 440"
+        stroke="#f87171" stroke-width="2" fill="none"
+        marker-end="url(#arrowRed)"/>
+  <text x="420" y="434" text-anchor="middle" font-size="7" fill="#f87171">STORE</text>
+
+  <!-- 4. Redis → Worker Pool (straight horizontal) -->
+  <path d="M 780 440 L 820 440"
+        stroke="#facc15" stroke-width="2" fill="none"
+        marker-end="url(#arrowYellow)"/>
+  <text x="800" y="434" text-anchor="middle" font-size="7" fill="#facc15">CONSUME</text>
+
+  <!-- ── ROW 3 → ROW 4 VERTICAL ARROWS (use gap y=520..575) ── -->
+  <!-- Three separate x-positions so lines never overlap each other -->
+
+  <!-- 5. Worker Pool → Playwright Engine
+          Route: down from Worker left-quarter (x=900), across gap at y=540,
+          then down to Playwright top-center (x=230) -->
+  <path d="M 900 520 L 900 540 L 230 540 L 230 575"
+        stroke="#f87171" stroke-width="2" fill="none"
+        marker-end="url(#arrowRed)"/>
+  <text x="565" y="534" text-anchor="middle" font-size="7" fill="#f87171">TRIGGER SCAN</text>
+
+  <!-- 6. Worker Pool → Detection Engine
+          Route: down from Worker at x=1000, across gap at y=553,
+          then down to Detection top-center (x=610) -->
+  <path d="M 1000 520 L 1000 553 L 610 553 L 610 575"
+        stroke="#fb923c" stroke-width="2" fill="none"
+        marker-end="url(#arrowOrange)"/>
+  <text x="805" y="547" text-anchor="middle" font-size="7" fill="#fb923c">ANALYZE</text>
+
+  <!-- 7. Worker Pool → Replay Verification Engine
+          Route: straight down from Worker right-quarter (x=1200) to Replay top -->
+  <path d="M 1200 520 L 1200 575"
+        stroke="#22d3ee" stroke-width="2" fill="none"
+        marker-end="url(#arrowCyan)" stroke-dasharray="5,3"/>
+  <text x="1218" y="550" font-size="7" fill="#22d3ee">VERIFY</text>
+
+  <!-- ── ROW 4 HORIZONTAL ARROWS ───────────────────────────── -->
+
+  <!-- 8. Playwright → Detection Engine (DOM data, straight horizontal) -->
+  <path d="M 400 630 L 440 630"
+        stroke="#fb923c" stroke-width="2" fill="none"
+        marker-end="url(#arrowOrange)"/>
+  <text x="420" y="624" text-anchor="middle" font-size="7" fill="#fb923c">DOM DATA</text>
+
+  <!-- ── RESULTS BACK TO DATABASE (right margin corridor x=1355) ── -->
+
+  <!-- 12. Replay Engine → PostgreSQL
+          Route: right edge of Replay (x=1350) → right corridor (x=1355) →
+          up to row-2 level → left into PostgreSQL right side.
+          Stays entirely in the right margin, never crosses any box. -->
+  <path d="M 1350 620 L 1355 620 L 1355 230 L 1350 230"
+        stroke="#a78bfa" stroke-width="1.5" fill="none"
+        marker-end="url(#arrowPurple)" stroke-dasharray="4,2"/>
+  <text x="1358" y="430" font-size="7" fill="#a78bfa"
+        transform="rotate(90,1358,430)">RESULTS → DB</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- LEGEND + FOOTER -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- Legend box -->
+  <rect x="60" y="760" width="820" height="80" rx="6" fill="#050d1a" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="80" y="780" font-size="9" fill="#64748b" letter-spacing="2">DATA FLOW LEGEND</text>
+
+  <!-- Legend items -->
+  <line x1="80" y1="795" x2="120" y2="795" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="128" y="799" font-size="9" fill="#94a3b8">HTTP / REST API</text>
+
+  <line x1="230" y1="795" x2="270" y2="795" stroke="#4ade80" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="278" y="799" font-size="9" fill="#94a3b8">Deployment Flow</text>
+
+  <line x1="380" y1="795" x2="420" y2="795" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <text x="428" y="799" font-size="9" fill="#94a3b8">Database R/W</text>
+
+  <line x1="530" y1="795" x2="570" y2="795" stroke="#f87171" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="578" y="799" font-size="9" fill="#94a3b8">Queue / Cache</text>
+
+  <line x1="680" y1="795" x2="720" y2="795" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowCyan)"/>
+  <text x="728" y="799" font-size="9" fill="#94a3b8">Async / Verify</text>
+
+  <line x1="80" y1="825" x2="120" y2="825" stroke="#facc15" stroke-width="2" marker-end="url(#arrowYellow)"/>
+  <text x="128" y="829" font-size="9" fill="#94a3b8">Job Consumption</text>
+
+  <line x1="230" y1="825" x2="270" y2="825" stroke="#fb923c" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <text x="278" y="829" font-size="9" fill="#94a3b8">Analysis Pipeline</text>
+
+  <!-- Tech stack summary -->
+  <rect x="910" y="760" width="430" height="80" rx="6" fill="#050d1a" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="930" y="780" font-size="9" fill="#64748b" letter-spacing="2">TECH STACK</text>
+  <text x="930" y="797" font-size="9" fill="#475569">Frontend:  React 18 · Vite · TypeScript · TailwindCSS</text>
+  <text x="930" y="812" font-size="9" fill="#475569">Backend:   Node.js · Express · BullMQ · Prisma</text>
+  <text x="930" y="827" font-size="9" fill="#475569">Infra:     Upstash Redis · Neon PostgreSQL · Playwright</text>
+
+  <!-- Footer -->
+  <line x1="60" y1="858" x2="1340" y2="858" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="700" y="876" text-anchor="middle" font-size="9" fill="#334155" letter-spacing="2">
+    VULNFORGE · AUTOMATED VULNERABILITY DETECTION PLATFORM · SYSTEM ARCHITECTURE v1.0
+  </text>
+  <text x="700" y="893" text-anchor="middle" font-size="8" fill="#1e3a5f">
+    © 2025 VulnForge · Confidential Architecture Documentation
+  </text>
+
+  <!-- Corner decorations -->
+  <path d="M 20 20 L 50 20 L 50 50" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+  <path d="M 1380 20 L 1350 20 L 1350 50" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+  <path d="M 20 940 L 50 940 L 50 910" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+  <path d="M 1380 940 L 1350 940 L 1350 910" fill="none" stroke="#1e3a5f" stroke-width="1.5"/>
+
+  <!-- Animated scan line -->
+  <rect x="0" y="0" width="1400" height="2" fill="#38bdf8" opacity="0.15">
+    <animateTransform attributeName="transform" type="translate" from="0,0" to="0,960"
+                      dur="6s" repeatCount="indefinite"/>
+  </rect>
+
+</svg>

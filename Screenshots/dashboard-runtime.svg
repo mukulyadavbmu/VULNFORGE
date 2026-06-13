@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800">
+<style>* { font-family: 'Courier New', monospace; }</style>
+<!-- Background -->
+<rect width="1280" height="800" fill="#060d18"/>
+<!-- Grid lines -->
+<line x1="200" y1="150" x2="1280" y2="150" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="250" x2="1280" y2="250" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="350" x2="1280" y2="350" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="450" x2="1280" y2="450" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="550" x2="1280" y2="550" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="650" x2="1280" y2="650" stroke="#0e1e30" stroke-width="1"/>
+<line x1="200" y1="750" x2="1280" y2="750" stroke="#0e1e30" stroke-width="1"/>
+<!-- TOPBAR -->
+<rect x="0" y="0" width="1280" height="48" fill="#080f1e"/>
+<line x1="0" y1="48" x2="1280" y2="48" stroke="#1a2e4a" stroke-width="1"/>
+<text x="220" y="30" fill="#38bdf8" font-size="16" font-weight="bold">VulnForge</text>
+<rect x="555" y="13" width="170" height="22" rx="11" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<circle cx="573" cy="24" r="4" fill="#4ade80"/>
+<text x="583" y="28" fill="#4ade80" font-size="11">SCAN ACTIVE</text>
+<circle cx="1248" cy="24" r="16" fill="#0d2137" stroke="#1a2e4a" stroke-width="1"/>
+<text x="1241" y="29" fill="#38bdf8" font-size="12">MK</text>
+<!-- SIDEBAR -->
+<rect x="0" y="48" width="200" height="752" fill="#080f1e"/>
+<line x1="200" y1="48" x2="200" y2="800" stroke="#1a2e4a" stroke-width="1"/>
+<text x="20" y="85" fill="#38bdf8" font-size="22" font-weight="bold">VF</text>
+<text x="50" y="85" fill="#e2e8f0" font-size="13" font-weight="bold">VULNFORGE</text>
+<rect x="0" y="110" width="200" height="32" fill="transparent"/>
+<text x="24" y="131" fill="#4a6080" font-size="13">⬡ Dashboard</text>
+<rect x="0" y="142" width="200" height="32" fill="transparent"/>
+<text x="24" y="163" fill="#4a6080" font-size="13">◈ Findings</text>
+<rect x="0" y="174" width="200" height="32" fill="transparent"/>
+<text x="24" y="195" fill="#4a6080" font-size="13">▶ Replay</text>
+<rect x="0" y="206" width="200" height="32" fill="transparent"/>
+<text x="24" y="227" fill="#4a6080" font-size="13">⬡ Attack Graph</text>
+<rect x="0" y="238" width="200" height="32" fill="transparent"/>
+<text x="24" y="259" fill="#4a6080" font-size="13">◎ Benchmarks</text>
+<!-- Runtime ACTIVE -->
+<rect x="0" y="270" width="200" height="32" fill="#0d2137"/>
+<rect x="0" y="270" width="3" height="32" fill="#38bdf8"/>
+<text x="24" y="291" fill="#38bdf8" font-size="13">◉ Runtime</text>
+<!-- TITLE ROW -->
+<rect x="216" y="64" width="1048" height="44" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="91" fill="#e2e8f0" font-size="15" font-weight="bold">Runtime Telemetry</text>
+<!-- Live indicator -->
+<circle cx="390" cy="86" r="5" fill="#4ade80"/>
+<text x="400" y="91" fill="#4ade80" font-size="12" font-weight="bold">LIVE</text>
+<!-- Time range pills -->
+<rect x="460" y="74" width="36" height="24" rx="4" fill="#0d2137" stroke="#38bdf8" stroke-width="1"/>
+<text x="470" y="91" fill="#38bdf8" font-size="11">1h</text>
+<rect x="502" y="74" width="36" height="24" rx="4" fill="transparent" stroke="#1a2e4a" stroke-width="1"/>
+<text x="512" y="91" fill="#4a6080" font-size="11">6h</text>
+<rect x="544" y="74" width="40" height="24" rx="4" fill="transparent" stroke="#1a2e4a" stroke-width="1"/>
+<text x="552" y="91" fill="#4a6080" font-size="11">24h</text>
+<!-- ===================== TOP METRICS ROW ===================== -->
+<!-- Card 1: ACTIVE SCANS -->
+<rect x="216" y="124" width="240" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="216" y="124" width="4" height="80" rx="2" fill="#38bdf8"/>
+<text x="232" y="146" fill="#4a6080" font-size="11" font-weight="bold">ACTIVE SCANS</text>
+<text x="232" y="180" fill="#38bdf8" font-size="34" font-weight="bold">7</text>
+<text x="270" y="180" fill="#4a6080" font-size="13">3 queued</text>
+<!-- Card 2: REQUESTS/MIN -->
+<rect x="472" y="124" width="240" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="472" y="124" width="4" height="80" rx="2" fill="#4ade80"/>
+<text x="488" y="146" fill="#4a6080" font-size="11" font-weight="bold">REQUESTS/MIN</text>
+<text x="488" y="180" fill="#4ade80" font-size="28" font-weight="bold">2,847</text>
+<!-- Sparkline for requests -->
+<polyline points="620,178 628,172 636,175 644,168 652,171 660,165 668,169 676,163 684,167 692,160 700,164" fill="none" stroke="#4ade80" stroke-width="1.5"/>
+<!-- Card 3: WORKER LOAD -->
+<rect x="728" y="124" width="240" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="728" y="124" width="4" height="80" rx="2" fill="#facc15"/>
+<text x="744" y="146" fill="#4a6080" font-size="11" font-weight="bold">WORKER LOAD</text>
+<text x="744" y="175" fill="#facc15" font-size="28" font-weight="bold">68%</text>
+<rect x="744" y="182" width="180" height="10" rx="5" fill="#1a2e4a"/>
+<rect x="744" y="182" width="122" height="10" rx="5" fill="#facc15"/>
+<!-- Card 4: ERRORS/MIN -->
+<rect x="984" y="124" width="280" height="80" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="984" y="124" width="4" height="80" rx="2" fill="#f87171"/>
+<text x="1000" y="146" fill="#4a6080" font-size="11" font-weight="bold">ERRORS/MIN</text>
+<text x="1000" y="180" fill="#f87171" font-size="34" font-weight="bold">12</text>
+<text x="1050" y="180" fill="#4ade80" font-size="13">↓ from 18</text>
+<!-- ===================== CPU/MEMORY CHART ===================== -->
+<rect x="216" y="220" width="680" height="200" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="242" fill="#e2e8f0" font-size="13" font-weight="bold">SYSTEM METRICS</text>
+<!-- Legend -->
+<rect x="700" y="232" width="10" height="10" rx="2" fill="#38bdf8"/>
+<text x="714" y="242" fill="#38bdf8" font-size="10">CPU</text>
+<rect x="750" y="232" width="10" height="10" rx="2" fill="#4ade80"/>
+<text x="764" y="242" fill="#4ade80" font-size="10">Memory</text>
+<!-- Chart area -->
+<rect x="232" y="250" width="648" height="148" rx="4" fill="#060d18" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Y-axis labels -->
+<text x="236" y="264" fill="#4a6080" font-size="9">100%</text>
+<text x="236" y="290" fill="#4a6080" font-size="9">75%</text>
+<text x="236" y="316" fill="#4a6080" font-size="9">50%</text>
+<text x="236" y="342" fill="#4a6080" font-size="9">25%</text>
+<text x="236" y="368" fill="#4a6080" font-size="9">0%</text>
+<!-- Grid lines -->
+<line x1="258" y1="260" x2="874" y2="260" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="286" x2="874" y2="286" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="312" x2="874" y2="312" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="338" x2="874" y2="338" stroke="#0e1e30" stroke-width="1"/>
+<line x1="258" y1="364" x2="874" y2="364" stroke="#0e1e30" stroke-width="1"/>
+<!-- CPU line (blue) - wavy around 55-70% -->
+<!-- Y range: 260(100%) to 390(0%), 130px for 100%. 55%=260+58=318, 68%=260+42=302 etc -->
+<polyline points="258,318 320,308 382,322 444,302 506,315 568,298 630,312 692,305 754,320 816,300 874,310" fill="none" stroke="#38bdf8" stroke-width="2"/>
+<!-- Memory line (green) - wavy around 45-60% -->
+<polyline points="258,330 320,325 382,335 444,320 506,332 568,318 630,328 692,322 754,336 816,315 874,325" fill="none" stroke="#4ade80" stroke-width="2"/>
+<!-- X-axis time labels -->
+<text x="258" y="406" fill="#4a6080" font-size="9">00:00</text>
+<text x="370" y="406" fill="#4a6080" font-size="9">00:15</text>
+<text x="482" y="406" fill="#4a6080" font-size="9">00:30</text>
+<text x="594" y="406" fill="#4a6080" font-size="9">00:45</text>
+<text x="706" y="406" fill="#4a6080" font-size="9">01:00</text>
+<text x="818" y="406" fill="#4a6080" font-size="9">01:15</text>
+<!-- ===================== ACTIVE SCANS TABLE ===================== -->
+<rect x="912" y="220" width="352" height="200" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="912" y="220" width="352" height="4" rx="2" fill="#38bdf8"/>
+<text x="928" y="242" fill="#e2e8f0" font-size="13" font-weight="bold">ACTIVE SCANS</text>
+<!-- Scan row 1 -->
+<rect x="912" y="248" width="352" height="30" fill="#0b1a30"/>
+<text x="924" y="267" fill="#38bdf8" font-size="10">#SC-4821</text>
+<text x="990" y="267" fill="#e2e8f0" font-size="10">api.target.com</text>
+<rect x="1100" y="256" width="80" height="10" rx="5" fill="#1a2e4a"/>
+<rect x="1100" y="256" width="62" height="10" rx="5" fill="#38bdf8"/>
+<text x="1188" y="267" fill="#38bdf8" font-size="9">78%</text>
+<text x="1218" y="267" fill="#4ade80" font-size="9">SCANNING</text>
+<!-- Scan row 2 -->
+<rect x="912" y="278" width="352" height="30" fill="#0a1628"/>
+<text x="924" y="297" fill="#38bdf8" font-size="10">#SC-4820</text>
+<text x="990" y="297" fill="#e2e8f0" font-size="10">auth.target.com</text>
+<rect x="1100" y="286" width="80" height="10" rx="5" fill="#1a2e4a"/>
+<rect x="1100" y="286" width="36" height="10" rx="5" fill="#38bdf8"/>
+<text x="1188" y="297" fill="#38bdf8" font-size="9">45%</text>
+<text x="1218" y="297" fill="#4ade80" font-size="9">SCANNING</text>
+<!-- Scan row 3 -->
+<rect x="912" y="308" width="352" height="30" fill="#0b1a30"/>
+<text x="924" y="327" fill="#38bdf8" font-size="10">#SC-4819</text>
+<text x="990" y="327" fill="#e2e8f0" font-size="10">app.target.com</text>
+<rect x="1100" y="316" width="80" height="10" rx="5" fill="#1a2e4a"/>
+<rect x="1100" y="316" width="74" height="10" rx="5" fill="#4ade80"/>
+<text x="1188" y="327" fill="#4ade80" font-size="9">92%</text>
+<text x="1218" y="327" fill="#facc15" font-size="9">FINISHING</text>
+<!-- Scan row 4 -->
+<rect x="912" y="338" width="352" height="30" fill="#0a1628"/>
+<text x="924" y="357" fill="#38bdf8" font-size="10">#SC-4818</text>
+<text x="990" y="357" fill="#e2e8f0" font-size="10">cdn.target.com</text>
+<rect x="1100" y="346" width="80" height="10" rx="5" fill="#1a2e4a"/>
+<rect x="1100" y="346" width="10" height="10" rx="5" fill="#4a6080"/>
+<text x="1188" y="357" fill="#4a6080" font-size="9">12%</text>
+<text x="1218" y="357" fill="#4a6080" font-size="9">QUEUED</text>
+<!-- Scan row 5 -->
+<rect x="912" y="368" width="352" height="30" fill="#0b1a30"/>
+<text x="924" y="387" fill="#38bdf8" font-size="10">#SC-4817</text>
+<text x="990" y="387" fill="#e2e8f0" font-size="10">hooks.target.com</text>
+<rect x="1100" y="376" width="80" height="10" rx="5" fill="#1a2e4a"/>
+<rect x="1100" y="376" width="80" height="10" rx="5" fill="#4ade80"/>
+<text x="1188" y="387" fill="#4ade80" font-size="9">100%</text>
+<text x="1218" y="387" fill="#4ade80" font-size="9">DONE</text>
+<!-- ===================== REQUEST THROUGHPUT CHART ===================== -->
+<rect x="216" y="436" width="680" height="160" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<text x="232" y="458" fill="#e2e8f0" font-size="13" font-weight="bold">REQUEST THROUGHPUT</text>
+<!-- Chart area -->
+<rect x="232" y="466" width="648" height="110" rx="4" fill="#060d18" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Grid lines -->
+<line x1="232" y1="494" x2="880" y2="494" stroke="#0e1e30" stroke-width="1"/>
+<line x1="232" y1="521" x2="880" y2="521" stroke="#0e1e30" stroke-width="1"/>
+<line x1="232" y1="548" x2="880" y2="548" stroke="#0e1e30" stroke-width="1"/>
+<!-- Area chart fill (filled polyline) -->
+<polygon points="232,576 286,548 340,535 394,520 448,530 502,510 556,498 610,515 664,502 718,488 772,505 826,492 880,480 880,576" fill="#38bdf822"/>
+<!-- Area chart line -->
+<polyline points="232,576 286,548 340,535 394,520 448,530 502,510 556,498 610,515 664,502 718,488 772,505 826,492 880,480" fill="none" stroke="#38bdf8" stroke-width="2"/>
+<!-- Y-axis labels -->
+<text x="236" y="474" fill="#4a6080" font-size="9">3k</text>
+<text x="236" y="500" fill="#4a6080" font-size="9">2k</text>
+<text x="236" y="526" fill="#4a6080" font-size="9">1k</text>
+<text x="236" y="552" fill="#4a6080" font-size="9">0</text>
+<!-- ===================== WORKER STATUS ===================== -->
+<rect x="912" y="436" width="352" height="160" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="912" y="436" width="352" height="4" rx="2" fill="#4ade80"/>
+<text x="928" y="458" fill="#e2e8f0" font-size="13" font-weight="bold">WORKER POOL</text>
+<!-- Worker rows -->
+<rect x="912" y="462" width="352" height="22" fill="#0b1a30"/>
+<circle cx="926" cy="473" r="5" fill="#4ade80"/>
+<text x="936" y="477" fill="#e2e8f0" font-size="11">Worker-1</text>
+<text x="1020" y="477" fill="#4a6080" font-size="10">Scan</text>
+<text x="1180" y="477" fill="#4ade80" font-size="10" font-weight="bold">● ACTIVE</text>
+<rect x="912" y="484" width="352" height="22" fill="#0a1628"/>
+<circle cx="926" cy="495" r="5" fill="#4ade80"/>
+<text x="936" y="499" fill="#e2e8f0" font-size="11">Worker-2</text>
+<text x="1020" y="499" fill="#4a6080" font-size="10">Detection</text>
+<text x="1180" y="499" fill="#4ade80" font-size="10" font-weight="bold">● ACTIVE</text>
+<rect x="912" y="506" width="352" height="22" fill="#0b1a30"/>
+<circle cx="926" cy="517" r="5" fill="#4ade80"/>
+<text x="936" y="521" fill="#e2e8f0" font-size="11">Worker-3</text>
+<text x="1020" y="521" fill="#4a6080" font-size="10">Replay</text>
+<text x="1180" y="521" fill="#4ade80" font-size="10" font-weight="bold">● ACTIVE</text>
+<rect x="912" y="528" width="352" height="22" fill="#0a1628"/>
+<circle cx="926" cy="539" r="5" fill="#4a6080"/>
+<text x="936" y="543" fill="#e2e8f0" font-size="11">Worker-4</text>
+<text x="1020" y="543" fill="#4a6080" font-size="10">Intel</text>
+<text x="1180" y="543" fill="#4a6080" font-size="10" font-weight="bold">● IDLE</text>
+<rect x="912" y="550" width="352" height="22" fill="#0b1a30"/>
+<circle cx="926" cy="561" r="5" fill="#4ade80"/>
+<text x="936" y="565" fill="#e2e8f0" font-size="11">Worker-5</text>
+<text x="1020" y="565" fill="#4a6080" font-size="10">Report</text>
+<text x="1180" y="565" fill="#4ade80" font-size="10" font-weight="bold">● ACTIVE</text>
+<rect x="912" y="572" width="352" height="22" fill="#0a1628"/>
+<circle cx="926" cy="583" r="5" fill="#4a6080"/>
+<text x="936" y="587" fill="#e2e8f0" font-size="11">Worker-6</text>
+<text x="1020" y="587" fill="#4a6080" font-size="10">Cleanup</text>
+<text x="1180" y="587" fill="#4a6080" font-size="10" font-weight="bold">● IDLE</text>
+<!-- ===================== LOG STREAM ===================== -->
+<rect x="216" y="612" width="1048" height="132" rx="6" fill="#0a1628" stroke="#1a2e4a" stroke-width="1"/>
+<rect x="216" y="612" width="1048" height="4" rx="2" fill="#4a6080"/>
+<text x="232" y="634" fill="#e2e8f0" font-size="13" font-weight="bold">LIVE LOG STREAM</text>
+<!-- Terminal log area -->
+<rect x="232" y="640" width="1016" height="96" rx="4" fill="#060d18" stroke="#1a2e4a" stroke-width="1"/>
+<!-- Log lines -->
+<text x="242" y="656" fill="#4a6080" font-size="10">02:14:33</text>
+<rect x="296" y="645" width="36" height="14" rx="2" fill="#38bdf833"/>
+<text x="300" y="656" fill="#38bdf8" font-size="10">INFO</text>
+<text x="340" y="656" fill="#e2e8f0" font-size="10">Scanner started for target api.vulnforge.app — 247 endpoints queued</text>
+<text x="242" y="670" fill="#4a6080" font-size="10">02:14:28</text>
+<rect x="296" y="659" width="36" height="14" rx="2" fill="#f8717133"/>
+<text x="300" y="670" fill="#f87171" font-size="10">ERROR</text>
+<text x="340" y="670" fill="#e2e8f0" font-size="10">Connection timeout on cdn.target.com:443 — retrying (attempt 2/3)</text>
+<text x="242" y="684" fill="#4a6080" font-size="10">02:14:22</text>
+<rect x="296" y="673" width="40" height="14" rx="2" fill="#facc1533"/>
+<text x="300" y="684" fill="#facc15" font-size="10">WARN</text>
+<text x="344" y="684" fill="#e2e8f0" font-size="10">Rate limit detected on hooks.target.com — throttling to 50 req/s</text>
+<text x="242" y="698" fill="#4a6080" font-size="10">02:14:15</text>
+<rect x="296" y="687" width="36" height="14" rx="2" fill="#38bdf833"/>
+<text x="300" y="698" fill="#38bdf8" font-size="10">INFO</text>
+<text x="340" y="698" fill="#e2e8f0" font-size="10">XSS payload confirmed on /search?q= — severity CRITICAL assigned</text>
+<text x="242" y="712" fill="#4a6080" font-size="10">02:14:08</text>
+<rect x="296" y="701" width="36" height="14" rx="2" fill="#38bdf833"/>
+<text x="300" y="712" fill="#38bdf8" font-size="10">INFO</text>
+<text x="340" y="712" fill="#e2e8f0" font-size="10">Worker-3 assigned replay task VF-2024-0847 — estimated 12s</text>
+<text x="242" y="726" fill="#4a6080" font-size="10">02:14:01</text>
+<rect x="296" y="715" width="36" height="14" rx="2" fill="#38bdf833"/>
+<text x="300" y="726" fill="#38bdf8" font-size="10">INFO</text>
+<text x="340" y="726" fill="#e2e8f0" font-size="10">Scan #SC-4819 app.target.com reached 92% — 19 endpoints remaining</text>
+<!-- Page breadcrumb -->
+<text x="216" y="44" fill="#4a6080" font-size="12">Runtime</text>
+<text x="272" y="44" fill="#4a6080" font-size="12">/</text>
+<text x="284" y="44" fill="#e2e8f0" font-size="12">Telemetry</text>
+</svg>

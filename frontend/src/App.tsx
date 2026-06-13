@@ -166,9 +166,9 @@ export const App: React.FC = () => {
 
               {/* Benchmarks */}
               <Route path="/benchmarks" element={<BenchmarksDashboard />} />
-              <Route path="/benchmarks/juice-shop" element={<Placeholder title="Juice Shop Run" />} />
-              <Route path="/benchmarks/dvwa" element={<Placeholder title="DVWA Run" />} />
-              <Route path="/benchmarks/webgoat" element={<Placeholder title="WebGoat Run" />} />
+              <Route path="/benchmarks/juice-shop" element={<BenchmarksDashboard />} />
+              <Route path="/benchmarks/dvwa" element={<BenchmarksDashboard />} />
+              <Route path="/benchmarks/webgoat" element={<BenchmarksDashboard />} />
 
               {/* Settings */}
               <Route path="/settings" element={<Settings />} />

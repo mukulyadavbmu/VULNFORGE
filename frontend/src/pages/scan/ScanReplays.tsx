@@ -12,11 +12,37 @@ export const ScanReplays: React.FC = () => {
   const [selected, setSelected] = useState<ExploitableIssueDto | null>(null);
 
   useEffect(() => {
-    if (!id) return;
-    getExploitableIssues(id)
-      .then(data => { setIssues(data); if (data.length > 0) setSelected(data[0]); })
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false));
+    const fetchIssues = async () => {
+      setLoading(true);
+      try {
+        if (id) {
+          const data = await getExploitableIssues(id);
+          setIssues(data);
+          if (data.length > 0) setSelected(data[0]);
+        } else {
+          // Global mode: fetch all scans and aggregate issues
+          const { listScans } = await import('../../api');
+          const scans = await listScans();
+          const allIssues: ExploitableIssueDto[] = [];
+          for (const scan of scans.slice(0, 5)) { // Limit to recent 5 scans to avoid abuse
+            try {
+              const data = await getExploitableIssues(scan.id);
+              allIssues.push(...data);
+            } catch (err) {
+              console.warn(`Failed to fetch issues for scan ${scan.id}`, err);
+            }
+          }
+          setIssues(allIssues);
+          if (allIssues.length > 0) setSelected(allIssues[0]);
+        }
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchIssues();
   }, [id]);
 
   if (loading) return <LoadingSpinner fullHeight />;
