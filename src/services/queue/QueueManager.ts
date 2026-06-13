@@ -71,7 +71,7 @@ export function createWorkerConnection(): Redis | null {
 // ── Internal: build BullMQ Queue objects once producer connection is live ────
 function initializeQueues(connection: Redis): void {
     const queueOpts: QueueOptions = {
-        connection,
+        connection: connection as any,
         defaultJobOptions: {
             attempts: 3,
             backoff: { type: 'exponential', delay: 1000 },
